@@ -1,0 +1,121 @@
+package Funciones.Entidades;
+
+import ConexionBD.Conexion;
+import TDA.Entidades.Proveedor;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+public class CRUDProveedores {
+
+    private Conexion obC;
+    private PreparedStatement pstm;
+    private ResultSet output;
+    private String query;
+    private ArrayList<Proveedor> data;
+
+    public CRUDProveedores() {
+        obC = new Conexion();
+        pstm = null;
+        output = null;
+        data = new ArrayList<>();
+    }
+
+    public ArrayList<Proveedor> getData() {
+        return data;
+    }
+
+    
+    public void selectProveedor() {
+        try {
+            query = "SELECT * FROM proveedores;";
+            pstm = obC.setConnection().prepareStatement(query);
+            output = pstm.executeQuery();
+
+            while (output.next()) {
+                int id = output.getInt("id_proveedores");
+                String nombre = output.getString("Nombre");
+                int telefono = output.getInt("Telefono");
+                String domicilio = output.getString("Domicilio");
+                String correo = output.getString("Correo");
+
+                data.add(new Proveedor(id, nombre, telefono, domicilio, correo));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pstm != null) {
+                try {
+                    pstm.close();
+                } catch (SQLException ex) {
+                }
+            }
+            obC.closeConnection();
+        }
+    }
+
+    public void insertProveedor(Proveedor obP) {
+        try {
+            query = "INSERT INTO proveedores (Nombre, Telefono, Domicilio, Correo) VALUES (?, ?, ?, ?);";
+            pstm = obC.setConnection().prepareStatement(query);
+            pstm.setString(1, obP.getNombre());
+            pstm.setInt(2, obP.getTelefono());
+            pstm.setString(3, obP.getDomicilio());
+            pstm.setString(4, obP.getCorreo());
+            pstm.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pstm != null) {
+                try {
+                    pstm.close();
+                } catch (SQLException ex) {
+                }
+            }
+            obC.closeConnection();
+        }
+    }
+
+    public void updateProveedor(int id, Proveedor obP) {
+        try {
+            query = "UPDATE proveedores SET Nombre = ?, Telefono = ?, Domicilio = ?, Correo = ? WHERE id_proveedores = ?";
+            pstm = obC.setConnection().prepareStatement(query);
+            pstm.setString(1, obP.getNombre());
+            pstm.setInt(2, obP.getTelefono());
+            pstm.setString(3, obP.getDomicilio());
+            pstm.setString(4, obP.getCorreo());
+            pstm.setInt(5, id);
+            pstm.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pstm != null) {
+                try {
+                    pstm.close();
+                } catch (SQLException ex) {
+                }
+            }
+            obC.closeConnection();
+        }
+    }
+
+    public void deleteProveedor(int id) {
+        try {
+            query = "DELETE FROM proveedores WHERE id_proveedores = ?";
+            pstm = obC.setConnection().prepareStatement(query);
+            pstm.setInt(1, id);
+            pstm.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pstm != null) {
+                try {
+                    pstm.close();
+                } catch (SQLException ex) {
+                }
+            }
+            obC.closeConnection();
+        }
+    }
+}
