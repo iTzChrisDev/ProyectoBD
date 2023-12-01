@@ -229,7 +229,6 @@ public class LlenadoInformacion {
                 return false;
             }
         };
-        
         tbModelInv.addColumn("ID_Videojuego");
         tbModelInv.addColumn("Videojuego");
         tbModelInv.addColumn("ID_Tienda");

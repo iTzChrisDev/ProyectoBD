@@ -22,12 +22,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
-public class VentanaAltas extends javax.swing.JFrame {
+public class VentanaActualizaciones extends javax.swing.JFrame {
 
     private LlenadoInformacion obI;
     private EstilosComponentes obE;
-    private RoundButton btnSalir, btnGuardarVid, btnLimpiarVid, btnGuardarTiendas, btnLimpiarTiendas, btnGuardarEmp, btnLimpiarEmp, btnGuardarClientes, btnLimpiarClientes, btnGuardarProv, btnLimpiarProv, btnGuardarInv, btnLimpiarInv;
+    private RoundButton btnSalir, btnGuardarVid, btnGuardarTiendas, btnGuardarEmp, btnGuardarClientes, btnGuardarProv, btnGuardarInv;
     private CardLayout obC;
     private String str;
     private CRUDVideojuegos sqlVideojuegos;
@@ -39,8 +40,15 @@ public class VentanaAltas extends javax.swing.JFrame {
     private JTable tbVideojuegos, tbClientes, tbEmpleados, tbProveedores, tbTiendas, tbInventario;
     private JLabel lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, stock1, stock2, stock3;
     private ConsultasGenerales obCons;
+    private Videojuego videojuego;
+    private Tienda tienda;
+    private Proveedor proveedor;
+    private Empleado empleado;
+    private Cliente cliente;
+    private Inventario inventario;
+    private int idVideojuego, idTienda, idProveedor, idEmpleado, idCliente;
 
-    public VentanaAltas() {
+    public VentanaActualizaciones() {
         initComponents();
         initComponentsCustom();
         setLocationRelativeTo(this);
@@ -53,6 +61,79 @@ public class VentanaAltas extends javax.swing.JFrame {
         sqlTiendas = new CRUDTiendas();
         sqlInventario = new CRUDInventario();
         actionListenerButtons();
+    }
+
+    public void verificar() {
+        if (str == "altaVideojuegos") {
+            jTextField2.setText(videojuego.getNombre());
+            jTextField3.setText(videojuego.getCategoria());
+            jTextField4.setText(String.valueOf(videojuego.getPrecio()));
+        }
+        switch (str) {
+            case "altaVideojuegos":
+                jTextField2.setText(videojuego.getNombre());
+                jTextField3.setText(videojuego.getCategoria());
+                jTextField4.setText(String.valueOf(videojuego.getPrecio()));
+                break;
+            case "altaTiendas":
+                jTextField13.setText(tienda.getNombre());
+                jTextField14.setText(tienda.getDomicilio());
+                break;
+            case "altaEmpleados":
+                jTextField22.setText(empleado.getApellidoM());
+                jTextField21.setText(empleado.getCURP());
+                jTextField24.setText(String.valueOf(empleado.getTelefono()));
+                jTextField43.setText(String.valueOf(empleado.getHrSalida().getHours()));
+                jTextField38.setText(empleado.getFechaNacimiento());
+                jTextField40.setText(String.valueOf(empleado.getHrEntrada().getHours()));
+                jTextField16.setText(empleado.getApellidoP());
+                jTextField15.setText(empleado.getNSS());
+                jTextField41.setText(String.valueOf(empleado.getHrEntrada().getMinutes()));
+                jTextField7.setText(empleado.getNombre());
+                jTextField44.setText(String.valueOf(empleado.getHrSalida().getMinutes()));
+                jTextField6.setText(empleado.getDomicilio());
+                jTextField39.setText(String.valueOf(empleado.getSueldo()));
+                
+                sqlEmpleados.selectEmpleado();
+                for (Empleado emp : sqlEmpleados.getDataEmpleado()) {
+                    if (emp.getNombreTienda().equals(empleado.getNombreTienda())) {
+                        jComboBox3.setSelectedItem(emp.getNombreTienda());
+                    }
+                    if (emp.getTurno().equals(empleado.getTurno())) {
+                        jComboBox4.setSelectedItem(emp.getTurno());
+                    }
+                }
+                break;
+            case "altaClientes":
+                jTextField11.setText(cliente.getDomicilio());
+                jTextField28.setText(cliente.getFechaNacimiento());
+                jTextField12.setText(cliente.getApellidoP());
+                jTextField27.setText(cliente.getTelefono());
+                jTextField25.setText(cliente.getApellidoM());
+                jTextField9.setText(cliente.getNombre());
+                jTextField29.setText(cliente.getCorreo());
+                break;
+            case "altaProveedores":
+                jTextField30.setText(proveedor.getNombre());
+                jTextField31.setText(proveedor.getDomicilio());
+                jTextField32.setText(String.valueOf(proveedor.getTelefono()));
+                jTextField33.setText(proveedor.getCorreo());
+                break;
+            case "altaInventario":
+                //1 video 2 tienda
+                sqlInventario.selectInventarioTable();
+                for (String s[] : sqlInventario.getDataTable()) {
+                    if (Integer.parseInt(s[3]) == inventario.getId_videojuego()) {
+                        jComboBox1.setSelectedItem(s[0]);
+                    }
+                    if (Integer.parseInt(s[4]) == inventario.getId_tienda()) {
+                        jComboBox2.setSelectedItem(s[1]);
+                    }
+                }
+                jTextField17.setText(String.valueOf(inventario.getStock()));
+                break;
+
+        }
     }
 
     public void setValuesGen(JLabel lblVidCont, JLabel lblTienCont, JLabel lblProvCont, JLabel lblCliCont, JLabel lblEmpCont, JLabel lblInvCont, JLabel lblCompraCont, JLabel lblCantVendida, JLabel lblJuegoMasVen, JLabel lblJuegoMenosVen, JLabel lblJuegoMasVend, JLabel lblJuegoMenosVend, JLabel lblTiendaMasVentas, JLabel lblTiendaMenosVentas, JLabel lblEmpMasAtenciones, JLabel lblEmpMejorSueldo, JLabel lblMejorCliente, JLabel lblProvMasActivo, JLabel stock1, JLabel stock2, JLabel stock3) {
@@ -84,30 +165,18 @@ public class VentanaAltas extends javax.swing.JFrame {
         btnSalir = obE.getStyleButtonBack(btnSalir, this);
         pnlHeaderVid.add(btnSalir, BorderLayout.EAST);
 
-        btnLimpiarVid = obE.getStyleBtnClear(btnLimpiarVid);
         btnGuardarVid = obE.getStyleBtnSave(btnGuardarVid);
-        btnLimpiarTiendas = obE.getStyleBtnClear(btnLimpiarTiendas);
         btnGuardarTiendas = obE.getStyleBtnSave(btnGuardarTiendas);
-        btnLimpiarEmp = obE.getStyleBtnClear(btnLimpiarEmp);
         btnGuardarEmp = obE.getStyleBtnSave(btnGuardarEmp);
-        btnLimpiarClientes = obE.getStyleBtnClear(btnLimpiarClientes);
         btnGuardarClientes = obE.getStyleBtnSave(btnGuardarClientes);
-        btnLimpiarProv = obE.getStyleBtnClear(btnLimpiarProv);
         btnGuardarProv = obE.getStyleBtnSave(btnGuardarProv);
-        btnLimpiarInv = obE.getStyleBtnClear(btnLimpiarInv);
         btnGuardarInv = obE.getStyleBtnSave(btnGuardarInv);
         pnlBtnVideojuegos.add(btnGuardarVid);
-        pnlBtnVideojuegos.add(btnLimpiarVid);
         pnlBtnTiendas.add(btnGuardarTiendas);
-        pnlBtnTiendas.add(btnLimpiarTiendas);
         pnlBtnEmp.add(btnGuardarEmp);
-        pnlBtnEmp.add(btnLimpiarEmp);
         pnlBtnClientes.add(btnGuardarClientes);
-        pnlBtnClientes.add(btnLimpiarClientes);
         pnlBtnProv.add(btnGuardarProv);
-        pnlBtnProv.add(btnLimpiarProv);
         pnlBtnInventario.add(btnGuardarInv);
-        pnlBtnInventario.add(btnLimpiarInv);
 
         jComboBox1.setRenderer(new CustomComboBoxRenderer());
         jComboBox1.setFocusable(false);
@@ -157,15 +226,14 @@ public class VentanaAltas extends javax.swing.JFrame {
     public void actionListenerButtons() {
         btnGuardarVid.addActionListener((e) -> {
             try {
-                String nombre = jTextField2.getText(),
-                        categoria = jTextField3.getText();
+                String nombre = jTextField2.getText(), categoria = jTextField3.getText();
                 int precio = Integer.parseInt(jTextField4.getText());
-                sqlVideojuegos.insertVideojuego(new Videojuego(nombre, categoria, precio));
 
+                sqlVideojuegos.updateVideojuego(idVideojuego, new Videojuego(nombre, categoria, precio));
                 sqlVideojuegos.selectVideojuego();
                 obI.llenarTablaVideojuegos(tbVideojuegos, sqlVideojuegos.getData());
                 cargarDatosGenerales();
-                JOptionPane.showMessageDialog(null, "Guardado Correctamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Actualización exitosa", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Campos no validos", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -174,14 +242,13 @@ public class VentanaAltas extends javax.swing.JFrame {
 
         btnGuardarTiendas.addActionListener((e) -> {
             try {
-                String nombre = jTextField13.getText(),
-                        domicilio = jTextField14.getText();
-                sqlTiendas.insertTienda(new Tienda(nombre, domicilio));
+                String nombre = jTextField13.getText(), domicilio = jTextField14.getText();
 
+                sqlTiendas.updateTienda(idTienda, new Tienda(nombre, domicilio));
                 sqlTiendas.selectTienda();
                 obI.llenarTablaTiendas(tbTiendas, sqlTiendas.getData());
                 cargarDatosGenerales();
-                JOptionPane.showMessageDialog(null, "Guardado Correctamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Actualización exitosa", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Campos no validos", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -194,12 +261,12 @@ public class VentanaAltas extends javax.swing.JFrame {
                         domicilio = jTextField31.getText(),
                         correo = jTextField33.getText();
                 int telefono = Integer.parseInt(jTextField32.getText());
-                sqlProveedores.insertProveedor(new Proveedor(nombre, telefono, domicilio, correo));
 
+                sqlProveedores.updateProveedor(idProveedor, new Proveedor(nombre, telefono, domicilio, correo));
                 sqlProveedores.selectProveedor();
                 obI.llenarTablaProveedores(tbProveedores, sqlProveedores.getData());
                 cargarDatosGenerales();
-                JOptionPane.showMessageDialog(null, "Guardado Correctamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Actualizacion exitosa", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Campos no validos", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -226,12 +293,11 @@ public class VentanaAltas extends javax.swing.JFrame {
                     }
                 }
 
-                sqlInventario.insertInventario(new Inventario(idVideojuego, idTienda, stock));
-
+                sqlInventario.updateInventario(idVideojuego, idTienda, stock);
                 sqlInventario.selectInventarioTable();
                 obI.llenarTablaInventario(tbInventario, sqlInventario.getDataTable());
                 cargarDatosGenerales();
-                JOptionPane.showMessageDialog(null, "Guardado Correctamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Actualizacion exitosa", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Campos no validos", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -262,12 +328,11 @@ public class VentanaAltas extends javax.swing.JFrame {
                     }
                 }
 
-                sqlEmpleados.insertEmpleado(new Empleado(nombre, ApellidoP, ApellidoM, NSS, CURP, fechaNacimiento, telefono, domicilio, sueldo), new Trabajo(id_tienda, hrEntrada, hrSalida, turno));
-
+                sqlEmpleados.updateEmpleado(idEmpleado, new Empleado(nombre, ApellidoP, ApellidoM, NSS, CURP, fechaNacimiento, telefono, domicilio, sueldo), new Trabajo(id_tienda, hrEntrada, hrSalida, turno));
                 sqlEmpleados.selectEmpleado();
                 obI.llenarTablaEmpleados(tbEmpleados, sqlEmpleados.getDataEmpleado());
                 cargarDatosGenerales();
-                JOptionPane.showMessageDialog(null, "Guardado Correctamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Actualización exitosa", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
             } catch (NumberFormatException xe) {
                 JOptionPane.showMessageDialog(null, "Campos no validos", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -283,60 +348,17 @@ public class VentanaAltas extends javax.swing.JFrame {
                         domicilio = jTextField11.getText(),
                         correo = jTextField29.getText();
                 int telefono = Integer.parseInt(jTextField27.getText());
-                sqlClientes.insertCliente(new Cliente(nombre, app, apm, fechaNac, telefono, domicilio, correo));
 
+                sqlClientes.updateCliente(idCliente, new Cliente(nombre, app, apm, fechaNac, telefono, domicilio, correo));
                 sqlClientes.selectCliente();
                 obI.llenarTablaClientes(tbClientes, sqlClientes.getData());
                 cargarDatosGenerales();
-                JOptionPane.showMessageDialog(null, "Guardado Correctamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Actualización exitosa", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Campos no validos", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
 
-        });
-
-        btnLimpiarVid.addActionListener((e) -> {
-            jTextField2.setText("");
-            jTextField3.setText("");
-            jTextField4.setText("");
-        });
-        btnLimpiarTiendas.addActionListener((e) -> {
-            jTextField13.setText("");
-            jTextField14.setText("");
-        });
-        btnLimpiarProv.addActionListener((e) -> {
-            jTextField30.setText("");
-            jTextField31.setText("");
-            jTextField32.setText("");
-            jTextField33.setText("");
-        });
-        btnLimpiarInv.addActionListener((e) -> {
-            jTextField17.setText("");
-        });
-        btnLimpiarEmp.addActionListener((e) -> {
-            jTextField22.setText("");
-            jTextField21.setText("");
-            jTextField24.setText("");
-            jTextField43.setText("");
-            jTextField38.setText("");
-            jTextField40.setText("");
-            jTextField16.setText("");
-            jTextField15.setText("");
-            jTextField41.setText("");
-            jTextField7.setText("");
-            jTextField44.setText("");
-            jTextField6.setText("");
-            jTextField39.setText("");
-        });
-        btnLimpiarClientes.addActionListener((e) -> {
-            jTextField11.setText("");
-            jTextField28.setText("");
-            jTextField12.setText("");
-            jTextField27.setText("");
-            jTextField25.setText("");
-            jTextField9.setText("");
-            jTextField29.setText("");
         });
     }
 
@@ -371,9 +393,63 @@ public class VentanaAltas extends javax.swing.JFrame {
     public void setStr(String str, String title, String rutaImg) {
         this.str = str;
         obC.show(pnlMain, str);
-        lblTitulo.setText("Alta " + title);
+        lblTitulo.setText("Actualizar " + title);
         lblTitulo.setIcon(new ImageIcon(rutaImg));
         lblTitulo.setIconTextGap(10);
+        verificar();
+    }
+
+    public Videojuego getVideojuego() {
+        return videojuego;
+    }
+
+    public void setVideojuego(Videojuego videojuego, int id) {
+        this.videojuego = videojuego;
+        this.idVideojuego = id;
+    }
+
+    public Tienda getTienda() {
+        return tienda;
+    }
+
+    public void setTienda(Tienda tienda, int id) {
+        this.tienda = tienda;
+        this.idTienda = id;
+    }
+
+    public Proveedor getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(Proveedor proveedor, int id) {
+        this.proveedor = proveedor;
+        this.idProveedor = id;
+    }
+
+    public Empleado getEmpleado() {
+        return empleado;
+    }
+
+    public void setEmpleado(Empleado empleado, int id) {
+        this.empleado = empleado;
+        this.idEmpleado = id;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente, int id) {
+        this.cliente = cliente;
+        this.idCliente = id;
+    }
+
+    public Inventario getInventario() {
+        return inventario;
+    }
+
+    public void setInventario(Inventario inventario) {
+        this.inventario = inventario;
     }
 
     @SuppressWarnings("unchecked")
@@ -525,7 +601,7 @@ public class VentanaAltas extends javax.swing.JFrame {
 
         lblTitulo.setFont(new java.awt.Font("Roboto", 1, 28)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(25, 200, 178));
-        lblTitulo.setText("Alta");
+        lblTitulo.setText("Actualizar");
         pnlHeaderVid.add(lblTitulo, java.awt.BorderLayout.CENTER);
 
         jPanel1.add(pnlHeaderVid, java.awt.BorderLayout.PAGE_START);
@@ -614,7 +690,7 @@ public class VentanaAltas extends javax.swing.JFrame {
 
         pnlBtnVideojuegos.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         pnlBtnVideojuegos.setOpaque(false);
-        pnlBtnVideojuegos.setLayout(new java.awt.GridLayout(1, 2, 0, 10));
+        pnlBtnVideojuegos.setLayout(new java.awt.GridLayout(1, 1, 0, 10));
         pnlAltaVideojuegos.add(pnlBtnVideojuegos, java.awt.BorderLayout.SOUTH);
 
         pnlMain.add(pnlAltaVideojuegos, "altaVideojuegos");
@@ -683,7 +759,7 @@ public class VentanaAltas extends javax.swing.JFrame {
 
         pnlBtnTiendas.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         pnlBtnTiendas.setOpaque(false);
-        pnlBtnTiendas.setLayout(new java.awt.GridLayout(1, 2, 0, 10));
+        pnlBtnTiendas.setLayout(new java.awt.GridLayout(1, 1, 0, 10));
         pnlAltaTiendas.add(pnlBtnTiendas, java.awt.BorderLayout.SOUTH);
 
         pnlMain.add(pnlAltaTiendas, "altaTiendas");
@@ -1003,7 +1079,7 @@ public class VentanaAltas extends javax.swing.JFrame {
 
         pnlBtnEmp.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         pnlBtnEmp.setOpaque(false);
-        pnlBtnEmp.setLayout(new java.awt.GridLayout(1, 2, 0, 10));
+        pnlBtnEmp.setLayout(new java.awt.GridLayout(1, 1, 0, 10));
         pnlAltaEmpleados.add(pnlBtnEmp, java.awt.BorderLayout.SOUTH);
 
         pnlMain.add(pnlAltaEmpleados, "altaEmpleados");
@@ -1173,7 +1249,7 @@ public class VentanaAltas extends javax.swing.JFrame {
 
         pnlBtnClientes.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         pnlBtnClientes.setOpaque(false);
-        pnlBtnClientes.setLayout(new java.awt.GridLayout(1, 2, 0, 10));
+        pnlBtnClientes.setLayout(new java.awt.GridLayout(1, 1, 0, 10));
         pnlAltaClientes.add(pnlBtnClientes, java.awt.BorderLayout.SOUTH);
 
         pnlMain.add(pnlAltaClientes, "altaClientes");
@@ -1281,7 +1357,7 @@ public class VentanaAltas extends javax.swing.JFrame {
 
         pnlBtnProv.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         pnlBtnProv.setOpaque(false);
-        pnlBtnProv.setLayout(new java.awt.GridLayout(1, 2, 0, 10));
+        pnlBtnProv.setLayout(new java.awt.GridLayout(1, 1, 0, 10));
         pnlAltaProveedores.add(pnlBtnProv, java.awt.BorderLayout.SOUTH);
 
         pnlMain.add(pnlAltaProveedores, "altaProveedores");
@@ -1377,7 +1453,7 @@ public class VentanaAltas extends javax.swing.JFrame {
 
         pnlBtnInventario.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         pnlBtnInventario.setOpaque(false);
-        pnlBtnInventario.setLayout(new java.awt.GridLayout(1, 2, 0, 10));
+        pnlBtnInventario.setLayout(new java.awt.GridLayout(1, 1, 0, 10));
         pnlAltaInventario.add(pnlBtnInventario, java.awt.BorderLayout.SOUTH);
 
         pnlMain.add(pnlAltaInventario, "altaInventario");
@@ -1411,21 +1487,23 @@ public class VentanaAltas extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VentanaAltas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VentanaActualizaciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VentanaAltas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VentanaActualizaciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VentanaAltas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VentanaActualizaciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VentanaAltas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VentanaActualizaciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VentanaAltas().setVisible(true);
+                new VentanaActualizaciones().setVisible(true);
             }
         });
     }

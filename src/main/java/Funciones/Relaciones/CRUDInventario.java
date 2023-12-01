@@ -61,6 +61,7 @@ public class CRUDInventario {
 
     public String[] selectInventarioTable() {
         String aux[] = null;
+        dataTable.clear();
         try {
             query = "SELECT v.Nombre AS NombreVideojuego, t.Nombre AS NombreTienda, i.Stock, v.id_videojuego, t.id_tiendas\n"
                     + "FROM inventario AS i\n"
@@ -115,11 +116,11 @@ public class CRUDInventario {
         }
     }
 
-    public void updateInventario(int idVideojuego, int idTienda, Inventario inventario) {
+    public void updateInventario(int idVideojuego, int idTienda, int stock) {
         try {
             query = "UPDATE inventario SET Stock = ? WHERE id_videojuego = ? AND id_tiendas = ?;";
             pstm = obC.setConnection().prepareStatement(query);
-            pstm.setInt(1, inventario.getStock());
+            pstm.setInt(1, stock);
             pstm.setInt(2, idVideojuego);
             pstm.setInt(3, idTienda);
             pstm.executeUpdate();

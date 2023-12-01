@@ -8,6 +8,8 @@ import CustomComponents.EstilosComponentes;
 import Funciones.Entidades.*;
 import Funciones.Relaciones.CRUDInventario;
 import Funciones.TablasListas.LlenadoInformacion;
+import TDA.Entidades.*;
+import TDA.Relaciones.Inventario;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -36,6 +38,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
     private EstilosComponentes obE;
     private CardLayout obCMenu, obCVid, obCTien, obCEmp, obCCli, obCProv, obCInv;
     private VentanaAltas alta, alta2, alta3, alta4, alta5, alta6;
+    private VentanaActualizaciones actu, actu2, actu3, actu4, actu5, actu6;
     private RoundButton btnPrincipal, btnVideojuegos, btnProveedores, btnEmpleados, btnClientes, btnTiendas, btnInventario, btnSalir, btnMenu;
     private RoundButton btnBuscarVideojuegosElim, btnBuscarVideojuegosAct, btnBuscarVideojuegosMostrar, btnBuscarVideojuegosAlta, btnAgregarVideojuegos, btnEliminarVideojuegos, btnActVideojuegos, btnFiltrarVideojuegos;
     private RoundButton btnBuscarTiendasElim, btnBuscarTiendasAct, btnBuscarTiendasMostrar, btnBuscarTiendasAlta, btnAgregarTiendas, btnEliminarTiendas, btnActTiendas, btnFiltrarTiendas;
@@ -2829,19 +2832,11 @@ public class VentanaRegistros extends javax.swing.JFrame {
             int selectedRowIndex = tbInv.getSelectedRow();
             if (selectedRowIndex != -1) {
                 Object aux = tbInv.getModel().getValueAt(selectedRowIndex, 0);
-                String nombreVideojuego = String.valueOf(aux);
-                System.out.println(nombreVideojuego);
+                int idVideojuego = Integer.parseInt(String.valueOf(aux));
                 sqlInventario.selectInventarioTable();
-//                aux[0] = output.getString("NombreVideojuego");
-//                aux[1] = output.getString("NombreTienda");
-//                aux[2] = output.getString("Stock");
-//                aux[3] = output.getString("id_videojuego");
-//                aux[4] = output.getString("id_tiendas");
-                int idVideojuego = 0, idTienda = 0;
+                int idTienda = 0;
                 for (String s[] : sqlInventario.getDataTable()) {
-                    System.out.println(s[0]);
-                    if (nombreVideojuego.equals(s[0])) {
-                        idVideojuego = Integer.parseInt(s[3]);
+                    if (idVideojuego == Integer.parseInt(s[3])) {
                         idTienda = Integer.parseInt(s[4]);
                         System.out.println(idVideojuego + " | " + idTienda);
                         break;
@@ -2857,27 +2852,154 @@ public class VentanaRegistros extends javax.swing.JFrame {
 
         // Actualizar
         btnActVideojuegos.addActionListener((e) -> {
+            int selectedRowIndex = tbVideojuegos.getSelectedRow();
+            if (selectedRowIndex != -1) {
+                Object aux = tbVideojuegos.getModel().getValueAt(selectedRowIndex, 0);
+                int id = Integer.parseInt(String.valueOf(aux));
+                actu = new VentanaActualizaciones();
+                actu.setTitle("Actualizar videojuego");
+                actu.setTbVideojuegos(tbVideojuegos);
 
+                sqlVideojuegos.selectVideojuego();
+                for (Videojuego v : sqlVideojuegos.getData()) {
+                    if (v.getId() == id) {
+                        actu.setVideojuego(v, id);
+                        break;
+                    }
+                }
+                actu.setValuesGen(lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
+                actu.setStr("altaVideojuegos", "Videojuegos", "./src/main/java/Resources/selectedGames.png");
+                actu.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         btnActTiendas.addActionListener((e) -> {
+            int selectedRowIndex = tbTiendas.getSelectedRow();
+            if (selectedRowIndex != -1) {
+                Object aux = tbTiendas.getModel().getValueAt(selectedRowIndex, 0);
+                int id = Integer.parseInt(String.valueOf(aux));
+                actu2 = new VentanaActualizaciones();
+                actu2.setTitle("Actualizar tienda");
+                actu2.setTbTiendas(tbTiendas);
+
+                sqlTiendas.selectTienda();
+                for (Tienda t : sqlTiendas.getData()) {
+                    if (t.getId() == id) {
+                        actu2.setTienda(t, id);
+                        break;
+                    }
+                }
+                actu2.setStr("altaTiendas", "Tiendas", "./src/main/java/Resources/selectedTienda.png");
+                actu2.setValuesGen(lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
+                actu2.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
 
         });
 
         btnActProveedores.addActionListener((e) -> {
+            int selectedRowIndex = tbProv.getSelectedRow();
+            if (selectedRowIndex != -1) {
+                Object aux = tbProv.getModel().getValueAt(selectedRowIndex, 0);
+                int id = Integer.parseInt(String.valueOf(aux));
+                actu3 = new VentanaActualizaciones();
+                actu3.setTitle("Actualizar proveedor");
+                actu3.setTbProveedores(tbProv);
 
+                sqlProveedores.selectProveedor();
+                for (Proveedor p : sqlProveedores.getData()) {
+                    if (p.getId() == id) {
+                        actu3.setProveedor(p, id);
+                        break;
+                    }
+                }
+
+                actu3.setStr("altaProveedores", "Proveedores", "./src/main/java/Resources/selectedProv.png");
+                actu3.setValuesGen(lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
+                actu3.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         btnActInventario.addActionListener((e) -> {
+            int selectedRowIndex = tbInv.getSelectedRow();
+            if (selectedRowIndex != -1) {
+                Object aux = tbInv.getModel().getValueAt(selectedRowIndex, 0);
+                Object aux2 = tbInv.getModel().getValueAt(selectedRowIndex, 2);
+                int idVideojuego = Integer.parseInt(String.valueOf(aux));
+                int idTienda = Integer.parseInt(String.valueOf(aux2));
+                
+                actu4 = new VentanaActualizaciones();
+                actu4.setTitle("Actualizar inventario");
+                actu4.setTbInventario(tbInv);
 
+                sqlInventario.selectInventarioTable();
+                for (String s[] : sqlInventario.getDataTable()) {
+                    if (idVideojuego == Integer.parseInt(s[3]) && idTienda == Integer.parseInt(s[4])) {
+                        actu4.setInventario(new Inventario(idVideojuego, idTienda, Integer.parseInt(s[2])));
+                        break;
+                    }
+                }
+                actu4.setStr("altaInventario", "Inventario", "./src/main/java/Resources/selectedInv.png");
+                actu4.setValuesGen(lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
+                actu4.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         btnActEmpleados.addActionListener((e) -> {
+            int selectedRowIndex = tbEmp.getSelectedRow();
+            if (selectedRowIndex != -1) {
+                Object aux = tbEmp.getModel().getValueAt(selectedRowIndex, 0);
+                int id = Integer.parseInt(String.valueOf(aux));
+                actu5 = new VentanaActualizaciones();
+                actu5.setTitle("Actualizar empleado");
+                actu5.setTbEmpleados(tbEmp);
 
+                sqlEmpleados.selectEmpleado();
+                for (Empleado em : sqlEmpleados.getDataEmpleado()) {
+                    if (em.getId() == id) {
+                        actu5.setEmpleado(em, id);
+                        break;
+                    }
+                }
+
+                actu5.setStr("altaEmpleados", "Empleados", "./src/main/java/Resources/selectedEmp.png");
+                actu5.setValuesGen(lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
+                actu5.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         btnActClientes.addActionListener((e) -> {
-
+            int selectedRowIndex = tbClientes.getSelectedRow();
+            if (selectedRowIndex != -1) {
+                Object aux = tbClientes.getModel().getValueAt(selectedRowIndex, 0);
+                int id = Integer.parseInt(String.valueOf(aux));
+                actu6 = new VentanaActualizaciones();
+                actu6.setTitle("Actualizar cliente");
+                actu6.setTbClientes(tbClientes);
+                
+                sqlClientes.selectCliente();
+                for (Cliente c : sqlClientes.getData()) {
+                    if (c.getId() == id) {
+                        actu6.setCliente(c, id);
+                        break;
+                    }
+                }
+                
+                actu6.setStr("altaClientes", "Clientes", "./src/main/java/Resources/selectedCliente.png");
+                actu6.setValuesGen(lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
+                actu6.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         // Buscar
