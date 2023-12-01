@@ -152,8 +152,12 @@ public class LlenadoInformacion {
         tbModelEmp.addColumn("Telefono");
         tbModelEmp.addColumn("Domicilio");
         tbModelEmp.addColumn("Sueldo");
+        tbModelEmp.addColumn("Tienda");
+        tbModelEmp.addColumn("Hr.Entrada");
+        tbModelEmp.addColumn("Hr.Salida");
+        tbModelEmp.addColumn("Turno");
 
-        Object[] row = new Object[10];
+        Object[] row = new Object[14];
         for (Empleado e : empleados) {
             row[0] = e.getId();
             row[1] = e.getNombre();
@@ -165,6 +169,10 @@ public class LlenadoInformacion {
             row[7] = e.getTelefono();
             row[8] = e.getDomicilio();
             row[9] = e.getSueldo();
+            row[10] = e.getNombreTienda();
+            row[11] = e.getHrEntrada();
+            row[12] = e.getHrSalida();
+            row[13] = e.getTurno();
 
             tbModelEmp.addRow(row);
         }

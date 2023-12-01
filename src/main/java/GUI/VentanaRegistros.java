@@ -2311,6 +2311,9 @@ public class VentanaRegistros extends javax.swing.JFrame {
 
         sqlClientes.selectCliente();
         obI.llenarTablaClientes(tbClientes, sqlClientes.getData());
+        
+        sqlEmpleados.selectEmpleado();
+        obI.llenarTablaEmpleados(tbEmp, sqlEmpleados.getDataEmpleado());
     }
 
     public void initComponentesCustom() {

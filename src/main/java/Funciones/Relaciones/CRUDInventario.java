@@ -93,7 +93,9 @@ public class CRUDInventario {
 
     public void insertInventario(Inventario inventario) {
         try {
-            query = "INSERT INTO inventario (id_videojuego, id_tiendas, Stock) VALUES (?, ?, ?);";
+            query = "INSERT INTO inventario (id_videojuego, id_tiendas, Stock) \n"
+                    + "VALUES (?, ?, ?)\n"
+                    + "ON DUPLICATE KEY UPDATE Stock = VALUES(Stock);";
             pstm = obC.setConnection().prepareStatement(query);
             pstm.setInt(1, inventario.getId_videojuego());
             pstm.setInt(2, inventario.getId_tienda());

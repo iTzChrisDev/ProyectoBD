@@ -163,12 +163,12 @@ public class EstilosComponentes {
     }
 
     public void setStyleTableDefault(JTable tb, JScrollPane scroll, Color headerColor, Color viewportBackground, Color scrollColor, Color tbBackground, Color fontColor) {
-        tb.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 18));
+        tb.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
         tb.getTableHeader().setForeground(egg);
         tb.getTableHeader().setBackground(headerColor);
         tb.getTableHeader().setBorder(new LineBorder(headerColor, 1, false));
         tb.setBackground(tbBackground);
-        tb.setFont(new Font("Roboto", Font.PLAIN, 14));
+        tb.setFont(new Font("Roboto", Font.PLAIN, 12));
         tb.setForeground(fontColor);
         tb.getTableHeader().setReorderingAllowed(false);
         tb.setRowHeight(30);

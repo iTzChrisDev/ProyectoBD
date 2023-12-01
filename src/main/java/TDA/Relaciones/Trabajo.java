@@ -16,12 +16,13 @@ public class Trabajo {
         this.turno = turno;
     }
 
-    public Trabajo(Time hrEntrada, Time hrSalida, String turno) {
+    public Trabajo(int id_tienda, Time hrEntrada, Time hrSalida, String turno) {
+        this.id_tienda = id_tienda;
         this.hrEntrada = hrEntrada;
         this.hrSalida = hrSalida;
         this.turno = turno;
     }
-    
+
     public int getId_tienda() {
         return id_tienda;
     }

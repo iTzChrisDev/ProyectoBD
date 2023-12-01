@@ -8,17 +8,23 @@ import Funciones.Entidades.*;
 import Funciones.Relaciones.CRUDInventario;
 import Funciones.TablasListas.LlenadoInformacion;
 import TDA.Entidades.Cliente;
+import TDA.Entidades.Empleado;
 import TDA.Entidades.Proveedor;
 import TDA.Entidades.Tienda;
 import TDA.Entidades.Videojuego;
 import TDA.Relaciones.Inventario;
+import TDA.Relaciones.Trabajo;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Container;
+import java.sql.Time;
+import java.util.Arrays;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 public class VentanaAltas extends javax.swing.JFrame {
 
@@ -109,13 +115,23 @@ public class VentanaAltas extends javax.swing.JFrame {
         jComboBox1.setRenderer(new CustomComboBoxRenderer());
         jComboBox1.setFocusable(false);
         jComboBox1.getComponent(0).setBackground(new Color(140, 255, 241));
+        
         jComboBox2.setRenderer(new CustomComboBoxRenderer());
         jComboBox2.setFocusable(false);
         jComboBox2.getComponent(0).setBackground(new Color(140, 255, 241));
+        
+        jComboBox3.setRenderer(new CustomComboBoxRenderer());
+        jComboBox3.setFocusable(false);
+        jComboBox3.getComponent(0).setBackground(new Color(140, 255, 241));
+        
+        jComboBox4.setRenderer(new CustomComboBoxRenderer());
+        jComboBox4.setFocusable(false);
+        jComboBox4.getComponent(0).setBackground(new Color(140, 255, 241));
 
         obI = new LlenadoInformacion();
         obI.llenarComboTiendas(jComboBox2);
         obI.llenarComboVideojuegos(jComboBox1);
+        obI.llenarComboTiendas(jComboBox3);
     }
 
     public void cargarDatosGenerales() {
@@ -226,7 +242,39 @@ public class VentanaAltas extends javax.swing.JFrame {
         });
 
         btnGuardarEmp.addActionListener((e) -> {
+            try {
+                String nombre = jTextField7.getText();
+                String ApellidoP = jTextField16.getText();
+                String ApellidoM = jTextField22.getText();
+                String NSS = jTextField15.getText();
+                String CURP = jTextField21.getText();;
+                String fechaNacimiento = jTextField38.getText();
+                int telefono = Integer.parseInt(jTextField24.getText());
+                String domicilio = jTextField6.getText();
+                int sueldo = Integer.parseInt(jTextField39.getText());
+                int id_tienda = 0;
+                Time hrEntrada = new Time(Integer.parseInt(jTextField40.getText()), Integer.parseInt(jTextField41.getText()), 0),
+                        hrSalida = new Time(Integer.parseInt(jTextField43.getText()), Integer.parseInt(jTextField44.getText()), 0);
+                String turno = String.valueOf(jComboBox4.getSelectedItem());
 
+                CRUDTiendas obT = new CRUDTiendas();
+                obT.selectTienda();
+                for (Tienda t : obT.getData()) {
+                    if (String.valueOf(jComboBox3.getSelectedItem()).equals(t.getNombre())) {
+                        id_tienda = t.getId();
+                    }
+                }
+
+                sqlEmpleados.insertEmpleado(new Empleado(nombre, ApellidoP, ApellidoM, NSS, CURP, fechaNacimiento, telefono, domicilio, sueldo), new Trabajo(id_tienda, hrEntrada, hrSalida, turno));
+                
+                sqlEmpleados.selectEmpleado();
+                obI.llenarTablaEmpleados(tbEmpleados, sqlEmpleados.getDataEmpleado());
+                cargarDatosGenerales();
+                JOptionPane.showMessageDialog(null, "Guardado Correctamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
+            } catch (NumberFormatException xe) {
+                JOptionPane.showMessageDialog(null, "Campos no validos", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         btnGuardarClientes.addActionListener((e) -> {
@@ -249,6 +297,25 @@ public class VentanaAltas extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Campos no validos", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
 
+        });
+        
+        btnLimpiarVid.addActionListener((e) -> {
+            clearTextFields(pnlAltaVideojuegos);
+        });
+        btnLimpiarTiendas.addActionListener((e) -> {
+            clearTextFields(pnlAltaTiendas);
+        });
+        btnLimpiarProv.addActionListener((e) -> {
+            clearTextFields(pnlAltaProveedores);
+        });
+        btnLimpiarInv.addActionListener((e) -> {
+            clearTextFields(pnlAltaInventario);
+        });
+        btnLimpiarEmp.addActionListener((e) -> {
+            clearTextFields(pnlAltaEmpleados);
+        });
+        btnLimpiarClientes.addActionListener((e) -> {
+            clearTextFields(pnlAltaClientes);
         });
     }
 
@@ -286,6 +353,13 @@ public class VentanaAltas extends javax.swing.JFrame {
         lblTitulo.setText(title);
         lblTitulo.setIcon(new ImageIcon(rutaImg));
         lblTitulo.setIconTextGap(10);
+    }
+
+    private static void clearTextFields(Container container) {
+        Arrays.stream(container.getComponents())
+                .filter(component -> component instanceof JTextField)
+                .map(component -> (JTextField) component)
+                .forEach(textField -> textField.setText(""));
     }
 
     @SuppressWarnings("unchecked")
@@ -884,7 +958,7 @@ public class VentanaAltas extends javax.swing.JFrame {
         jComboBox4.setBackground(new java.awt.Color(30, 30, 30));
         jComboBox4.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jComboBox4.setForeground(new java.awt.Color(200, 200, 200));
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Matutino", "Vespertino" }));
         jComboBox4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
         jPanel20.add(jComboBox4);
 
@@ -1280,7 +1354,7 @@ public class VentanaAltas extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 104, Short.MAX_VALUE)
+            .addGap(0, 116, Short.MAX_VALUE)
         );
 
         jPanel28.add(jPanel2);
@@ -1304,7 +1378,7 @@ public class VentanaAltas extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
         );
 
         pack();

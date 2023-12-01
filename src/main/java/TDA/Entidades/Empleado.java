@@ -1,5 +1,7 @@
 package TDA.Entidades;
 
+import java.sql.Time;
+
 public class Empleado {
 
     private int id;
@@ -12,7 +14,10 @@ public class Empleado {
     private int telefono;
     private String domicilio;
     private int sueldo;
-
+    private String nombreTienda;
+    private Time hrEntrada, hrSalida;
+    private String turno;
+    
     public Empleado(int id, String nombre, String ApellidoP, String ApellidoM, String NSS, String CURP, String fechaNacimiento, int telefono, String domicilio, int sueldo) {
         this.id = id;
         this.nombre = nombre;
@@ -37,8 +42,56 @@ public class Empleado {
         this.domicilio = domicilio;
         this.sueldo = sueldo;
     }
-    
 
+    public Empleado(int id, String nombre, String ApellidoP, String ApellidoM, String NSS, String CURP, String fechaNacimiento, int telefono, String domicilio, int sueldo, String nombreTienda, Time hrEntrada, Time hrSalida, String turno) {
+        this.id = id;
+        this.nombre = nombre;
+        this.ApellidoP = ApellidoP;
+        this.ApellidoM = ApellidoM;
+        this.NSS = NSS;
+        this.CURP = CURP;
+        this.fechaNacimiento = fechaNacimiento;
+        this.telefono = telefono;
+        this.domicilio = domicilio;
+        this.sueldo = sueldo;
+        this.nombreTienda = nombreTienda;
+        this.hrEntrada = hrEntrada;
+        this.hrSalida = hrSalida;
+        this.turno = turno;
+    }
+
+    public String getNombreTienda() {
+        return nombreTienda;
+    }
+
+    public void setNombreTienda(String nombreTienda) {
+        this.nombreTienda = nombreTienda;
+    }
+
+    public Time getHrEntrada() {
+        return hrEntrada;
+    }
+
+    public void setHrEntrada(Time hrEntrada) {
+        this.hrEntrada = hrEntrada;
+    }
+
+    public Time getHrSalida() {
+        return hrSalida;
+    }
+
+    public void setHrSalida(Time hrSalida) {
+        this.hrSalida = hrSalida;
+    }
+
+    public String getTurno() {
+        return turno;
+    }
+
+    public void setTurno(String turno) {
+        this.turno = turno;
+    }
+    
     public int getId() {
         return id;
     }

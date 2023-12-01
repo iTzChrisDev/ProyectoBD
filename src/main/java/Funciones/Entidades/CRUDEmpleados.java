@@ -2,9 +2,12 @@ package Funciones.Entidades;
 
 import ConexionBD.Conexion;
 import TDA.Entidades.Empleado;
+import TDA.Relaciones.Trabajo;
+import com.mysql.cj.jdbc.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 
 public class CRUDEmpleados {
@@ -13,24 +16,25 @@ public class CRUDEmpleados {
     private PreparedStatement pstm;
     private ResultSet output;
     private String query;
-    private ArrayList<Empleado> data;
+    private ArrayList<Empleado> dataEmpleado;
 
     public CRUDEmpleados() {
         obC = new Conexion();
         pstm = null;
         output = null;
-        data = new ArrayList<>();
+        dataEmpleado = new ArrayList<>();
     }
 
-    public ArrayList<Empleado> getData() {
-        return data;
+    public ArrayList<Empleado> getDataEmpleado() {
+        return dataEmpleado;
     }
-
-    
     
     public void selectEmpleado() {
         try {
-            query = "SELECT * FROM empleados;";
+            query = "SELECT e.id_empleado, ti.id_tiendas, e.Nombre, e.ApellidoP, e.ApellidoM, e.NSS, e.Fecha_Nacimiento, e.CURP, e.Telefono, e.Domicilio, e.Sueldo, ti.Nombre AS Tienda, t.Hora_Entrada, t.Hora_Salida, t.Turno FROM empleados AS e \n"
+                    + "INNER JOIN trabaja AS t ON e.id_empleado = t.id_empleado\n"
+                    + "INNER JOIN tiendas AS ti ON ti.id_tiendas = t.id_tiendas\n"
+                    + "ORDER BY e.id_empleado ASC;";
             pstm = obC.setConnection().prepareStatement(query);
             output = pstm.executeQuery();
 
@@ -45,8 +49,12 @@ public class CRUDEmpleados {
                 int telefono = output.getInt("Telefono");
                 String domicilio = output.getString("Domicilio");
                 int sueldo = output.getInt("Sueldo");
+                String nombreTienda = output.getString("Tienda");
+                Time horaEntrada = output.getTime("Hora_Entrada");
+                Time horaSalida = output.getTime("Hora_Salida");
+                String turno = output.getString("Turno");
 
-                data.add(new Empleado(id, nombre, apellidoP, apellidoM, nss, fechaNacimiento, curp, telefono, domicilio, sueldo));
+                dataEmpleado.add(new Empleado(id, nombre, apellidoP, apellidoM, nss, curp, fechaNacimiento, telefono, domicilio, sueldo, nombreTienda, horaEntrada, horaSalida, turno));
             }
 
         } catch (SQLException ex) {
@@ -62,20 +70,25 @@ public class CRUDEmpleados {
         }
     }
 
-    public void insertEmpleado(Empleado obE) {
+    public void insertEmpleado(Empleado obE, Trabajo obT) {
         try {
-            query = "INSERT INTO empleados (Nombre, ApellidoP, ApellidoM, NSS, Fecha_Nacimiento, CURP, Telefono, Domicilio, Sueldo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
-            pstm = obC.setConnection().prepareStatement(query);
-            pstm.setString(1, obE.getNombre());
-            pstm.setString(2, obE.getApellidoP());
-            pstm.setString(3, obE.getApellidoM());
-            pstm.setString(4, obE.getNSS());
-            pstm.setString(5, obE.getFechaNacimiento());
-            pstm.setString(6, obE.getCURP());
-            pstm.setInt(7, obE.getTelefono());
-            pstm.setString(8, obE.getDomicilio());
-            pstm.setInt(9, obE.getSueldo());
-            pstm.executeUpdate();
+            query = "CALL insertar_empleado(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            CallableStatement stat = (CallableStatement) obC.setConnection().prepareCall(query);           
+            stat.setString(1, obE.getNombre());
+            stat.setString(2, obE.getApellidoP());
+            stat.setString(3, obE.getApellidoM());
+            stat.setString(4, obE.getNSS());
+            stat.setString(5, obE.getFechaNacimiento());
+            stat.setString(6, obE.getCURP());
+            stat.setInt(7, obE.getTelefono());
+            stat.setString(8, obE.getDomicilio());
+            stat.setInt(9, obE.getSueldo());
+            stat.setInt(10, obT.getId_tienda());
+            stat.setTime(11, obT.getHrEntrada());
+            stat.setTime(12, obT.getHrSalida());
+            stat.setString(13, obT.getTurno());
+            
+            stat.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
@@ -89,21 +102,26 @@ public class CRUDEmpleados {
         }
     }
 
-    public void updateEmpleado(int id, Empleado obE) {
+    public void updateEmpleado(int id, Empleado obE, Trabajo obT) {
         try {
-            query = "UPDATE empleados SET Nombre = ?, ApellidoP = ?, ApellidoM = ?, NSS = ?, Fecha_Nacimiento = ?, CURP = ?, Telefono = ?, Domicilio = ?, Sueldo = ? WHERE id_empleado = ?";
-            pstm = obC.setConnection().prepareStatement(query);
-            pstm.setString(1, obE.getNombre());
-            pstm.setString(2, obE.getApellidoP());
-            pstm.setString(3, obE.getApellidoM());
-            pstm.setString(4, obE.getNSS());
-            pstm.setString(5, obE.getFechaNacimiento());
-            pstm.setString(6, obE.getCURP());
-            pstm.setInt(7, obE.getTelefono());
-            pstm.setString(8, obE.getDomicilio());
-            pstm.setInt(9, obE.getSueldo());
-            pstm.setInt(10, id);
-            pstm.executeUpdate();
+            query = "CALL actualizar_empleado(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            CallableStatement stat = (CallableStatement) obC.setConnection().prepareCall(query);   
+            stat.setInt(1, id);
+            stat.setString(2, obE.getNombre());
+            stat.setString(3, obE.getApellidoP());
+            stat.setString(4, obE.getApellidoM());
+            stat.setString(5, obE.getNSS());
+            stat.setString(6, obE.getFechaNacimiento());
+            stat.setString(7, obE.getCURP());
+            stat.setInt(8, obE.getTelefono());
+            stat.setString(9, obE.getDomicilio());
+            stat.setInt(10, obE.getSueldo());
+            stat.setInt(11, obT.getId_tienda());
+            stat.setTime(12, obT.getHrEntrada());
+            stat.setTime(13, obT.getHrSalida());
+            stat.setString(14, obT.getTurno());
+            
+            stat.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
@@ -119,10 +137,11 @@ public class CRUDEmpleados {
 
     public void deleteEmpleado(int id) {
         try {
-            query = "DELETE FROM empleados WHERE id_empleado = ?";
-            pstm = obC.setConnection().prepareStatement(query);
-            pstm.setInt(1, id);
-            pstm.executeUpdate();
+            query = "CALL eliminar_empleado(?);";
+            CallableStatement stat = (CallableStatement) obC.setConnection().prepareCall(query);  
+            stat.setInt(1, id);
+            
+            stat.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
