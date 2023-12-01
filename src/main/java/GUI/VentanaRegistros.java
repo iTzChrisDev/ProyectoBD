@@ -81,7 +81,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
         initButtonsCRUD();
         actionListenerBtnActions();
         cargarDatosGenerales();
-        //initRowSorterTables();
     }
 
     @SuppressWarnings("unchecked")
@@ -2932,7 +2931,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
                 Object aux2 = tbInv.getModel().getValueAt(selectedRowIndex, 2);
                 int idVideojuego = Integer.parseInt(String.valueOf(aux));
                 int idTienda = Integer.parseInt(String.valueOf(aux2));
-                
+
                 actu4 = new VentanaActualizaciones();
                 actu4.setTitle("Actualizar inventario");
                 actu4.setTbInventario(tbInv);
@@ -2985,7 +2984,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
                 actu6 = new VentanaActualizaciones();
                 actu6.setTitle("Actualizar cliente");
                 actu6.setTbClientes(tbClientes);
-                
+
                 sqlClientes.selectCliente();
                 for (Cliente c : sqlClientes.getData()) {
                     if (c.getId() == id) {
@@ -2993,7 +2992,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
                         break;
                     }
                 }
-                
+
                 actu6.setStr("altaClientes", "Clientes", "./src/main/java/Resources/selectedCliente.png");
                 actu6.setValuesGen(lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
                 actu6.setVisible(true);
@@ -3004,81 +3003,97 @@ public class VentanaRegistros extends javax.swing.JFrame {
 
         // Buscar
         btnBuscarVideojuegosAlta.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos3.getText(), tbVideojuegos);
+            obCons.buscarInformacion("videojuegos", txtBusquedaVideojuegos3.getText(), 1);
         });
         btnBuscarVideojuegosElim.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos.getText(), tbVideojuegos);
+            obCons.buscarInformacion("videojuegos", txtBusquedaVideojuegos.getText(), 1);
         });
         btnBuscarVideojuegosAct.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos1.getText(), tbVideojuegos);
+            obCons.buscarInformacion("videojuegos", txtBusquedaVideojuegos1.getText(), 1);
         });
         btnBuscarVideojuegosMostrar.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos2.getText(), tbVideojuegos);
+            obCons.buscarInformacion("videojuegos", txtBusquedaVideojuegos2.getText(), 1);
         });
 
         btnBuscarTiendasAlta.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos4.getText(), tbTiendas);
+            obCons.buscarInformacion("tiendas", txtBusquedaVideojuegos4.getText(), 2);
+            obI.llenarTablaVideojuegos(tbVideojuegos, obCons.getDataVideojuego());
         });
         btnBuscarTiendasElim.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos5.getText(), tbTiendas);
+            obCons.buscarInformacion("tiendas", txtBusquedaVideojuegos5.getText(), 2);
+            obI.llenarTablaVideojuegos(tbVideojuegos, obCons.getDataVideojuego());
         });
         btnBuscarTiendasAct.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos6.getText(), tbTiendas);
+            obCons.buscarInformacion("tiendas", txtBusquedaVideojuegos6.getText(), 2);
+            obI.llenarTablaVideojuegos(tbVideojuegos, obCons.getDataVideojuego());
         });
         btnBuscarTiendasMostrar.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos7.getText(), tbTiendas);
+            obCons.buscarInformacion("tiendas", txtBusquedaVideojuegos7.getText(), 2);
+            obI.llenarTablaVideojuegos(tbVideojuegos, obCons.getDataVideojuego());
         });
 
         btnBuscarEmpleadosAlta.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos8.getText(), tbEmp);
+            obCons.buscarInformacion("empleados", txtBusquedaVideojuegos8.getText(), 4);
+            //obI.llenarTablaEmpleados(tbEmp, obCons.getDataEmpleado());
         });
         btnBuscarEmpleadosElim.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos9.getText(), tbEmp);
+            obCons.buscarInformacion("empleados", txtBusquedaVideojuegos9.getText(), 4);
+            //obI.llenarTablaEmpleados(tbEmp, obCons.getDataEmpleado());
         });
         btnBuscarEmpleadosAct.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos10.getText(), tbEmp);
+            obCons.buscarInformacion("empleados", txtBusquedaVideojuegos10.getText(), 4);
+            //obI.llenarTablaEmpleados(tbEmp, obCons.getDataEmpleado());
         });
         btnBuscarEmpleadosMostrar.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos11.getText(), tbEmp);
+            obCons.buscarInformacion("empleados", txtBusquedaVideojuegos11.getText(), 4);
+            //obI.llenarTablaEmpleados(tbEmp, obCons.getDataEmpleado());
         });
 
         btnBuscarClientesAlta.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos12.getText(), tbClientes);
+            obCons.buscarInformacion("clientes", txtBusquedaVideojuegos12.getText(), 5);
+            obI.llenarTablaClientes(tbClientes, obCons.getDataCliente());
         });
         btnBuscarClientesElim.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos13.getText(), tbClientes);
+            obCons.buscarInformacion("clientes", txtBusquedaVideojuegos13.getText(), 5);
+            obI.llenarTablaClientes(tbClientes, obCons.getDataCliente());
         });
         btnBuscarClientesAct.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos14.getText(), tbClientes);
+            obCons.buscarInformacion("clientes", txtBusquedaVideojuegos14.getText(), 5);
+            obI.llenarTablaClientes(tbClientes, obCons.getDataCliente());
         });
         btnBuscarClientesMostrar.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos15.getText(), tbClientes);
+            obCons.buscarInformacion("clientes", txtBusquedaVideojuegos15.getText(), 5);
+            obI.llenarTablaClientes(tbClientes, obCons.getDataCliente());
         });
 
         btnBuscarProveedoresAlta.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos16.getText(), tbProv);
+            obCons.buscarInformacion("proveedores", txtBusquedaVideojuegos16.getText(), 3);
+            obI.llenarTablaProveedores(tbProv, obCons.getDataProveedor());
         });
         btnBuscarProveedoresElim.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos17.getText(), tbProv);
+            obCons.buscarInformacion("proveedores", txtBusquedaVideojuegos17.getText(), 3);
+            obI.llenarTablaProveedores(tbProv, obCons.getDataProveedor());
         });
         btnBuscarProveedoresAct.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos18.getText(), tbProv);
+            obCons.buscarInformacion("proveedores", txtBusquedaVideojuegos18.getText(), 3);
+            obI.llenarTablaProveedores(tbProv, obCons.getDataProveedor());
         });
         btnBuscarProveedoresMostrar.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos19.getText(), tbProv);
+            obCons.buscarInformacion("proveedores", txtBusquedaVideojuegos19.getText(), 3);
+            obI.llenarTablaProveedores(tbProv, obCons.getDataProveedor());
         });
 
         btnBuscarInventarioAlta.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos20.getText(), tbInv);
+            obCons.buscarInformacion("inventario", txtBusquedaVideojuegos20.getText(), 6);
         });
         btnBuscarInventarioElim.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos21.getText(), tbInv);
+            obCons.buscarInformacion("inventario", txtBusquedaVideojuegos21.getText(), 6);
         });
         btnBuscarInventarioAct.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos22.getText(), tbInv);
+            obCons.buscarInformacion("inventario", txtBusquedaVideojuegos22.getText(), 6);
         });
         btnBuscarInventarioMostrar.addActionListener((e) -> {
-            buscarEnTabla(txtBusquedaVideojuegos23.getText(), tbInv);
+            obCons.buscarInformacion("inventario", txtBusquedaVideojuegos23.getText(), 6);
         });
 
     }
@@ -3108,15 +3123,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
         TableRowSorter<TableModel> rowSorter5 = new TableRowSorter<>(model5);
         tbClientes.setRowSorter(rowSorter5);
 
-    }
-
-    private void buscarEnTabla(String textoBusqueda, JTable tb) {
-        try {
-            RowFilter<TableModel, Object> rowFilter = RowFilter.regexFilter("(?i)" + textoBusqueda);
-            ((TableRowSorter<TableModel>) tb.getRowSorter()).setRowFilter(rowFilter);
-        } catch (PatternSyntaxException e) {
-            e.printStackTrace();
-        }
     }
 
     public void actionListenerButtonsCRUD() {

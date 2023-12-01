@@ -1,6 +1,8 @@
 package Funciones.Dashboard;
 
 import ConexionBD.Conexion;
+import TDA.Entidades.*;
+import TDA.Relaciones.Inventario;
 import com.mysql.cj.jdbc.CallableStatement;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -9,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import javax.swing.JLabel;
 
 public class ConsultasGenerales {
@@ -18,9 +21,71 @@ public class ConsultasGenerales {
     private PreparedStatement query;
     private ResultSet result;
     private JLabel lblR1, lblR2, lblR3;
+    private ArrayList<Videojuego> dataVideojuego;
+    private ArrayList<Empleado> dataEmpleado;
+    private ArrayList<Cliente> dataCliente;
+    private ArrayList<Proveedor> dataProveedor;
+    private ArrayList<Tienda> dataTienda;
+    private ArrayList<Inventario> dataInventario;
 
     public ConsultasGenerales() {
         obC = new Conexion();
+        dataVideojuego = new ArrayList<>();
+        dataTienda = new ArrayList<>();
+        dataProveedor = new ArrayList<>();
+        dataInventario = new ArrayList<>();
+        dataEmpleado = new ArrayList<>();
+        dataCliente = new ArrayList<>();
+    }
+
+    /* 1 - Videojuegos
+               2 - Tiendas
+               3 - Proveedores
+               4 - Empleados
+               5 - Clientes
+               6 - Inventario*/
+    public void buscarInformacion(String nombreTabla, String parametroBusqueda, int value) {
+        CallableStatement stat = null;
+        try {
+            sql = "CALL buscar_informacion(?, ?);";
+            stat = (CallableStatement) obC.setConnection().prepareCall(sql);
+            stat.setString(1, nombreTabla);
+            stat.setString(2, parametroBusqueda);
+
+            result = stat.executeQuery();
+            while (result.next()) {
+                switch (value) {
+                    case 1:
+                        dataVideojuego.add(new Videojuego(result.getInt("id_videojuego"), result.getString("Nombre"), result.getString("Categoria"), result.getInt("Precio")));
+                        break;
+                    case 2:
+                        dataTienda.add(new Tienda(result.getInt("id_tiendas"), result.getString("Nombre"), result.getString("Domicilio")));
+                        break;
+                    case 3:
+                        dataProveedor.add(new Proveedor(result.getInt("id_proveedores"), result.getString("Nombre"), result.getInt("Telefono"), result.getString("Domicilio"), result.getString("Correo")));
+                        break;
+                    case 4:
+                        dataEmpleado.add(new Empleado(result.getInt("id_empleado"), result.getString("Nombre"), result.getString("ApellidoP"), result.getString("ApellidoM"), result.getString("NSS"), result.getString("Fecha_Nacimiento"), result.getString("CURP"), result.getInt("Telefono"), result.getString("Domicilio"), result.getInt("Sueldo")));
+                        break;
+                    case 5:
+                        dataCliente.add(new Cliente(result.getInt("id_clientes"), result.getString("Nombre"), result.getString("ApellidoP"), result.getString("ApellidoM"), result.getString("Fecha_Nacimiento"), result.getInt("Telefono"), result.getString("Domicilio"), result.getString("Correo")));
+                        break;
+                    case 6:
+                        dataInventario.add(new Inventario(result.getInt("id_videojuego"), result.getInt("id_tiendas"), result.getInt("Stock")));
+                        break;
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (stat != null) {
+                try {
+                    stat.close();
+                } catch (SQLException ex) {
+                }
+            }
+            obC.closeConnection();
+        }
     }
 
     public void consultarDatoGeneral(String tabla, JLabel lblResult) {
@@ -471,4 +536,27 @@ public class ConsultasGenerales {
         this.lblR3 = lblR3;
     }
 
+    public ArrayList<Videojuego> getDataVideojuego() {
+        return dataVideojuego;
+    }
+
+    public ArrayList<Empleado> getDataEmpleado() {
+        return dataEmpleado;
+    }
+
+    public ArrayList<Cliente> getDataCliente() {
+        return dataCliente;
+    }
+
+    public ArrayList<Proveedor> getDataProveedor() {
+        return dataProveedor;
+    }
+
+    public ArrayList<Tienda> getDataTienda() {
+        return dataTienda;
+    }
+
+    public ArrayList<Inventario> getDataInventario() {
+        return dataInventario;
+    }
 }
