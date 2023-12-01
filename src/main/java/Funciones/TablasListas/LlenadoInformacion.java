@@ -229,16 +229,20 @@ public class LlenadoInformacion {
                 return false;
             }
         };
-
+        
+        tbModelInv.addColumn("ID_Videojuego");
         tbModelInv.addColumn("Videojuego");
+        tbModelInv.addColumn("ID_Tienda");
         tbModelInv.addColumn("Tienda");
         tbModelInv.addColumn("Stock");
 
-        Object[] row = new Object[3];
+        Object[] row = new Object[5];
         for (int i = 0; i < inventario.size(); i++) {
-            row[0] = inventario.get(i)[0];
-            row[1] = inventario.get(i)[1];
-            row[2] = inventario.get(i)[2];
+            row[0] = inventario.get(i)[3];
+            row[1] = inventario.get(i)[0];
+            row[2] = inventario.get(i)[4];
+            row[3] = inventario.get(i)[1];
+            row[4] = inventario.get(i)[2];
 
             tbModelInv.addRow(row);
         }
@@ -249,5 +253,5 @@ public class LlenadoInformacion {
         tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         inventario.clear();
     }
-        
+
 }

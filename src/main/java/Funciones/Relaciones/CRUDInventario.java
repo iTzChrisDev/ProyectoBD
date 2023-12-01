@@ -62,19 +62,20 @@ public class CRUDInventario {
     public String[] selectInventarioTable() {
         String aux[] = null;
         try {
-            query = "SELECT v.Nombre AS NombreVideojuego, t.Nombre AS NombreTienda, i.Stock\n"
-                    + "FROM inventario i\n"
+            query = "SELECT v.Nombre AS NombreVideojuego, t.Nombre AS NombreTienda, i.Stock, v.id_videojuego, t.id_tiendas\n"
+                    + "FROM inventario AS i\n"
                     + "INNER JOIN videojuegos v ON i.id_videojuego = v.id_videojuego\n"
                     + "INNER JOIN tiendas t ON i.id_tiendas = t.id_tiendas;";
             pstm = obC.setConnection().prepareStatement(query);
             output = pstm.executeQuery();
 
             while (output.next()) {
-                aux = new String[3];
+                aux = new String[5];
                 aux[0] = output.getString("NombreVideojuego");
                 aux[1] = output.getString("NombreTienda");
                 aux[2] = output.getString("Stock");
-
+                aux[3] = output.getString("id_videojuego");
+                aux[4] = output.getString("id_tiendas");
                 dataTable.add(aux);
             }
         } catch (SQLException ex) {
@@ -116,7 +117,7 @@ public class CRUDInventario {
 
     public void updateInventario(int idVideojuego, int idTienda, Inventario inventario) {
         try {
-            query = "UPDATE inventario SET Stock = ? WHERE id_videojuego = ? AND id_tiendas = ?";
+            query = "UPDATE inventario SET Stock = ? WHERE id_videojuego = ? AND id_tiendas = ?;";
             pstm = obC.setConnection().prepareStatement(query);
             pstm.setInt(1, inventario.getStock());
             pstm.setInt(2, idVideojuego);
@@ -137,7 +138,7 @@ public class CRUDInventario {
 
     public void deleteInventario(int idVideojuego, int idTienda) {
         try {
-            query = "DELETE FROM inventario WHERE id_videojuego = ? AND id_tiendas = ?";
+            query = "DELETE FROM inventario WHERE id_videojuego = ? AND id_tiendas = ?;";
             pstm = obC.setConnection().prepareStatement(query);
             pstm.setInt(1, idVideojuego);
             pstm.setInt(2, idTienda);

@@ -14,13 +14,18 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.util.ArrayList;
+import java.util.regex.PatternSyntaxException;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 public class VentanaRegistros extends javax.swing.JFrame {
 
@@ -73,6 +78,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         initButtonsCRUD();
         actionListenerBtnActions();
         cargarDatosGenerales();
+        //initRowSorterTables();
     }
 
     @SuppressWarnings("unchecked")
@@ -2262,7 +2268,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 900, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 910, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2293,10 +2299,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
         obCons.consultarDatoGeneral("mas activo", lblProvMasActivo);
         obCons.setLablesInvStock(jLabel40, jLabel41, jLabel42);
         obCons.consultarDatoGeneral("stock", null);
-        llenarTablas();
-    }
-
-    public void llenarTablas() {
         sqlVideojuegos.selectVideojuego();
         obI.llenarTablaVideojuegos(tbVideojuegos, sqlVideojuegos.getData());
 
@@ -2311,7 +2313,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
 
         sqlClientes.selectCliente();
         obI.llenarTablaClientes(tbClientes, sqlClientes.getData());
-        
+
         sqlEmpleados.selectEmpleado();
         obI.llenarTablaEmpleados(tbEmp, sqlEmpleados.getDataEmpleado());
     }
@@ -2822,9 +2824,35 @@ public class VentanaRegistros extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         });
-        
-        btnEliminarInventario.addActionListener((e) -> {
 
+        btnEliminarInventario.addActionListener((e) -> {
+            int selectedRowIndex = tbInv.getSelectedRow();
+            if (selectedRowIndex != -1) {
+                Object aux = tbInv.getModel().getValueAt(selectedRowIndex, 0);
+                String nombreVideojuego = String.valueOf(aux);
+                System.out.println(nombreVideojuego);
+                sqlInventario.selectInventarioTable();
+//                aux[0] = output.getString("NombreVideojuego");
+//                aux[1] = output.getString("NombreTienda");
+//                aux[2] = output.getString("Stock");
+//                aux[3] = output.getString("id_videojuego");
+//                aux[4] = output.getString("id_tiendas");
+                int idVideojuego = 0, idTienda = 0;
+                for (String s[] : sqlInventario.getDataTable()) {
+                    System.out.println(s[0]);
+                    if (nombreVideojuego.equals(s[0])) {
+                        idVideojuego = Integer.parseInt(s[3]);
+                        idTienda = Integer.parseInt(s[4]);
+                        System.out.println(idVideojuego + " | " + idTienda);
+                        break;
+                    }
+                }
+                sqlInventario.deleteInventario(idVideojuego, idTienda);
+                cargarDatosGenerales();
+                JOptionPane.showMessageDialog(null, "Se ha eliminado el registro", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         // Actualizar
@@ -2854,8 +2882,119 @@ public class VentanaRegistros extends javax.swing.JFrame {
 
         // Buscar
         btnBuscarVideojuegosAlta.addActionListener((e) -> {
-
+            buscarEnTabla(txtBusquedaVideojuegos3.getText(), tbVideojuegos);
         });
+        btnBuscarVideojuegosElim.addActionListener((e) -> {
+            buscarEnTabla(txtBusquedaVideojuegos.getText(), tbVideojuegos);
+        });
+        btnBuscarVideojuegosAct.addActionListener((e) -> {
+            buscarEnTabla(txtBusquedaVideojuegos1.getText(), tbVideojuegos);
+        });
+        btnBuscarVideojuegosMostrar.addActionListener((e) -> {
+            buscarEnTabla(txtBusquedaVideojuegos2.getText(), tbVideojuegos);
+        });
+
+        btnBuscarTiendasAlta.addActionListener((e) -> {
+            buscarEnTabla(txtBusquedaVideojuegos4.getText(), tbTiendas);
+        });
+        btnBuscarTiendasElim.addActionListener((e) -> {
+            buscarEnTabla(txtBusquedaVideojuegos5.getText(), tbTiendas);
+        });
+        btnBuscarTiendasAct.addActionListener((e) -> {
+            buscarEnTabla(txtBusquedaVideojuegos6.getText(), tbTiendas);
+        });
+        btnBuscarTiendasMostrar.addActionListener((e) -> {
+            buscarEnTabla(txtBusquedaVideojuegos7.getText(), tbTiendas);
+        });
+
+        btnBuscarEmpleadosAlta.addActionListener((e) -> {
+            buscarEnTabla(txtBusquedaVideojuegos8.getText(), tbEmp);
+        });
+        btnBuscarEmpleadosElim.addActionListener((e) -> {
+            buscarEnTabla(txtBusquedaVideojuegos9.getText(), tbEmp);
+        });
+        btnBuscarEmpleadosAct.addActionListener((e) -> {
+            buscarEnTabla(txtBusquedaVideojuegos10.getText(), tbEmp);
+        });
+        btnBuscarEmpleadosMostrar.addActionListener((e) -> {
+            buscarEnTabla(txtBusquedaVideojuegos11.getText(), tbEmp);
+        });
+
+        btnBuscarClientesAlta.addActionListener((e) -> {
+            buscarEnTabla(txtBusquedaVideojuegos12.getText(), tbClientes);
+        });
+        btnBuscarClientesElim.addActionListener((e) -> {
+            buscarEnTabla(txtBusquedaVideojuegos13.getText(), tbClientes);
+        });
+        btnBuscarClientesAct.addActionListener((e) -> {
+            buscarEnTabla(txtBusquedaVideojuegos14.getText(), tbClientes);
+        });
+        btnBuscarClientesMostrar.addActionListener((e) -> {
+            buscarEnTabla(txtBusquedaVideojuegos15.getText(), tbClientes);
+        });
+
+        btnBuscarProveedoresAlta.addActionListener((e) -> {
+            buscarEnTabla(txtBusquedaVideojuegos16.getText(), tbProv);
+        });
+        btnBuscarProveedoresElim.addActionListener((e) -> {
+            buscarEnTabla(txtBusquedaVideojuegos17.getText(), tbProv);
+        });
+        btnBuscarProveedoresAct.addActionListener((e) -> {
+            buscarEnTabla(txtBusquedaVideojuegos18.getText(), tbProv);
+        });
+        btnBuscarProveedoresMostrar.addActionListener((e) -> {
+            buscarEnTabla(txtBusquedaVideojuegos19.getText(), tbProv);
+        });
+
+        btnBuscarInventarioAlta.addActionListener((e) -> {
+            buscarEnTabla(txtBusquedaVideojuegos20.getText(), tbInv);
+        });
+        btnBuscarInventarioElim.addActionListener((e) -> {
+            buscarEnTabla(txtBusquedaVideojuegos21.getText(), tbInv);
+        });
+        btnBuscarInventarioAct.addActionListener((e) -> {
+            buscarEnTabla(txtBusquedaVideojuegos22.getText(), tbInv);
+        });
+        btnBuscarInventarioMostrar.addActionListener((e) -> {
+            buscarEnTabla(txtBusquedaVideojuegos23.getText(), tbInv);
+        });
+
+    }
+
+    public void initRowSorterTables() {
+        TableModel model = tbVideojuegos.getModel();
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(model);
+        tbVideojuegos.setRowSorter(rowSorter);
+
+        TableModel model1 = tbTiendas.getModel();
+        TableRowSorter<TableModel> rowSorter1 = new TableRowSorter<>(model1);
+        tbTiendas.setRowSorter(rowSorter1);
+
+        TableModel model2 = tbProv.getModel();
+        TableRowSorter<TableModel> rowSorter2 = new TableRowSorter<>(model2);
+        tbProv.setRowSorter(rowSorter2);
+
+        TableModel model3 = tbInv.getModel();
+        TableRowSorter<TableModel> rowSorter3 = new TableRowSorter<>(model3);
+        tbInv.setRowSorter(rowSorter3);
+
+        TableModel model4 = tbEmp.getModel();
+        TableRowSorter<TableModel> rowSorter4 = new TableRowSorter<>(model4);
+        tbEmp.setRowSorter(rowSorter4);
+
+        TableModel model5 = tbClientes.getModel();
+        TableRowSorter<TableModel> rowSorter5 = new TableRowSorter<>(model5);
+        tbClientes.setRowSorter(rowSorter5);
+
+    }
+
+    private void buscarEnTabla(String textoBusqueda, JTable tb) {
+        try {
+            RowFilter<TableModel, Object> rowFilter = RowFilter.regexFilter("(?i)" + textoBusqueda);
+            ((TableRowSorter<TableModel>) tb.getRowSorter()).setRowFilter(rowFilter);
+        } catch (PatternSyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
     public void actionListenerButtonsCRUD() {

@@ -115,15 +115,15 @@ public class VentanaAltas extends javax.swing.JFrame {
         jComboBox1.setRenderer(new CustomComboBoxRenderer());
         jComboBox1.setFocusable(false);
         jComboBox1.getComponent(0).setBackground(new Color(140, 255, 241));
-        
+
         jComboBox2.setRenderer(new CustomComboBoxRenderer());
         jComboBox2.setFocusable(false);
         jComboBox2.getComponent(0).setBackground(new Color(140, 255, 241));
-        
+
         jComboBox3.setRenderer(new CustomComboBoxRenderer());
         jComboBox3.setFocusable(false);
         jComboBox3.getComponent(0).setBackground(new Color(140, 255, 241));
-        
+
         jComboBox4.setRenderer(new CustomComboBoxRenderer());
         jComboBox4.setFocusable(false);
         jComboBox4.getComponent(0).setBackground(new Color(140, 255, 241));
@@ -266,7 +266,7 @@ public class VentanaAltas extends javax.swing.JFrame {
                 }
 
                 sqlEmpleados.insertEmpleado(new Empleado(nombre, ApellidoP, ApellidoM, NSS, CURP, fechaNacimiento, telefono, domicilio, sueldo), new Trabajo(id_tienda, hrEntrada, hrSalida, turno));
-                
+
                 sqlEmpleados.selectEmpleado();
                 obI.llenarTablaEmpleados(tbEmpleados, sqlEmpleados.getDataEmpleado());
                 cargarDatosGenerales();
@@ -298,24 +298,48 @@ public class VentanaAltas extends javax.swing.JFrame {
             }
 
         });
-        
+
         btnLimpiarVid.addActionListener((e) -> {
-            clearTextFields(pnlAltaVideojuegos);
+            jTextField2.setText("");
+            jTextField3.setText("");
+            jTextField4.setText("");
         });
         btnLimpiarTiendas.addActionListener((e) -> {
-            clearTextFields(pnlAltaTiendas);
+            jTextField13.setText("");
+            jTextField14.setText("");
         });
         btnLimpiarProv.addActionListener((e) -> {
-            clearTextFields(pnlAltaProveedores);
+            jTextField30.setText("");
+            jTextField31.setText("");
+            jTextField32.setText("");
+            jTextField33.setText("");
         });
         btnLimpiarInv.addActionListener((e) -> {
-            clearTextFields(pnlAltaInventario);
+            jTextField17.setText("");
         });
         btnLimpiarEmp.addActionListener((e) -> {
-            clearTextFields(pnlAltaEmpleados);
+            jTextField22.setText("");
+            jTextField21.setText("");
+            jTextField24.setText("");
+            jTextField43.setText("");
+            jTextField38.setText("");
+            jTextField40.setText("");
+            jTextField16.setText("");
+            jTextField15.setText("");
+            jTextField41.setText("");
+            jTextField7.setText("");
+            jTextField44.setText("");
+            jTextField6.setText("");
+            jTextField39.setText("");
         });
         btnLimpiarClientes.addActionListener((e) -> {
-            clearTextFields(pnlAltaClientes);
+            jTextField11.setText("");
+            jTextField28.setText("");
+            jTextField12.setText("");
+            jTextField27.setText("");
+            jTextField25.setText("");
+            jTextField9.setText("");
+            jTextField29.setText("");
         });
     }
 
@@ -350,16 +374,9 @@ public class VentanaAltas extends javax.swing.JFrame {
     public void setStr(String str, String title, String rutaImg) {
         this.str = str;
         obC.show(pnlMain, str);
-        lblTitulo.setText(title);
+        lblTitulo.setText("Alta " + title);
         lblTitulo.setIcon(new ImageIcon(rutaImg));
         lblTitulo.setIconTextGap(10);
-    }
-
-    private static void clearTextFields(Container container) {
-        Arrays.stream(container.getComponents())
-                .filter(component -> component instanceof JTextField)
-                .map(component -> (JTextField) component)
-                .forEach(textField -> textField.setText(""));
     }
 
     @SuppressWarnings("unchecked")
