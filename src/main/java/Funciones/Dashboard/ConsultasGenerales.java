@@ -99,7 +99,7 @@ public class ConsultasGenerales {
         }
     }
 
-    public void consultarDatoGeneral(String tabla, JLabel lblResult) {
+    public void consultarDatoGeneral(String tabla, JLabel lblResult, JLabel lblResultCant) {
         switch (tabla) {
             case "videojuegos":
                 try {
@@ -274,7 +274,8 @@ public class ConsultasGenerales {
                 query = obC.setConnection().prepareStatement(sql);
                 result = query.executeQuery();
                 while (result.next()) {
-                    lblResult.setText(result.getString(1) + " | " + result.getString(2) + " vendidos");
+                    lblResult.setText(result.getString(1));
+                    lblResultCant.setText(result.getString(2) + " vendidos");
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -298,7 +299,8 @@ public class ConsultasGenerales {
                 query = obC.setConnection().prepareStatement(sql);
                 result = query.executeQuery();
                 while (result.next()) {
-                    lblResult.setText(result.getString(1) + " | " + result.getString(2) + " vendidos");
+                    lblResult.setText(result.getString(1));
+                    lblResultCant.setText(result.getString(2) + " vendidos");
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -364,7 +366,7 @@ public class ConsultasGenerales {
                 try {
                 sql = "SELECT t.Nombre, SUM(c.Total) AS venta \n"
                         + "FROM tiendas AS t\n"
-                        + "INNER JOIN compra AS c ON t.id_tiendas = c.id_tienda\n"
+                        + "INNER JOIN compra AS c ON t.id_tienda = c.id_tienda\n"
                         + "GROUP BY c.id_tienda\n"
                         + "ORDER BY venta ASC LIMIT 1;";
                 query = obC.setConnection().prepareStatement(sql);
@@ -388,7 +390,7 @@ public class ConsultasGenerales {
                 try {
                 sql = "SELECT t.Nombre, SUM(c.Total) AS venta \n"
                         + "FROM tiendas AS t\n"
-                        + "INNER JOIN compra AS c ON t.id_tiendas = c.id_tienda\n"
+                        + "INNER JOIN compra AS c ON t.id_tienda = c.id_tienda\n"
                         + "GROUP BY c.id_tienda\n"
                         + "ORDER BY venta DESC LIMIT 1;";
                 query = obC.setConnection().prepareStatement(sql);
@@ -458,8 +460,8 @@ public class ConsultasGenerales {
                 try {
                 sql = "SELECT c.Nombre, SUM(v.Total) AS compra \n"
                         + "FROM clientes AS c\n"
-                        + "INNER JOIN compra AS v ON c.id_clientes = v.id_clientes\n"
-                        + "GROUP BY v.id_clientes\n"
+                        + "INNER JOIN compra AS v ON c.id_cliente = v.id_cliente\n"
+                        + "GROUP BY v.id_cliente\n"
                         + "ORDER BY compra DESC LIMIT 1;";
                 query = obC.setConnection().prepareStatement(sql);
                 result = query.executeQuery();
@@ -480,10 +482,10 @@ public class ConsultasGenerales {
             break;
             case "mas activo":
                 try {
-                sql = "SELECT p.Nombre, COUNT(pr.id_proveedores) AS participacion\n"
+                sql = "SELECT p.Nombre, COUNT(pr.id_proveedor) AS participacion\n"
                         + "FROM proveedores AS p\n"
-                        + "INNER JOIN proveen pr ON p.id_proveedores = pr.id_proveedores\n"
-                        + "GROUP BY pr.id_proveedores\n"
+                        + "INNER JOIN proveen pr ON p.id_proveedor = pr.id_proveedor\n"
+                        + "GROUP BY pr.id_proveedor\n"
                         + "ORDER BY participacion DESC LIMIT 1;";
                 query = obC.setConnection().prepareStatement(sql);
                 result = query.executeQuery();

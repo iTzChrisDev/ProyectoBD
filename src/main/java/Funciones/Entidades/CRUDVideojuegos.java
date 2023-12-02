@@ -32,7 +32,7 @@ public class CRUDVideojuegos {
                 int id = output.getInt("id_videojuego");
                 String nombre = output.getString("Nombre");
                 String categoria = output.getString("Categoria");
-                int precio = output.getInt("Precio");
+                double precio = output.getDouble("Precio");
 
                 data.add(new Videojuego(id, nombre, categoria, precio));
             }

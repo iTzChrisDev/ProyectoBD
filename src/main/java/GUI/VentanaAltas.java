@@ -38,7 +38,7 @@ public class VentanaAltas extends javax.swing.JFrame {
     private CRUDTiendas sqlTiendas;
     private CRUDInventario sqlInventario;
     private JTable tbVideojuegos, tbClientes, tbEmpleados, tbProveedores, tbTiendas, tbInventario;
-    private JLabel lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, stock1, stock2, stock3;
+    private JLabel lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, stock1, stock2, stock3;
     private ConsultasGenerales obCons;
 
     public VentanaAltas() {
@@ -56,7 +56,7 @@ public class VentanaAltas extends javax.swing.JFrame {
         actionListenerButtons();
     }
 
-    public void setValuesGen(JLabel lblVidCont, JLabel lblTienCont, JLabel lblProvCont, JLabel lblCliCont, JLabel lblEmpCont, JLabel lblInvCont, JLabel lblCompraCont, JLabel lblCantVendida, JLabel lblJuegoMasVen, JLabel lblJuegoMenosVen, JLabel lblJuegoMasVend, JLabel lblJuegoMenosVend, JLabel lblTiendaMasVentas, JLabel lblTiendaMenosVentas, JLabel lblEmpMasAtenciones, JLabel lblEmpMejorSueldo, JLabel lblMejorCliente, JLabel lblProvMasActivo, JLabel stock1, JLabel stock2, JLabel stock3) {
+    public void setValuesGen(JLabel lblJuegoMasVenCant, JLabel lblJuegoMenosVenCant, JLabel lblVidCont, JLabel lblTienCont, JLabel lblProvCont, JLabel lblCliCont, JLabel lblEmpCont, JLabel lblInvCont, JLabel lblCompraCont, JLabel lblCantVendida, JLabel lblJuegoMasVen, JLabel lblJuegoMenosVen, JLabel lblJuegoMasVend, JLabel lblJuegoMenosVend, JLabel lblTiendaMasVentas, JLabel lblTiendaMenosVentas, JLabel lblEmpMasAtenciones, JLabel lblEmpMejorSueldo, JLabel lblMejorCliente, JLabel lblProvMasActivo, JLabel stock1, JLabel stock2, JLabel stock3) {
         this.lblVidCont = lblVidCont;
         this.lblTienCont = lblTienCont;
         this.lblProvCont = lblProvCont;
@@ -75,6 +75,8 @@ public class VentanaAltas extends javax.swing.JFrame {
         this.lblEmpMejorSueldo = lblEmpMejorSueldo;
         this.lblMejorCliente = lblMejorCliente;
         this.lblProvMasActivo = lblProvMasActivo;
+        this.lblJuegoMasVenCant = lblJuegoMasVenCant;
+        this.lblJuegoMenosVenCant = lblJuegoMenosVenCant;
         this.stock1 = stock1;
         this.stock2 = stock2;
         this.stock3 = stock3;
@@ -133,26 +135,26 @@ public class VentanaAltas extends javax.swing.JFrame {
     }
 
     public void cargarDatosGenerales() {
-        obCons.consultarDatoGeneral("videojuegos", lblVidCont);
-        obCons.consultarDatoGeneral("tiendas", lblTienCont);
-        obCons.consultarDatoGeneral("proveedores", lblProvCont);
-        obCons.consultarDatoGeneral("clientes", lblCliCont);
-        obCons.consultarDatoGeneral("empleados", lblEmpCont);
-        obCons.consultarDatoGeneral("inventario", lblInvCont);
-        obCons.consultarDatoGeneral("compra", lblCompraCont);
-        obCons.consultarDatoGeneral("ventas", lblCantVendida);
-        obCons.consultarDatoGeneral("mas vendido", lblJuegoMasVen);
-        obCons.consultarDatoGeneral("menos vendido", lblJuegoMenosVen);
-        obCons.consultarDatoGeneral("mas vendido1", lblJuegoMasVend);
-        obCons.consultarDatoGeneral("menos vendido1", lblJuegoMenosVend);
-        obCons.consultarDatoGeneral("mas ventas", lblTiendaMasVentas);
-        obCons.consultarDatoGeneral("menos ventas", lblTiendaMenosVentas);
-        obCons.consultarDatoGeneral("mas atento", lblEmpMasAtenciones);
-        obCons.consultarDatoGeneral("mejor sueldo", lblEmpMejorSueldo);
-        obCons.consultarDatoGeneral("mejor cliente", lblMejorCliente);
-        obCons.consultarDatoGeneral("mas activo", lblProvMasActivo);
+        obCons.consultarDatoGeneral("videojuegos", lblVidCont, null);
+        obCons.consultarDatoGeneral("tiendas", lblTienCont, null);
+        obCons.consultarDatoGeneral("proveedores", lblProvCont, null);
+        obCons.consultarDatoGeneral("clientes", lblCliCont, null);
+        obCons.consultarDatoGeneral("empleados", lblEmpCont, null);
+        obCons.consultarDatoGeneral("inventario", lblInvCont, null);
+        obCons.consultarDatoGeneral("compra", lblCompraCont, null);
+        obCons.consultarDatoGeneral("ventas", lblCantVendida, null);
+        obCons.consultarDatoGeneral("mas vendido", lblJuegoMasVen, lblJuegoMasVenCant);
+        obCons.consultarDatoGeneral("menos vendido", lblJuegoMenosVen, lblJuegoMenosVenCant);
+        obCons.consultarDatoGeneral("mas vendido1", lblJuegoMasVend, null);
+        obCons.consultarDatoGeneral("menos vendido1", lblJuegoMenosVend, null);
+        obCons.consultarDatoGeneral("mas ventas", lblTiendaMasVentas, null);
+        obCons.consultarDatoGeneral("menos ventas", lblTiendaMenosVentas, null);
+        obCons.consultarDatoGeneral("mas atento", lblEmpMasAtenciones, null);
+        obCons.consultarDatoGeneral("mejor sueldo", lblEmpMejorSueldo, null);
+        obCons.consultarDatoGeneral("mejor cliente", lblMejorCliente, null);
+        obCons.consultarDatoGeneral("mas activo", lblProvMasActivo, null);
         obCons.setLablesInvStock(stock1, stock2, stock3);
-        obCons.consultarDatoGeneral("stock", null);
+        obCons.consultarDatoGeneral("stock", null, null);
     }
 
     public void actionListenerButtons() {
@@ -160,7 +162,7 @@ public class VentanaAltas extends javax.swing.JFrame {
             try {
                 String nombre = jTextField2.getText(),
                         categoria = jTextField3.getText();
-                int precio = Integer.parseInt(jTextField4.getText());
+                double precio = Double.parseDouble(jTextField4.getText());
                 sqlVideojuegos.insertVideojuego(new Videojuego(nombre, categoria, precio));
 
                 sqlVideojuegos.selectVideojuego();

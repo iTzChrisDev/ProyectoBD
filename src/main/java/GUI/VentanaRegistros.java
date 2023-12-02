@@ -16,12 +16,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.util.ArrayList;
-import java.util.regex.PatternSyntaxException;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
@@ -110,8 +107,8 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel25 = new javax.swing.JPanel();
         lblVideo = new javax.swing.JLabel();
         jPanel29 = new javax.swing.JPanel();
-        jLabel25 = new javax.swing.JLabel();
         lblVidCont = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
         panelRound29 = new CustomComponents.PanelRound();
         panelGradient11 = new CustomComponents.PanelGradient();
         jPanel30 = new javax.swing.JPanel();
@@ -131,15 +128,15 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel37 = new javax.swing.JPanel();
         lblClientes = new javax.swing.JLabel();
         jPanel38 = new javax.swing.JPanel();
-        jLabel35 = new javax.swing.JLabel();
         lblCliCont = new javax.swing.JLabel();
+        jLabel35 = new javax.swing.JLabel();
         panelRound36 = new CustomComponents.PanelRound();
         panelGradient15 = new CustomComponents.PanelGradient();
         jPanel39 = new javax.swing.JPanel();
         lblInv = new javax.swing.JLabel();
         jPanel43 = new javax.swing.JPanel();
-        jLabel37 = new javax.swing.JLabel();
         lblInvCont = new javax.swing.JLabel();
+        jLabel37 = new javax.swing.JLabel();
         jLabel53 = new javax.swing.JLabel();
         jPanel53 = new javax.swing.JPanel();
         panelRound18 = new CustomComponents.PanelRound();
@@ -148,22 +145,23 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel44 = new javax.swing.JPanel();
         lblVentas = new javax.swing.JLabel();
         jPanel45 = new javax.swing.JPanel();
-        jLabel45 = new javax.swing.JLabel();
         lblCompraCont = new javax.swing.JLabel();
+        jLabel45 = new javax.swing.JLabel();
         panelRound39 = new CustomComponents.PanelRound();
         panelGradient18 = new CustomComponents.PanelGradient();
         jPanel46 = new javax.swing.JPanel();
         lblIngresosVentas = new javax.swing.JLabel();
         jPanel47 = new javax.swing.JPanel();
-        jLabel47 = new javax.swing.JLabel();
         lblCantVendida = new javax.swing.JLabel();
+        jLabel47 = new javax.swing.JLabel();
         panelRound40 = new CustomComponents.PanelRound();
         panelGradient19 = new CustomComponents.PanelGradient();
         jPanel48 = new javax.swing.JPanel();
         lblMasVendido = new javax.swing.JLabel();
         jPanel49 = new javax.swing.JPanel();
-        jLabel49 = new javax.swing.JLabel();
         lblJuegoMasVen = new javax.swing.JLabel();
+        jLabel49 = new javax.swing.JLabel();
+        lblJuegoMasVenCant = new javax.swing.JLabel();
         panelRound41 = new CustomComponents.PanelRound();
         panelGradient20 = new CustomComponents.PanelGradient();
         jPanel50 = new javax.swing.JPanel();
@@ -171,6 +169,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel51 = new javax.swing.JPanel();
         jLabel51 = new javax.swing.JLabel();
         lblJuegoMenosVen = new javax.swing.JLabel();
+        lblJuegoMenosVenCant = new javax.swing.JLabel();
         jLabel54 = new javax.swing.JLabel();
         pnlVideojuegos = new javax.swing.JPanel();
         pnlOpcVideojuegos = new CustomComponents.PanelRound();
@@ -225,8 +224,8 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         lblTiendaMas = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
         lblTiendaMasVentas = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         panelRound11 = new CustomComponents.PanelRound();
         panelGradient5 = new CustomComponents.PanelGradient();
         jPanel15 = new javax.swing.JPanel();
@@ -400,6 +399,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel7.add(jPanel4);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(950, 700));
 
         jPanel1.setBackground(new java.awt.Color(20, 20, 20));
         jPanel1.setLayout(new java.awt.BorderLayout());
@@ -509,19 +509,19 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel29.setOpaque(false);
         jPanel29.setLayout(new java.awt.BorderLayout());
 
-        jLabel25.setBackground(new java.awt.Color(100, 100, 100));
-        jLabel25.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        jLabel25.setForeground(new java.awt.Color(130, 130, 130));
-        jLabel25.setText("Videojuegos");
-        jLabel25.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 0, 0));
-        jPanel29.add(jLabel25, java.awt.BorderLayout.NORTH);
-
         lblVidCont.setBackground(new java.awt.Color(25, 180, 98));
         lblVidCont.setFont(new java.awt.Font("Segoe UI", 1, 32)); // NOI18N
         lblVidCont.setForeground(new java.awt.Color(66, 189, 159));
         lblVidCont.setText("0");
         lblVidCont.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
         jPanel29.add(lblVidCont, java.awt.BorderLayout.CENTER);
+
+        jLabel25.setBackground(new java.awt.Color(100, 100, 100));
+        jLabel25.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jLabel25.setForeground(new java.awt.Color(130, 130, 130));
+        jLabel25.setText("Videojuegos");
+        jLabel25.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 0, 0));
+        jPanel29.add(jLabel25, java.awt.BorderLayout.NORTH);
 
         jPanel25.add(jPanel29, java.awt.BorderLayout.CENTER);
 
@@ -629,19 +629,19 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel38.setOpaque(false);
         jPanel38.setLayout(new java.awt.BorderLayout());
 
-        jLabel35.setBackground(new java.awt.Color(100, 100, 100));
-        jLabel35.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        jLabel35.setForeground(new java.awt.Color(120, 120, 120));
-        jLabel35.setText("Clientes");
-        jLabel35.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 0, 0));
-        jPanel38.add(jLabel35, java.awt.BorderLayout.NORTH);
-
         lblCliCont.setBackground(new java.awt.Color(25, 180, 98));
         lblCliCont.setFont(new java.awt.Font("Segoe UI", 1, 32)); // NOI18N
         lblCliCont.setForeground(new java.awt.Color(66, 189, 159));
         lblCliCont.setText("0");
         lblCliCont.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
         jPanel38.add(lblCliCont, java.awt.BorderLayout.CENTER);
+
+        jLabel35.setBackground(new java.awt.Color(100, 100, 100));
+        jLabel35.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jLabel35.setForeground(new java.awt.Color(120, 120, 120));
+        jLabel35.setText("Clientes");
+        jLabel35.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 0, 0));
+        jPanel38.add(jLabel35, java.awt.BorderLayout.NORTH);
 
         jPanel37.add(jPanel38, java.awt.BorderLayout.CENTER);
 
@@ -669,19 +669,19 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel43.setOpaque(false);
         jPanel43.setLayout(new java.awt.BorderLayout());
 
-        jLabel37.setBackground(new java.awt.Color(100, 100, 100));
-        jLabel37.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        jLabel37.setForeground(new java.awt.Color(120, 120, 120));
-        jLabel37.setText("Inventario");
-        jLabel37.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 0, 0));
-        jPanel43.add(jLabel37, java.awt.BorderLayout.NORTH);
-
         lblInvCont.setBackground(new java.awt.Color(25, 180, 98));
         lblInvCont.setFont(new java.awt.Font("Segoe UI", 1, 32)); // NOI18N
         lblInvCont.setForeground(new java.awt.Color(66, 189, 159));
         lblInvCont.setText("0");
         lblInvCont.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
         jPanel43.add(lblInvCont, java.awt.BorderLayout.CENTER);
+
+        jLabel37.setBackground(new java.awt.Color(100, 100, 100));
+        jLabel37.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jLabel37.setForeground(new java.awt.Color(120, 120, 120));
+        jLabel37.setText("Inventario");
+        jLabel37.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 0, 0));
+        jPanel43.add(jLabel37, java.awt.BorderLayout.NORTH);
 
         jPanel39.add(jPanel43, java.awt.BorderLayout.CENTER);
 
@@ -730,19 +730,19 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel45.setOpaque(false);
         jPanel45.setLayout(new java.awt.BorderLayout());
 
-        jLabel45.setBackground(new java.awt.Color(100, 100, 100));
-        jLabel45.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        jLabel45.setForeground(new java.awt.Color(130, 130, 130));
-        jLabel45.setText("Ventas");
-        jLabel45.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 0, 0));
-        jPanel45.add(jLabel45, java.awt.BorderLayout.NORTH);
-
         lblCompraCont.setBackground(new java.awt.Color(25, 180, 98));
         lblCompraCont.setFont(new java.awt.Font("Segoe UI", 1, 32)); // NOI18N
         lblCompraCont.setForeground(new java.awt.Color(220, 142, 61));
         lblCompraCont.setText("0");
         lblCompraCont.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
         jPanel45.add(lblCompraCont, java.awt.BorderLayout.CENTER);
+
+        jLabel45.setBackground(new java.awt.Color(100, 100, 100));
+        jLabel45.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jLabel45.setForeground(new java.awt.Color(130, 130, 130));
+        jLabel45.setText("Ventas");
+        jLabel45.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 0, 0));
+        jPanel45.add(jLabel45, java.awt.BorderLayout.NORTH);
 
         jPanel44.add(jPanel45, java.awt.BorderLayout.CENTER);
 
@@ -770,19 +770,19 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel47.setOpaque(false);
         jPanel47.setLayout(new java.awt.BorderLayout());
 
-        jLabel47.setBackground(new java.awt.Color(100, 100, 100));
-        jLabel47.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        jLabel47.setForeground(new java.awt.Color(130, 130, 130));
-        jLabel47.setText("Ingresos Mensuales");
-        jLabel47.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 0, 0));
-        jPanel47.add(jLabel47, java.awt.BorderLayout.NORTH);
-
         lblCantVendida.setBackground(new java.awt.Color(25, 180, 98));
         lblCantVendida.setFont(new java.awt.Font("Segoe UI", 1, 32)); // NOI18N
         lblCantVendida.setForeground(new java.awt.Color(246, 205, 61));
         lblCantVendida.setText("$0");
         lblCantVendida.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
         jPanel47.add(lblCantVendida, java.awt.BorderLayout.CENTER);
+
+        jLabel47.setBackground(new java.awt.Color(100, 100, 100));
+        jLabel47.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jLabel47.setForeground(new java.awt.Color(130, 130, 130));
+        jLabel47.setText("Ingresos Mensuales");
+        jLabel47.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 0, 0));
+        jPanel47.add(jLabel47, java.awt.BorderLayout.NORTH);
 
         jPanel46.add(jPanel47, java.awt.BorderLayout.CENTER);
 
@@ -810,6 +810,13 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel49.setOpaque(false);
         jPanel49.setLayout(new java.awt.BorderLayout());
 
+        lblJuegoMasVen.setBackground(new java.awt.Color(25, 180, 98));
+        lblJuegoMasVen.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblJuegoMasVen.setForeground(new java.awt.Color(25, 180, 98));
+        lblJuegoMasVen.setText("null");
+        lblJuegoMasVen.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
+        jPanel49.add(lblJuegoMasVen, java.awt.BorderLayout.CENTER);
+
         jLabel49.setBackground(new java.awt.Color(100, 100, 100));
         jLabel49.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         jLabel49.setForeground(new java.awt.Color(130, 130, 130));
@@ -817,12 +824,12 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jLabel49.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 0, 0));
         jPanel49.add(jLabel49, java.awt.BorderLayout.NORTH);
 
-        lblJuegoMasVen.setBackground(new java.awt.Color(25, 180, 98));
-        lblJuegoMasVen.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        lblJuegoMasVen.setForeground(new java.awt.Color(25, 180, 98));
-        lblJuegoMasVen.setText("null");
-        lblJuegoMasVen.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
-        jPanel49.add(lblJuegoMasVen, java.awt.BorderLayout.CENTER);
+        lblJuegoMasVenCant.setBackground(new java.awt.Color(15, 15, 15));
+        lblJuegoMasVenCant.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblJuegoMasVenCant.setForeground(new java.awt.Color(200, 200, 200));
+        lblJuegoMasVenCant.setText("null");
+        lblJuegoMasVenCant.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
+        jPanel49.add(lblJuegoMasVenCant, java.awt.BorderLayout.SOUTH);
 
         jPanel48.add(jPanel49, java.awt.BorderLayout.CENTER);
 
@@ -858,11 +865,18 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel51.add(jLabel51, java.awt.BorderLayout.NORTH);
 
         lblJuegoMenosVen.setBackground(new java.awt.Color(25, 180, 98));
-        lblJuegoMenosVen.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblJuegoMenosVen.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblJuegoMenosVen.setForeground(new java.awt.Color(247, 81, 101));
         lblJuegoMenosVen.setText("null");
         lblJuegoMenosVen.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
         jPanel51.add(lblJuegoMenosVen, java.awt.BorderLayout.CENTER);
+
+        lblJuegoMenosVenCant.setBackground(new java.awt.Color(15, 15, 15));
+        lblJuegoMenosVenCant.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblJuegoMenosVenCant.setForeground(new java.awt.Color(200, 200, 200));
+        lblJuegoMenosVenCant.setText("null");
+        lblJuegoMenosVenCant.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
+        jPanel51.add(lblJuegoMenosVenCant, java.awt.BorderLayout.SOUTH);
 
         jPanel50.add(jPanel51, java.awt.BorderLayout.CENTER);
 
@@ -939,7 +953,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel9.add(jLabel10, java.awt.BorderLayout.NORTH);
 
         lblCatPopular.setBackground(new java.awt.Color(25, 180, 98));
-        lblCatPopular.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblCatPopular.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblCatPopular.setForeground(new java.awt.Color(66, 189, 159));
         lblCatPopular.setText("Aventura");
         lblCatPopular.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
@@ -979,7 +993,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel11.add(jLabel12, java.awt.BorderLayout.NORTH);
 
         lblJuegoMasVend.setBackground(new java.awt.Color(25, 180, 98));
-        lblJuegoMasVend.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblJuegoMasVend.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblJuegoMasVend.setForeground(new java.awt.Color(66, 189, 159));
         lblJuegoMasVend.setText("GTA V");
         lblJuegoMasVend.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
@@ -1019,7 +1033,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel13.add(jLabel15, java.awt.BorderLayout.NORTH);
 
         lblJuegoMenosVend.setBackground(new java.awt.Color(25, 180, 98));
-        lblJuegoMenosVend.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblJuegoMenosVend.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblJuegoMenosVend.setForeground(new java.awt.Color(66, 189, 159));
         lblJuegoMenosVend.setText("RD2");
         lblJuegoMenosVend.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
@@ -1209,19 +1223,19 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel14.setOpaque(false);
         jPanel14.setLayout(new java.awt.BorderLayout());
 
+        lblTiendaMasVentas.setBackground(new java.awt.Color(25, 180, 98));
+        lblTiendaMasVentas.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblTiendaMasVentas.setForeground(new java.awt.Color(66, 189, 159));
+        lblTiendaMasVentas.setText("GameStore");
+        lblTiendaMasVentas.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
+        jPanel14.add(lblTiendaMasVentas, java.awt.BorderLayout.CENTER);
+
         jLabel11.setBackground(new java.awt.Color(100, 100, 100));
         jLabel11.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(120, 120, 120));
         jLabel11.setText("Tienda con + ventas");
         jLabel11.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 0, 0));
         jPanel14.add(jLabel11, java.awt.BorderLayout.NORTH);
-
-        lblTiendaMasVentas.setBackground(new java.awt.Color(25, 180, 98));
-        lblTiendaMasVentas.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        lblTiendaMasVentas.setForeground(new java.awt.Color(66, 189, 159));
-        lblTiendaMasVentas.setText("GameStore");
-        lblTiendaMasVentas.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
-        jPanel14.add(lblTiendaMasVentas, java.awt.BorderLayout.CENTER);
 
         jPanel8.add(jPanel14, java.awt.BorderLayout.CENTER);
 
@@ -1257,7 +1271,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel16.add(jLabel17, java.awt.BorderLayout.NORTH);
 
         lblTiendaMenosVentas.setBackground(new java.awt.Color(25, 180, 98));
-        lblTiendaMenosVentas.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblTiendaMenosVentas.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblTiendaMenosVentas.setForeground(new java.awt.Color(66, 189, 159));
         lblTiendaMenosVentas.setText("GamePlanet");
         lblTiendaMenosVentas.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
@@ -1455,7 +1469,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel21.add(jLabel21, java.awt.BorderLayout.NORTH);
 
         lblEmpMejorSueldo.setBackground(new java.awt.Color(25, 180, 98));
-        lblEmpMejorSueldo.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblEmpMejorSueldo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblEmpMejorSueldo.setForeground(new java.awt.Color(66, 189, 159));
         lblEmpMejorSueldo.setText("Arturo");
         lblEmpMejorSueldo.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
@@ -1495,7 +1509,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel23.add(jLabel23, java.awt.BorderLayout.NORTH);
 
         lblEmpMasAtenciones.setBackground(new java.awt.Color(25, 180, 98));
-        lblEmpMasAtenciones.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblEmpMasAtenciones.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblEmpMasAtenciones.setForeground(new java.awt.Color(66, 189, 159));
         lblEmpMasAtenciones.setText("Rodrigo");
         lblEmpMasAtenciones.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
@@ -1693,7 +1707,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel28.add(jLabel27, java.awt.BorderLayout.NORTH);
 
         lblMejorCliente.setBackground(new java.awt.Color(25, 180, 98));
-        lblMejorCliente.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblMejorCliente.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblMejorCliente.setForeground(new java.awt.Color(66, 189, 159));
         lblMejorCliente.setText("Pedro");
         lblMejorCliente.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
@@ -1891,7 +1905,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel35.add(jLabel33, java.awt.BorderLayout.NORTH);
 
         lblProvMasActivo.setBackground(new java.awt.Color(25, 180, 98));
-        lblProvMasActivo.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblProvMasActivo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblProvMasActivo.setForeground(new java.awt.Color(66, 189, 159));
         lblProvMasActivo.setText("DeliveryCarr");
         lblProvMasActivo.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
@@ -2270,7 +2284,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 910, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2281,26 +2295,26 @@ public class VentanaRegistros extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public void cargarDatosGenerales() {
-        obCons.consultarDatoGeneral("videojuegos", lblVidCont);
-        obCons.consultarDatoGeneral("tiendas", lblTienCont);
-        obCons.consultarDatoGeneral("proveedores", lblProvCont);
-        obCons.consultarDatoGeneral("clientes", lblCliCont);
-        obCons.consultarDatoGeneral("empleados", lblEmpCont);
-        obCons.consultarDatoGeneral("inventario", lblInvCont);
-        obCons.consultarDatoGeneral("compra", lblCompraCont);
-        obCons.consultarDatoGeneral("ventas", lblCantVendida);
-        obCons.consultarDatoGeneral("mas vendido", lblJuegoMasVen);
-        obCons.consultarDatoGeneral("menos vendido", lblJuegoMenosVen);
-        obCons.consultarDatoGeneral("mas vendido1", lblJuegoMasVend);
-        obCons.consultarDatoGeneral("menos vendido1", lblJuegoMenosVend);
-        obCons.consultarDatoGeneral("mas ventas", lblTiendaMasVentas);
-        obCons.consultarDatoGeneral("menos ventas", lblTiendaMenosVentas);
-        obCons.consultarDatoGeneral("mas atento", lblEmpMasAtenciones);
-        obCons.consultarDatoGeneral("mejor sueldo", lblEmpMejorSueldo);
-        obCons.consultarDatoGeneral("mejor cliente", lblMejorCliente);
-        obCons.consultarDatoGeneral("mas activo", lblProvMasActivo);
+        obCons.consultarDatoGeneral("videojuegos", lblVidCont, null);
+        obCons.consultarDatoGeneral("tiendas", lblTienCont, null);
+        obCons.consultarDatoGeneral("proveedores", lblProvCont, null);
+        obCons.consultarDatoGeneral("clientes", lblCliCont, null);
+        obCons.consultarDatoGeneral("empleados", lblEmpCont, null);
+        obCons.consultarDatoGeneral("inventario", lblInvCont, null);
+        obCons.consultarDatoGeneral("compra", lblCompraCont, null);
+        obCons.consultarDatoGeneral("ventas", lblCantVendida, null);
+        obCons.consultarDatoGeneral("mas vendido", lblJuegoMasVen, lblJuegoMasVenCant);
+        obCons.consultarDatoGeneral("menos vendido", lblJuegoMenosVen, lblJuegoMenosVenCant);
+        obCons.consultarDatoGeneral("mas vendido1", lblJuegoMasVend, null);
+        obCons.consultarDatoGeneral("menos vendido1", lblJuegoMenosVend, null);
+        obCons.consultarDatoGeneral("mas ventas", lblTiendaMasVentas, null);
+        obCons.consultarDatoGeneral("menos ventas", lblTiendaMenosVentas, null);
+        obCons.consultarDatoGeneral("mas atento", lblEmpMasAtenciones, null);
+        obCons.consultarDatoGeneral("mejor sueldo", lblEmpMejorSueldo, null);
+        obCons.consultarDatoGeneral("mejor cliente", lblMejorCliente, null);
+        obCons.consultarDatoGeneral("mas activo", lblProvMasActivo, null);
         obCons.setLablesInvStock(jLabel40, jLabel41, jLabel42);
-        obCons.consultarDatoGeneral("stock", null);
+        obCons.consultarDatoGeneral("stock", null, null);
         sqlVideojuegos.selectVideojuego();
         obI.llenarTablaVideojuegos(tbVideojuegos, sqlVideojuegos.getData());
 
@@ -2707,7 +2721,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
             alta.setStr("altaVideojuegos", "Videojuegos", "./src/main/java/Resources/selectedGames.png");
             alta.setTitle("Agregar videojuego");
             alta.setTbVideojuegos(tbVideojuegos);
-            alta.setValuesGen(lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
+            alta.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
             alta.setVisible(true);
         });
 
@@ -2716,7 +2730,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
             alta2.setStr("altaTiendas", "Tiendas", "./src/main/java/Resources/selectedTienda.png");
             alta2.setTitle("Agregar tienda");
             alta2.setTbTiendas(tbTiendas);
-            alta2.setValuesGen(lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
+            alta2.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
             alta2.setVisible(true);
         });
 
@@ -2725,7 +2739,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
             alta3.setStr("altaEmpleados", "Empleados", "./src/main/java/Resources/selectedEmp.png");
             alta3.setTitle("Agregar empleado");
             alta3.setTbEmpleados(tbEmp);
-            alta3.setValuesGen(lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
+            alta3.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
             alta3.setVisible(true);
         });
 
@@ -2734,7 +2748,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
             alta4.setStr("altaClientes", "Clientes", "./src/main/java/Resources/selectedCliente.png");
             alta4.setTitle("Agregar cliente");
             alta4.setTbClientes(tbClientes);
-            alta4.setValuesGen(lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
+            alta4.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
             alta4.setVisible(true);
         });
 
@@ -2743,7 +2757,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
             alta5.setStr("altaProveedores", "Proveedores", "./src/main/java/Resources/selectedProv.png");
             alta5.setTitle("Agregar proveedor");
             alta5.setTbProveedores(tbProv);
-            alta5.setValuesGen(lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
+            alta5.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
             alta5.setVisible(true);
         });
 
@@ -2752,7 +2766,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
             alta6.setStr("altaInventario", "Inventario", "./src/main/java/Resources/selectedInv.png");
             alta6.setTitle("Agregar videojuegos al inventario");
             alta6.setTbInventario(tbInv);
-            alta6.setValuesGen(lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
+            alta6.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
             alta6.setVisible(true);
         });
 
@@ -2866,7 +2880,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
                         break;
                     }
                 }
-                actu.setValuesGen(lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
+                actu.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
                 actu.setStr("altaVideojuegos", "Videojuegos", "./src/main/java/Resources/selectedGames.png");
                 actu.setVisible(true);
             } else {
@@ -2891,7 +2905,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
                     }
                 }
                 actu2.setStr("altaTiendas", "Tiendas", "./src/main/java/Resources/selectedTienda.png");
-                actu2.setValuesGen(lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
+                actu2.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
                 actu2.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -2917,7 +2931,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
                 }
 
                 actu3.setStr("altaProveedores", "Proveedores", "./src/main/java/Resources/selectedProv.png");
-                actu3.setValuesGen(lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
+                actu3.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
                 actu3.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -2944,7 +2958,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
                     }
                 }
                 actu4.setStr("altaInventario", "Inventario", "./src/main/java/Resources/selectedInv.png");
-                actu4.setValuesGen(lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
+                actu4.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
                 actu4.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -2969,7 +2983,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
                 }
 
                 actu5.setStr("altaEmpleados", "Empleados", "./src/main/java/Resources/selectedEmp.png");
-                actu5.setValuesGen(lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
+                actu5.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
                 actu5.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -2994,7 +3008,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
                 }
 
                 actu6.setStr("altaClientes", "Clientes", "./src/main/java/Resources/selectedCliente.png");
-                actu6.setValuesGen(lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
+                actu6.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
                 actu6.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -3436,8 +3450,10 @@ public class VentanaRegistros extends javax.swing.JFrame {
     private javax.swing.JLabel lblInvCont;
     private javax.swing.JLabel lblInvStock;
     private javax.swing.JLabel lblJuegoMasVen;
+    private javax.swing.JLabel lblJuegoMasVenCant;
     private javax.swing.JLabel lblJuegoMasVend;
     private javax.swing.JLabel lblJuegoMenosVen;
+    private javax.swing.JLabel lblJuegoMenosVenCant;
     private javax.swing.JLabel lblJuegoMenosVend;
     private javax.swing.JLabel lblMasVend;
     private javax.swing.JLabel lblMasVendido;

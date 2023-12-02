@@ -32,9 +32,9 @@ public class CRUDEmpleados {
     
     public void selectEmpleado() {
         try {
-            query = "SELECT e.id_empleado, ti.id_tiendas, e.Nombre, e.ApellidoP, e.ApellidoM, e.NSS, e.Fecha_Nacimiento, e.CURP, e.Telefono, e.Domicilio, e.Sueldo, ti.Nombre AS Tienda, t.Hora_Entrada, t.Hora_Salida, t.Turno FROM empleados AS e \n"
+            query = "SELECT e.id_empleado, ti.id_tienda, e.Nombre, e.ApellidoP, e.ApellidoM, e.NSS, e.Fecha_Nacimiento, e.CURP, e.Telefono, e.Domicilio, e.Sueldo, ti.Nombre AS Tienda, t.Hora_Entrada, t.Hora_Salida, t.Turno FROM empleados AS e \n"
                     + "INNER JOIN trabaja AS t ON e.id_empleado = t.id_empleado\n"
-                    + "INNER JOIN tiendas AS ti ON ti.id_tiendas = t.id_tiendas\n"
+                    + "INNER JOIN tiendas AS ti ON ti.id_tienda = t.id_tienda\n"
                     + "ORDER BY e.id_empleado ASC;";
             pstm = obC.setConnection().prepareStatement(query);
             output = pstm.executeQuery();

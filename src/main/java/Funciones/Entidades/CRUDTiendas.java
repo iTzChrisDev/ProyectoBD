@@ -28,7 +28,7 @@ public class CRUDTiendas {
             output = pstm.executeQuery();
 
             while (output.next()) {
-                int id = output.getInt("id_tiendas");
+                int id = output.getInt("id_tienda");
                 String nombre = output.getString("Nombre");
                 String domicilio = output.getString("Domicilio");
 
@@ -69,7 +69,7 @@ public class CRUDTiendas {
 
     public void updateTienda(int id, Tienda obT) {
         try {
-            query = "UPDATE tiendas SET Nombre = ?, Domicilio = ? WHERE id_tiendas = ?";
+            query = "UPDATE tiendas SET Nombre = ?, Domicilio = ? WHERE id_tienda = ?";
             pstm = obC.setConnection().prepareStatement(query);
             pstm.setString(1, obT.getNombre());
             pstm.setString(2, obT.getDomicilio());
@@ -90,7 +90,7 @@ public class CRUDTiendas {
 
     public void deleteTienda(int id) {
         try {
-            query = "DELETE FROM tiendas WHERE id_tiendas = ?";
+            query = "DELETE FROM tiendas WHERE id_tienda = ?";
             pstm = obC.setConnection().prepareStatement(query);
             pstm.setInt(1, id);
             pstm.executeUpdate();
