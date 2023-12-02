@@ -1,5 +1,6 @@
 package TDA.Entidades;
 
+import java.sql.Date;
 import java.sql.Time;
 
 public class Empleado {
@@ -10,7 +11,7 @@ public class Empleado {
     private String ApellidoM;
     private String NSS;
     private String CURP;
-    private String fechaNacimiento;
+    private Date fechaNacimiento;
     private int telefono;
     private String domicilio;
     private int sueldo;
@@ -18,7 +19,7 @@ public class Empleado {
     private Time hrEntrada, hrSalida;
     private String turno;
     
-    public Empleado(int id, String nombre, String ApellidoP, String ApellidoM, String NSS, String CURP, String fechaNacimiento, int telefono, String domicilio, int sueldo) {
+    public Empleado(int id, String nombre, String ApellidoP, String ApellidoM, String NSS, String CURP, Date fechaNacimiento, int telefono, String domicilio, int sueldo) {
         this.id = id;
         this.nombre = nombre;
         this.ApellidoP = ApellidoP;
@@ -31,7 +32,7 @@ public class Empleado {
         this.sueldo = sueldo;
     }
 
-    public Empleado(String nombre, String ApellidoP, String ApellidoM, String NSS, String CURP, String fechaNacimiento, int telefono, String domicilio, int sueldo) {
+    public Empleado(String nombre, String ApellidoP, String ApellidoM, String NSS, String CURP, Date fechaNacimiento, int telefono, String domicilio, int sueldo) {
         this.nombre = nombre;
         this.ApellidoP = ApellidoP;
         this.ApellidoM = ApellidoM;
@@ -43,7 +44,7 @@ public class Empleado {
         this.sueldo = sueldo;
     }
 
-    public Empleado(int id, String nombre, String ApellidoP, String ApellidoM, String NSS, String CURP, String fechaNacimiento, int telefono, String domicilio, int sueldo, String nombreTienda, Time hrEntrada, Time hrSalida, String turno) {
+    public Empleado(int id, String nombre, String ApellidoP, String ApellidoM, String NSS, String CURP, Date fechaNacimiento, int telefono, String domicilio, int sueldo, String nombreTienda, Time hrEntrada, Time hrSalida, String turno) {
         this.id = id;
         this.nombre = nombre;
         this.ApellidoP = ApellidoP;
@@ -140,11 +141,11 @@ public class Empleado {
         this.CURP = CURP;
     }
 
-    public String getFechaNacimiento() {
+    public Date getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(String fechaNacimiento) {
+    public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 

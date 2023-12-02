@@ -39,11 +39,11 @@ public class ConsultasGenerales {
     }
 
     /* 1 - Videojuegos
-               2 - Tiendas
-               3 - Proveedores
-               4 - Empleados
-               5 - Clientes
-               6 - Inventario*/
+       2 - Tiendas
+       3 - Proveedores
+       4 - Empleados
+       5 - Clientes
+       6 - Inventario*/
     public void buscarInformacion(String nombreTabla, String parametroBusqueda, int value) {
         CallableStatement stat = null;
         try {
@@ -53,26 +53,37 @@ public class ConsultasGenerales {
             stat.setString(2, parametroBusqueda);
 
             result = stat.executeQuery();
-            while (result.next()) {
-                switch (value) {
-                    case 1:
-                        dataVideojuego.add(new Videojuego(result.getInt("id_videojuego"), result.getString("Nombre"), result.getString("Categoria"), result.getInt("Precio")));
-                        break;
-                    case 2:
+
+            switch (value) {
+                case 1 -> {
+                    while (result.next()) {
+                        dataVideojuego.add(new Videojuego(result.getInt("id_videojuego"), result.getString("Nombre"), result.getString("Categoria"), result.getDouble("Precio")));
+                    }
+                }
+                case 2 -> {
+                    while (result.next()) {
                         dataTienda.add(new Tienda(result.getInt("id_tiendas"), result.getString("Nombre"), result.getString("Domicilio")));
-                        break;
-                    case 3:
+                    }
+                }
+                case 3 -> {
+                    while (result.next()) {
                         dataProveedor.add(new Proveedor(result.getInt("id_proveedores"), result.getString("Nombre"), result.getInt("Telefono"), result.getString("Domicilio"), result.getString("Correo")));
-                        break;
-                    case 4:
-                        dataEmpleado.add(new Empleado(result.getInt("id_empleado"), result.getString("Nombre"), result.getString("ApellidoP"), result.getString("ApellidoM"), result.getString("NSS"), result.getString("Fecha_Nacimiento"), result.getString("CURP"), result.getInt("Telefono"), result.getString("Domicilio"), result.getInt("Sueldo")));
-                        break;
-                    case 5:
-                        dataCliente.add(new Cliente(result.getInt("id_clientes"), result.getString("Nombre"), result.getString("ApellidoP"), result.getString("ApellidoM"), result.getString("Fecha_Nacimiento"), result.getInt("Telefono"), result.getString("Domicilio"), result.getString("Correo")));
-                        break;
-                    case 6:
+                    }
+                }
+                case 4 -> {
+                    while (result.next()) {
+                        dataEmpleado.add(new Empleado(result.getInt("id_empleado"), result.getString("Nombre"), result.getString("ApellidoP"), result.getString("ApellidoM"), result.getString("NSS"), result.getString("CURP"), result.getDate("Fecha_Nacimiento"), result.getInt("Telefono"), result.getString("Domicilio"), result.getInt("Sueldo")));
+                    }
+                }
+                case 5 -> {
+                    while (result.next()) {
+                        dataCliente.add(new Cliente(result.getInt("id_clientes"), result.getString("Nombre"), result.getString("ApellidoP"), result.getString("ApellidoM"), result.getDate("Fecha_Nacimiento"), result.getInt("Telefono"), result.getString("Domicilio"), result.getString("Correo")));
+                    }
+                }
+                case 6 -> {
+                    while (result.next()) {
                         dataInventario.add(new Inventario(result.getInt("id_videojuego"), result.getInt("id_tiendas"), result.getInt("Stock")));
-                        break;
+                    }
                 }
             }
         } catch (SQLException ex) {

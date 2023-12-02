@@ -10,7 +10,7 @@ public class Conexion {
     Connection conection = null;
     String user = "root";
     String password = "/Chris200203"; 
-    String database = "gameshop";
+    String database = "gameshop_final";
     String ip = "localhost";
     String puerto = "3306";
 
@@ -20,7 +20,7 @@ public class Conexion {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conection = DriverManager.getConnection(dir, user, password);
-//            System.out.println("Conexion exitosa");
+            //System.out.println("Conexion exitosa");
         } catch (HeadlessException | ClassNotFoundException | SQLException e) {
             System.out.println("Conexion FALLIDA");
         }

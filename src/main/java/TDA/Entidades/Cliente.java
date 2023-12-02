@@ -1,16 +1,18 @@
 package TDA.Entidades;
 
+import java.sql.Date;
+
 public class Cliente {
     private int id;
     private String nombre;
     private String ApellidoP;
     private String ApellidoM;
-    private String fechaNacimiento;
+    private Date fechaNacimiento;
     private int telefono;
     private String domicilio;
     private String correo;
 
-    public Cliente(int id, String nombre, String ApellidoP, String ApellidoM, String fechaNacimiento, int telefono, String domicilio, String correo) {
+    public Cliente(int id, String nombre, String ApellidoP, String ApellidoM, Date fechaNacimiento, int telefono, String domicilio, String correo) {
         this.id = id;
         this.nombre = nombre;
         this.ApellidoP = ApellidoP;
@@ -21,7 +23,7 @@ public class Cliente {
         this.correo = correo;
     }
 
-    public Cliente(String nombre, String ApellidoP, String ApellidoM, String fechaNacimiento, int telefono, String domicilio, String correo) {
+    public Cliente(String nombre, String ApellidoP, String ApellidoM, Date fechaNacimiento, int telefono, String domicilio, String correo) {
         this.nombre = nombre;
         this.ApellidoP = ApellidoP;
         this.ApellidoM = ApellidoM;
@@ -63,11 +65,11 @@ public class Cliente {
         this.ApellidoM = ApellidoM;
     }
 
-    public String getFechaNacimiento() {
+    public Date getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(String fechaNacimiento) {
+    public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 

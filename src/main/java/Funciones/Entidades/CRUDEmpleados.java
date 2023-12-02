@@ -4,6 +4,7 @@ import ConexionBD.Conexion;
 import TDA.Entidades.Empleado;
 import TDA.Relaciones.Trabajo;
 import com.mysql.cj.jdbc.CallableStatement;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -44,7 +45,7 @@ public class CRUDEmpleados {
                 String apellidoP = output.getString("ApellidoP");
                 String apellidoM = output.getString("ApellidoM");
                 String nss = output.getString("NSS");
-                String fechaNacimiento = output.getString("Fecha_Nacimiento");
+                Date fechaNacimiento = output.getDate("Fecha_Nacimiento");
                 String curp = output.getString("CURP");
                 int telefono = output.getInt("Telefono");
                 String domicilio = output.getString("Domicilio");
@@ -78,7 +79,7 @@ public class CRUDEmpleados {
             stat.setString(2, obE.getApellidoP());
             stat.setString(3, obE.getApellidoM());
             stat.setString(4, obE.getNSS());
-            stat.setString(5, obE.getFechaNacimiento());
+            stat.setDate(5, obE.getFechaNacimiento());
             stat.setString(6, obE.getCURP());
             stat.setInt(7, obE.getTelefono());
             stat.setString(8, obE.getDomicilio());
@@ -111,7 +112,7 @@ public class CRUDEmpleados {
             stat.setString(3, obE.getApellidoP());
             stat.setString(4, obE.getApellidoM());
             stat.setString(5, obE.getNSS());
-            stat.setString(6, obE.getFechaNacimiento());
+            stat.setDate(6, obE.getFechaNacimiento());
             stat.setString(7, obE.getCURP());
             stat.setInt(8, obE.getTelefono());
             stat.setString(9, obE.getDomicilio());

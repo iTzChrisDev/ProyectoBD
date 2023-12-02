@@ -5,24 +5,19 @@ public class Videojuego {
     private int id;
     private String nombre;
     private String categoria;
-    private int precio;
+    private double precio;
 
-    public Videojuego(int id, String nombre, String categoria, int precio) {
+    public Videojuego(int id, String nombre, String categoria, double precio) {
         this.id = id;
         this.nombre = nombre;
         this.categoria = categoria;
         this.precio = precio;
     }
 
-    public Videojuego(String nombre, String categoria, int precio) {
+    public Videojuego(String nombre, String categoria, double precio) {
         this.nombre = nombre;
         this.categoria = categoria;
         this.precio = precio;
-    }
-
-    @Override
-    public String toString() {
-        return "Videojuego{" + "id=" + id + ", nombre=" + nombre + ", categoria=" + categoria + ", precio=" + precio + '}';
     }
 
     public int getId() {
@@ -49,11 +44,11 @@ public class Videojuego {
         this.categoria = categoria;
     }
 
-    public int getPrecio() {
+    public double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(int precio) {
+    public void setPrecio(double precio) {
         this.precio = precio;
     }
 

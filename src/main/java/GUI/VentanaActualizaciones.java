@@ -17,6 +17,7 @@ import TDA.Relaciones.Trabajo;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.sql.Date;
 import java.sql.Time;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -83,7 +84,7 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                 jTextField21.setText(empleado.getCURP());
                 jTextField24.setText(String.valueOf(empleado.getTelefono()));
                 jTextField43.setText(String.valueOf(empleado.getHrSalida().getHours()));
-                jTextField38.setText(empleado.getFechaNacimiento());
+                jTextField38.setText(empleado.getFechaNacimiento().toString());
                 jTextField40.setText(String.valueOf(empleado.getHrEntrada().getHours()));
                 jTextField16.setText(empleado.getApellidoP());
                 jTextField15.setText(empleado.getNSS());
@@ -105,7 +106,7 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                 break;
             case "altaClientes":
                 jTextField11.setText(cliente.getDomicilio());
-                jTextField28.setText(cliente.getFechaNacimiento());
+                jTextField28.setText(cliente.getFechaNacimiento().toString());
                 jTextField12.setText(cliente.getApellidoP());
                 jTextField27.setText(cliente.getTelefono());
                 jTextField25.setText(cliente.getApellidoM());
@@ -309,8 +310,8 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                 String ApellidoP = jTextField16.getText();
                 String ApellidoM = jTextField22.getText();
                 String NSS = jTextField15.getText();
-                String CURP = jTextField21.getText();;
-                String fechaNacimiento = jTextField38.getText();
+                String CURP = jTextField21.getText();
+                Date fechaNacimiento = null;//jTextField38.getText();
                 int telefono = Integer.parseInt(jTextField24.getText());
                 String domicilio = jTextField6.getText();
                 int sueldo = Integer.parseInt(jTextField39.getText());
@@ -342,12 +343,11 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
             try {
                 String nombre = jTextField9.getText(),
                         app = jTextField11.getText(),
-                        apm = jTextField25.getText(),
-                        fechaNac = jTextField28.getText(),
+                        apm = jTextField25.getText(),                        
                         domicilio = jTextField11.getText(),
                         correo = jTextField29.getText();
                 int telefono = Integer.parseInt(jTextField27.getText());
-
+                Date fechaNac = null;//jTextField28.getText();
                 sqlClientes.updateCliente(idCliente, new Cliente(nombre, app, apm, fechaNac, telefono, domicilio, correo));
                 sqlClientes.selectCliente();
                 obI.llenarTablaClientes(tbClientes, sqlClientes.getData());

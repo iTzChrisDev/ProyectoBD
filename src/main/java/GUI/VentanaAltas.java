@@ -17,6 +17,7 @@ import TDA.Relaciones.Trabajo;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.sql.Date;
 import java.sql.Time;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -245,7 +246,7 @@ public class VentanaAltas extends javax.swing.JFrame {
                 String ApellidoM = jTextField22.getText();
                 String NSS = jTextField15.getText();
                 String CURP = jTextField21.getText();;
-                String fechaNacimiento = jTextField38.getText();
+                Date fechaNacimiento = null; //new DatejTextField38.getText();
                 int telefono = Integer.parseInt(jTextField24.getText());
                 String domicilio = jTextField6.getText();
                 int sueldo = Integer.parseInt(jTextField39.getText());
@@ -277,12 +278,11 @@ public class VentanaAltas extends javax.swing.JFrame {
         btnGuardarClientes.addActionListener((e) -> {
             try {
                 String nombre = jTextField9.getText(),
-                        app = jTextField11.getText(),
-                        apm = jTextField25.getText(),
-                        fechaNac = jTextField28.getText(),
+                        app = jTextField11.getText(), apm = jTextField25.getText(),
                         domicilio = jTextField11.getText(),
                         correo = jTextField29.getText();
                 int telefono = Integer.parseInt(jTextField27.getText());
+                Date fechaNac = null; //jTextField28.getText();
                 sqlClientes.insertCliente(new Cliente(nombre, app, apm, fechaNac, telefono, domicilio, correo));
 
                 sqlClientes.selectCliente();

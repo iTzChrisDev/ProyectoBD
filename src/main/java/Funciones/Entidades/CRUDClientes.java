@@ -1,6 +1,7 @@
 package Funciones.Entidades;
 import ConexionBD.Conexion;
 import TDA.Entidades.Cliente;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,8 +26,6 @@ public class CRUDClientes {
         return data;
     }
 
-    
-    
     public void selectCliente() {
         try {
             query = "SELECT * FROM clientes;";
@@ -38,7 +37,7 @@ public class CRUDClientes {
                 String nombre = output.getString("Nombre");
                 String apellidoP = output.getString("ApellidoP");
                 String apellidoM = output.getString("ApellidoM");
-                String fechaNacimiento = output.getString("Fecha_Nacimiento");
+                Date fechaNacimiento = output.getDate("Fecha_Nacimiento");
                 int telefono = output.getInt("Telefono");
                 String domicilio = output.getString("Domicilio");
                 String correo = output.getString("Correo");
@@ -66,7 +65,7 @@ public class CRUDClientes {
             pstm.setString(1, obCli.getNombre());
             pstm.setString(2, obCli.getApellidoP());
             pstm.setString(3, obCli.getApellidoM());
-            pstm.setString(4, obCli.getFechaNacimiento());
+            pstm.setDate(4, obCli.getFechaNacimiento());
             pstm.setString(5, obCli.getTelefono());
             pstm.setString(6, obCli.getDomicilio());
             pstm.setString(7, obCli.getCorreo());
@@ -91,7 +90,7 @@ public class CRUDClientes {
             pstm.setString(1, obCli.getNombre());
             pstm.setString(2, obCli.getApellidoP());
             pstm.setString(3, obCli.getApellidoM());
-            pstm.setString(4, obCli.getFechaNacimiento());
+            pstm.setDate(4, obCli.getFechaNacimiento());
             pstm.setString(5, obCli.getTelefono());
             pstm.setString(6, obCli.getDomicilio());
             pstm.setString(7, obCli.getCorreo());

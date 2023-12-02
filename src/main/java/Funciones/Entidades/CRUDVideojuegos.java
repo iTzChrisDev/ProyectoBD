@@ -54,7 +54,7 @@ public class CRUDVideojuegos {
             query = "INSERT INTO videojuegos (Nombre, Precio, Categoria) VALUES (?, ?, ?);";
             pstm = obC.setConnection().prepareStatement(query);
             pstm.setString(1, obV.getNombre());
-            pstm.setInt(2, obV.getPrecio());
+            pstm.setDouble(2, obV.getPrecio());
             pstm.setString(3, obV.getCategoria());
             pstm.executeUpdate();
         } catch (SQLException ex) {
@@ -75,7 +75,7 @@ public class CRUDVideojuegos {
             query = "UPDATE videojuegos SET Nombre = ?, Precio = ?, Categoria = ? WHERE id_videojuego = ?";
             pstm = obC.setConnection().prepareStatement(query);
             pstm.setString(1, obV.getNombre());
-            pstm.setInt(2, obV.getPrecio());
+            pstm.setDouble(2, obV.getPrecio());
             pstm.setString(3, obV.getCategoria());
             pstm.setInt(4, id);
             pstm.executeUpdate();
