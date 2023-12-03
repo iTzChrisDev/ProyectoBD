@@ -1,10 +1,13 @@
 package Funciones.TablasListas;
 
+import Funciones.Entidades.CRUDClientes;
+import Funciones.Entidades.CRUDEmpleados;
+import Funciones.Entidades.CRUDProveedores;
 import Funciones.Entidades.CRUDTiendas;
 import Funciones.Entidades.CRUDVideojuegos;
+import Funciones.Relaciones.CRUDInventario;
 import TDA.Entidades.*;
 import java.awt.Color;
-import java.util.ArrayList;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -14,7 +17,6 @@ import javax.swing.table.DefaultTableModel;
 
 public class LlenadoInformacion {
 
-    private DefaultTableModel tbModelVideojuegos, tbModelTiendas, tbModelProv, tbModelEmp, tbModelClientes, tbModelInv;
     private DefaultTableCellRenderer tcr;
 
     public LlenadoInformacion() {
@@ -43,14 +45,16 @@ public class LlenadoInformacion {
         }
     }
 
-    public void llenarTablaVideojuegos(JTable tabla, ArrayList<Videojuego> videojuegos) {
-        //System.out.println(videojuegos.size());
-        tbModelVideojuegos = new DefaultTableModel() {
+    public void llenarTablaVideojuegos(JTable tabla) {
+        DefaultTableModel tbModelVideojuegos = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
+        tbModelVideojuegos.setRowCount(0);
+        CRUDVideojuegos obV = new CRUDVideojuegos();
+        obV.selectVideojuego();
 
         tbModelVideojuegos.addColumn("ID");
         tbModelVideojuegos.addColumn("Nombre");
@@ -58,7 +62,7 @@ public class LlenadoInformacion {
         tbModelVideojuegos.addColumn("Precio");
 
         Object[] row = new Object[4];
-        for (Videojuego v : videojuegos) {
+        for (Videojuego v : obV.getData()) {
             row[0] = v.getId();
             row[1] = v.getNombre();
             row[2] = v.getCategoria();
@@ -71,23 +75,25 @@ public class LlenadoInformacion {
             tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
         }
         tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        videojuegos.clear();
     }
 
-    public void llenarTablaTiendas(JTable tabla, ArrayList<Tienda> tiendas) {
-        tbModelTiendas = new DefaultTableModel() {
+    public void llenarTablaTiendas(JTable tabla) {
+        DefaultTableModel tbModelTiendas = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
+        tbModelTiendas.setRowCount(0);
+        CRUDTiendas obT = new CRUDTiendas();
+        obT.selectTienda();
 
         tbModelTiendas.addColumn("ID");
         tbModelTiendas.addColumn("Nombre");
         tbModelTiendas.addColumn("Domicilio");
 
         Object[] row = new Object[3];
-        for (Tienda t : tiendas) {
+        for (Tienda t : obT.getData()) {
             row[0] = t.getId();
             row[1] = t.getNombre();
             row[2] = t.getDomicilio();
@@ -99,16 +105,18 @@ public class LlenadoInformacion {
             tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
         }
         tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        tiendas.clear();
     }
 
-    public void llenarTablaProveedores(JTable tabla, ArrayList<Proveedor> proveedores) {
-        tbModelProv = new DefaultTableModel() {
+    public void llenarTablaProveedores(JTable tabla) {
+        DefaultTableModel tbModelProv = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
+        tbModelProv.setRowCount(0);
+        CRUDProveedores obP = new CRUDProveedores();
+        obP.selectProveedor();
 
         tbModelProv.addColumn("ID");
         tbModelProv.addColumn("Nombre");
@@ -117,7 +125,7 @@ public class LlenadoInformacion {
         tbModelProv.addColumn("Correo");
 
         Object[] row = new Object[5];
-        for (Proveedor p : proveedores) {
+        for (Proveedor p : obP.getData()) {
             row[0] = p.getId();
             row[1] = p.getNombre();
             row[2] = p.getTelefono();
@@ -131,16 +139,18 @@ public class LlenadoInformacion {
             tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
         }
         tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        proveedores.clear();
     }
 
-    public void llenarTablaEmpleados(JTable tabla, ArrayList<Empleado> empleados) {
-        tbModelEmp = new DefaultTableModel() {
+    public void llenarTablaEmpleados(JTable tabla) {
+        DefaultTableModel tbModelEmp = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
+        tbModelEmp.setRowCount(0);
+        CRUDEmpleados obE = new CRUDEmpleados();
+        obE.selectEmpleado();
 
         tbModelEmp.addColumn("ID");
         tbModelEmp.addColumn("Nombre");
@@ -158,7 +168,7 @@ public class LlenadoInformacion {
         tbModelEmp.addColumn("Turno");
 
         Object[] row = new Object[14];
-        for (Empleado e : empleados) {
+        for (Empleado e : obE.getDataEmpleado()) {
             row[0] = e.getId();
             row[1] = e.getNombre();
             row[2] = e.getApellidoP();
@@ -181,16 +191,18 @@ public class LlenadoInformacion {
             tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
         }
         tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        empleados.clear();
     }
 
-    public void llenarTablaClientes(JTable tabla, ArrayList<Cliente> clientes) {
-        tbModelClientes = new DefaultTableModel() {
+    public void llenarTablaClientes(JTable tabla) {
+        DefaultTableModel tbModelClientes = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
+        tbModelClientes.setRowCount(0);
+        CRUDClientes obC = new CRUDClientes();
+        obC.selectCliente();
 
         tbModelClientes.addColumn("ID");
         tbModelClientes.addColumn("Nombre");
@@ -202,7 +214,7 @@ public class LlenadoInformacion {
         tbModelClientes.addColumn("Correo");
 
         Object[] row = new Object[8];
-        for (Cliente c : clientes) {
+        for (Cliente c : obC.getData()) {
             row[0] = c.getId();
             row[1] = c.getNombre();
             row[2] = c.getApellidoP();
@@ -219,16 +231,19 @@ public class LlenadoInformacion {
             tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
         }
         tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        clientes.clear();
     }
 
-    public void llenarTablaInventario(JTable tabla, ArrayList<String[]> inventario) {
-        tbModelInv = new DefaultTableModel() {
+    public void llenarTablaInventario(JTable tabla) {
+        DefaultTableModel tbModelInv = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
+        tbModelInv.setRowCount(0);
+        CRUDInventario obI = new CRUDInventario();
+        obI.selectInventarioTable();
+        
         tbModelInv.addColumn("ID_Videojuego");
         tbModelInv.addColumn("Videojuego");
         tbModelInv.addColumn("ID_Tienda");
@@ -236,12 +251,12 @@ public class LlenadoInformacion {
         tbModelInv.addColumn("Stock");
 
         Object[] row = new Object[5];
-        for (int i = 0; i < inventario.size(); i++) {
-            row[0] = inventario.get(i)[3];
-            row[1] = inventario.get(i)[0];
-            row[2] = inventario.get(i)[4];
-            row[3] = inventario.get(i)[1];
-            row[4] = inventario.get(i)[2];
+        for (int i = 0; i < obI.getDataTable().size(); i++) {
+            row[0] = obI.getDataTable().get(i)[3];
+            row[1] = obI.getDataTable().get(i)[0];
+            row[2] = obI.getDataTable().get(i)[4];
+            row[3] = obI.getDataTable().get(i)[1];
+            row[4] = obI.getDataTable().get(i)[2];
 
             tbModelInv.addRow(row);
         }
@@ -250,7 +265,6 @@ public class LlenadoInformacion {
             tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
         }
         tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        inventario.clear();
     }
 
 }

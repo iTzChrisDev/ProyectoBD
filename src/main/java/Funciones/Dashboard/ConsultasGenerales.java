@@ -1,9 +1,16 @@
 package Funciones.Dashboard;
 
 import ConexionBD.Conexion;
+import Funciones.Entidades.CRUDClientes;
+import Funciones.Entidades.CRUDEmpleados;
+import Funciones.Entidades.CRUDProveedores;
+import Funciones.Entidades.CRUDTiendas;
+import Funciones.Entidades.CRUDVideojuegos;
+import Funciones.Relaciones.CRUDInventario;
 import TDA.Entidades.*;
 import TDA.Relaciones.Inventario;
 import com.mysql.cj.jdbc.CallableStatement;
+import java.awt.Color;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +20,11 @@ import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 public class ConsultasGenerales {
 
@@ -26,16 +38,20 @@ public class ConsultasGenerales {
     private ArrayList<Cliente> dataCliente;
     private ArrayList<Proveedor> dataProveedor;
     private ArrayList<Tienda> dataTienda;
-    private ArrayList<Inventario> dataInventario;
+    //private ArrayList<String[]> dataInventario;
+    private DefaultTableCellRenderer tcr;
 
     public ConsultasGenerales() {
         obC = new Conexion();
         dataVideojuego = new ArrayList<>();
         dataTienda = new ArrayList<>();
         dataProveedor = new ArrayList<>();
-        dataInventario = new ArrayList<>();
+        //dataInventario = new ArrayList<>();
         dataEmpleado = new ArrayList<>();
         dataCliente = new ArrayList<>();
+        tcr = new DefaultTableCellRenderer();
+        tcr.setHorizontalAlignment(SwingConstants.CENTER);
+        tcr.setBorder(new LineBorder(Color.BLACK));
     }
 
     /* 1 - Videojuegos
@@ -62,12 +78,12 @@ public class ConsultasGenerales {
                 }
                 case 2 -> {
                     while (result.next()) {
-                        dataTienda.add(new Tienda(result.getInt("id_tiendas"), result.getString("Nombre"), result.getString("Domicilio")));
+                        dataTienda.add(new Tienda(result.getInt("id_tienda"), result.getString("Nombre"), result.getString("Domicilio")));
                     }
                 }
                 case 3 -> {
                     while (result.next()) {
-                        dataProveedor.add(new Proveedor(result.getInt("id_proveedores"), result.getString("Nombre"), result.getInt("Telefono"), result.getString("Domicilio"), result.getString("Correo")));
+                        dataProveedor.add(new Proveedor(result.getInt("id_proveedor"), result.getString("Nombre"), result.getInt("Telefono"), result.getString("Domicilio"), result.getString("Correo")));
                     }
                 }
                 case 4 -> {
@@ -77,12 +93,12 @@ public class ConsultasGenerales {
                 }
                 case 5 -> {
                     while (result.next()) {
-                        dataCliente.add(new Cliente(result.getInt("id_clientes"), result.getString("Nombre"), result.getString("ApellidoP"), result.getString("ApellidoM"), result.getDate("Fecha_Nacimiento"), result.getInt("Telefono"), result.getString("Domicilio"), result.getString("Correo")));
+                        dataCliente.add(new Cliente(result.getInt("id_cliente"), result.getString("Nombre"), result.getString("ApellidoP"), result.getString("ApellidoM"), result.getDate("Fecha_Nacimiento"), result.getInt("Telefono"), result.getString("Domicilio"), result.getString("Correo")));
                     }
                 }
                 case 6 -> {
                     while (result.next()) {
-                        dataInventario.add(new Inventario(result.getInt("id_videojuego"), result.getInt("id_tiendas"), result.getInt("Stock")));
+                        //dataInventario.add(new Inventario(result.getInt("id_videojuego"), result.getInt("id_tienda"), result.getInt("Stock")));
                     }
                 }
             }
@@ -543,6 +559,184 @@ public class ConsultasGenerales {
         }
     }
 
+    public void llenarTablaVideojuegosBus(JTable tabla) {
+        DefaultTableModel tbModelVideojuegos = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tbModelVideojuegos.setRowCount(0);
+
+        tbModelVideojuegos.addColumn("ID");
+        tbModelVideojuegos.addColumn("Nombre");
+        tbModelVideojuegos.addColumn("Categoria");
+        tbModelVideojuegos.addColumn("Precio");
+
+        Object[] row = new Object[4];
+        for (Videojuego v : dataVideojuego) {
+            row[0] = v.getId();
+            row[1] = v.getNombre();
+            row[2] = v.getCategoria();
+            row[3] = v.getPrecio();
+
+            tbModelVideojuegos.addRow(row);
+        }
+        tabla.setModel(tbModelVideojuegos);
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
+        }
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    }
+
+    public void llenarTablaTiendasBus(JTable tabla) {
+        DefaultTableModel tbModelTiendas = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tbModelTiendas.setRowCount(0);
+
+        tbModelTiendas.addColumn("ID");
+        tbModelTiendas.addColumn("Nombre");
+        tbModelTiendas.addColumn("Domicilio");
+
+        Object[] row = new Object[3];
+        for (Tienda t : dataTienda) {
+            row[0] = t.getId();
+            row[1] = t.getNombre();
+            row[2] = t.getDomicilio();
+
+            tbModelTiendas.addRow(row);
+        }
+        tabla.setModel(tbModelTiendas);
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
+        }
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    }
+
+    public void llenarTablaProveedoresBus(JTable tabla) {
+        DefaultTableModel tbModelProv = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tbModelProv.setRowCount(0);
+
+        tbModelProv.addColumn("ID");
+        tbModelProv.addColumn("Nombre");
+        tbModelProv.addColumn("Telefono");
+        tbModelProv.addColumn("Domicilio");
+        tbModelProv.addColumn("Correo");
+
+        Object[] row = new Object[5];
+        for (Proveedor p : dataProveedor) {
+            row[0] = p.getId();
+            row[1] = p.getNombre();
+            row[2] = p.getTelefono();
+            row[3] = p.getDomicilio();
+            row[4] = p.getCorreo();
+
+            tbModelProv.addRow(row);
+        }
+        tabla.setModel(tbModelProv);
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
+        }
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    }
+
+    public void llenarTablaEmpleadosBus(JTable tabla) {
+        DefaultTableModel tbModelEmp = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tbModelEmp.setRowCount(0);
+
+        tbModelEmp.addColumn("ID");
+        tbModelEmp.addColumn("Nombre");
+        tbModelEmp.addColumn("ApellidoP");
+        tbModelEmp.addColumn("ApellidoM");
+        tbModelEmp.addColumn("NSS");
+        tbModelEmp.addColumn("Fecha Nacimiento");
+        tbModelEmp.addColumn("CURP");
+        tbModelEmp.addColumn("Telefono");
+        tbModelEmp.addColumn("Domicilio");
+        tbModelEmp.addColumn("Sueldo");
+        tbModelEmp.addColumn("Tienda");
+        tbModelEmp.addColumn("Hr.Entrada");
+        tbModelEmp.addColumn("Hr.Salida");
+        tbModelEmp.addColumn("Turno");
+
+        Object[] row = new Object[14];
+        for (Empleado e : dataEmpleado) {
+            row[0] = e.getId();
+            row[1] = e.getNombre();
+            row[2] = e.getApellidoP();
+            row[3] = e.getApellidoM();
+            row[4] = e.getNSS();
+            row[5] = e.getFechaNacimiento();
+            row[6] = e.getCURP();
+            row[7] = e.getTelefono();
+            row[8] = e.getDomicilio();
+            row[9] = e.getSueldo();
+            row[10] = e.getNombreTienda();
+            row[11] = e.getHrEntrada();
+            row[12] = e.getHrSalida();
+            row[13] = e.getTurno();
+
+            tbModelEmp.addRow(row);
+        }
+        tabla.setModel(tbModelEmp);
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
+        }
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    }
+
+    public void llenarTablaClientesBus(JTable tabla) {
+        DefaultTableModel tbModelClientes = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tbModelClientes.setRowCount(0);
+
+        tbModelClientes.addColumn("ID");
+        tbModelClientes.addColumn("Nombre");
+        tbModelClientes.addColumn("ApellidoP");
+        tbModelClientes.addColumn("ApellidoM");
+        tbModelClientes.addColumn("Fecha Nacimiento");
+        tbModelClientes.addColumn("Telefono");
+        tbModelClientes.addColumn("Domicilio");
+        tbModelClientes.addColumn("Correo");
+
+        Object[] row = new Object[8];
+        for (Cliente c : dataCliente) {
+            row[0] = c.getId();
+            row[1] = c.getNombre();
+            row[2] = c.getApellidoP();
+            row[3] = c.getApellidoM();
+            row[4] = c.getFechaNacimiento();
+            row[5] = c.getTelefono();
+            row[6] = c.getDomicilio();
+            row[7] = c.getCorreo();
+
+            tbModelClientes.addRow(row);
+        }
+        tabla.setModel(tbModelClientes);
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
+        }
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    }
+
     public void setLablesInvStock(JLabel lblR1, JLabel lblR2, JLabel lblR3) {
         this.lblR1 = lblR1;
         this.lblR2 = lblR2;
@@ -569,7 +763,7 @@ public class ConsultasGenerales {
         return dataTienda;
     }
 
-    public ArrayList<Inventario> getDataInventario() {
-        return dataInventario;
-    }
+//    public ArrayList<Inventario> getDataInventario() {
+//        return dataInventario;
+//    }
 }

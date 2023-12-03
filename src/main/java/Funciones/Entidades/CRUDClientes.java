@@ -85,7 +85,7 @@ public class CRUDClientes {
 
     public void updateCliente(int id, Cliente obCli) {
         try {
-            query = "UPDATE clientes SET Nombre = ?, ApellidoP = ?, ApellidoM = ?, Fecha_Nacimiento = ?, Telefono = ?, Domicilio = ?, Correo = ? WHERE id_cliente = ?";
+            query = "UPDATE clientes SET Nombre = ?, ApellidoP = ?, ApellidoM = ?, Fecha_Nacimiento = ?, Telefono = ?, Domicilio = ?, Correo = ? WHERE id_cliente = ?;";
             pstm = obC.setConnection().prepareStatement(query);
             pstm.setString(1, obCli.getNombre());
             pstm.setString(2, obCli.getApellidoP());
@@ -111,7 +111,7 @@ public class CRUDClientes {
 
     public void deleteCliente(int id) {
         try {
-            query = "DELETE FROM clientes WHERE id_cliente = ?";
+            query = "DELETE FROM clientes WHERE id_cliente = ?;";
             pstm = obC.setConnection().prepareStatement(query);
             pstm.setInt(1, id);
             pstm.executeUpdate();

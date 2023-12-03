@@ -83,7 +83,7 @@ public class CRUDEmpleados {
             stat.setString(6, obE.getCURP());
             stat.setInt(7, obE.getTelefono());
             stat.setString(8, obE.getDomicilio());
-            stat.setInt(9, obE.getSueldo());
+            stat.setDouble(9, obE.getSueldo());
             stat.setInt(10, obT.getId_tienda());
             stat.setTime(11, obT.getHrEntrada());
             stat.setTime(12, obT.getHrSalida());
@@ -116,7 +116,7 @@ public class CRUDEmpleados {
             stat.setString(7, obE.getCURP());
             stat.setInt(8, obE.getTelefono());
             stat.setString(9, obE.getDomicilio());
-            stat.setInt(10, obE.getSueldo());
+            stat.setDouble(10, obE.getSueldo());
             stat.setInt(11, obT.getId_tienda());
             stat.setTime(12, obT.getHrEntrada());
             stat.setTime(13, obT.getHrSalida());

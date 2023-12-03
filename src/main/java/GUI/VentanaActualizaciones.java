@@ -3,6 +3,7 @@ package GUI;
 import CustomComponents.CustomComboBoxRenderer;
 import CustomComponents.RoundButton;
 import CustomComponents.EstilosComponentes;
+import CustomComponents.TextPrompt;
 import Funciones.Dashboard.ConsultasGenerales;
 import Funciones.Entidades.*;
 import Funciones.Relaciones.CRUDInventario;
@@ -17,12 +18,14 @@ import TDA.Relaciones.Trabajo;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.sql.Date;
 import java.sql.Time;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.border.LineBorder;
 
 public class VentanaActualizaciones extends javax.swing.JFrame {
 
@@ -84,7 +87,7 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                 jTextField21.setText(empleado.getCURP());
                 jTextField24.setText(String.valueOf(empleado.getTelefono()));
                 jTextField43.setText(String.valueOf(empleado.getHrSalida().getHours()));
-                jTextField38.setText(empleado.getFechaNacimiento().toString());
+                dateSelector.setDate(empleado.getFechaNacimiento());
                 jTextField40.setText(String.valueOf(empleado.getHrEntrada().getHours()));
                 jTextField16.setText(empleado.getApellidoP());
                 jTextField15.setText(empleado.getNSS());
@@ -106,7 +109,7 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                 break;
             case "altaClientes":
                 jTextField11.setText(cliente.getDomicilio());
-                jTextField28.setText(cliente.getFechaNacimiento().toString());
+                dateSelector1.setDate(cliente.getFechaNacimiento());
                 jTextField12.setText(cliente.getApellidoP());
                 jTextField27.setText(cliente.getTelefono());
                 jTextField25.setText(cliente.getApellidoM());
@@ -200,6 +203,136 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         obI.llenarComboTiendas(jComboBox2);
         obI.llenarComboVideojuegos(jComboBox1);
         obI.llenarComboTiendas(jComboBox3);
+        
+        dateSelector.getDateEditor().getUiComponent().setBackground(new Color(30, 30, 30));
+        dateSelector.getDateEditor().getUiComponent().setBorder(new LineBorder(new Color(40, 40, 40), 2, true));
+        dateSelector.getDateEditor().getUiComponent().setForeground(new Color(200, 200, 200));
+        dateSelector.getCalendarButton().setBackground(new Color(30, 30, 30));
+        dateSelector.setForeground(new Color(200, 200, 200));
+        
+        dateSelector1.getDateEditor().getUiComponent().setBackground(new Color(30, 30, 30));
+        dateSelector1.getDateEditor().getUiComponent().setBorder(new LineBorder(new Color(40, 40, 40), 2, true));
+        dateSelector1.getDateEditor().getUiComponent().setForeground(new Color(200, 200, 200));
+        dateSelector1.getCalendarButton().setBackground(new Color(30, 30, 30));
+        dateSelector1.setForeground(new Color(200, 200, 200));
+        
+        // VIDEOJUEGOS
+        TextPrompt placeholder = new TextPrompt("Ingrese el nombre del videojuego...", jTextField2);
+        placeholder.changeAlpha(0.50f);
+        placeholder.changeStyle(Font.ITALIC);
+        
+        TextPrompt placeholder2 = new TextPrompt("Ej. Acción, Aventura, etc...", jTextField3);
+        placeholder2.changeAlpha(0.50f);
+        placeholder2.changeStyle(Font.ITALIC);
+        
+        TextPrompt placeholder3 = new TextPrompt("Ingrese el valor númerico del precio", jTextField4);
+        placeholder3.changeAlpha(0.50f);
+        placeholder3.changeStyle(Font.ITALIC);
+        
+        // TIENDAS
+        TextPrompt placeholder4 = new TextPrompt("Ingrese el nombre de la tienda...", jTextField13);
+        placeholder4.changeAlpha(0.50f);
+        placeholder4.changeStyle(Font.ITALIC);
+        
+        TextPrompt placeholder5 = new TextPrompt("Ej. Calle Gardenias #123...", jTextField14);
+        placeholder5.changeAlpha(0.50f);
+        placeholder5.changeStyle(Font.ITALIC);
+        
+        // EMPLEADOS
+        TextPrompt placeholder6 = new TextPrompt("Ingrese el nombre del empleado...", jTextField7);
+        placeholder6.changeAlpha(0.50f);
+        placeholder6.changeStyle(Font.ITALIC);
+        
+        TextPrompt placeholder7 = new TextPrompt("Ingrese el ap. paterno del empleado...", jTextField16);
+        placeholder7.changeAlpha(0.50f);
+        placeholder7.changeStyle(Font.ITALIC);
+        
+        TextPrompt placeholder8 = new TextPrompt("Ingrese el ap. materno del empleado...", jTextField22);
+        placeholder8.changeAlpha(0.50f);
+        placeholder8.changeStyle(Font.ITALIC);
+        
+        TextPrompt placeholder9 = new TextPrompt("Max. 18 caracteres", jTextField21);
+        placeholder9.changeAlpha(0.50f);
+        placeholder9.changeStyle(Font.ITALIC);
+        
+        TextPrompt placeholder10 = new TextPrompt("Max. 11 caracteres númericos", jTextField15);
+        placeholder10.changeAlpha(0.50f);
+        placeholder10.changeStyle(Font.ITALIC);
+        
+        TextPrompt placeholder11 = new TextPrompt("Ej. Calle Gardenias #123...", jTextField6);
+        placeholder11.changeAlpha(0.50f);
+        placeholder11.changeStyle(Font.ITALIC);
+        
+        TextPrompt placeholder12 = new TextPrompt("Max. 10 caracteres númericos", jTextField24);
+        placeholder12.changeAlpha(0.50f);
+        placeholder12.changeStyle(Font.ITALIC);
+        
+        TextPrompt placeholder13 = new TextPrompt("Ingrese el sueldo del empleado...", jTextField39);
+        placeholder13.changeAlpha(0.50f);
+        placeholder13.changeStyle(Font.ITALIC);
+        
+        TextPrompt placeholder14 = new TextPrompt("Hr. (0 a 23)", jTextField40);
+        placeholder14.changeAlpha(0.50f);
+        placeholder14.changeStyle(Font.ITALIC);
+        
+        TextPrompt placeholder15 = new TextPrompt("Min. (0 a 59)", jTextField41);
+        placeholder15.changeAlpha(0.50f);
+        placeholder15.changeStyle(Font.ITALIC);
+        
+        TextPrompt placeholder16 = new TextPrompt("Hr. (0 a 23)", jTextField43);
+        placeholder16.changeAlpha(0.50f);
+        placeholder16.changeStyle(Font.ITALIC);
+        
+        TextPrompt placeholder17 = new TextPrompt("Min. (0 a 59)", jTextField44);
+        placeholder17.changeAlpha(0.50f);
+        placeholder17.changeStyle(Font.ITALIC);
+        
+        // CLIENTES
+        TextPrompt placeholder18 = new TextPrompt("Ingrese el nombre del cliente...", jTextField9);
+        placeholder18.changeAlpha(0.50f);
+        placeholder18.changeStyle(Font.ITALIC);
+        
+        TextPrompt placeholder19 = new TextPrompt("Ingrese el ap. paterno del cliente...", jTextField12);
+        placeholder19.changeAlpha(0.50f);
+        placeholder19.changeStyle(Font.ITALIC);
+        
+        TextPrompt placeholder20 = new TextPrompt("Ingrese el ap. materno del cliente...", jTextField25);
+        placeholder20.changeAlpha(0.50f);
+        placeholder20.changeStyle(Font.ITALIC);
+        
+        TextPrompt placeholder21 = new TextPrompt("Ej. Calle Gardenias #123...", jTextField11);
+        placeholder21.changeAlpha(0.50f);
+        placeholder21.changeStyle(Font.ITALIC);
+        
+        TextPrompt placeholder22 = new TextPrompt("Max. 10 caracteres númericos", jTextField27);
+        placeholder22.changeAlpha(0.50f);
+        placeholder22.changeStyle(Font.ITALIC);
+        
+        TextPrompt placeholder23 = new TextPrompt("Ej. correo123@gmail.com", jTextField29);
+        placeholder23.changeAlpha(0.50f);
+        placeholder23.changeStyle(Font.ITALIC);
+        
+        // PROVEEDORES
+        TextPrompt placeholder24 = new TextPrompt("Ingrese el nombre del proveedor...", jTextField30);
+        placeholder24.changeAlpha(0.50f);
+        placeholder24.changeStyle(Font.ITALIC);
+
+        TextPrompt placeholder25 = new TextPrompt("Ej. Calle Gardenias #123...", jTextField31);
+        placeholder25.changeAlpha(0.50f);
+        placeholder25.changeStyle(Font.ITALIC);
+        
+        TextPrompt placeholder26 = new TextPrompt("Max. 10 caracteres númericos", jTextField32);
+        placeholder26.changeAlpha(0.50f);
+        placeholder26.changeStyle(Font.ITALIC);
+        
+        TextPrompt placeholder27 = new TextPrompt("Ej. correo123@gmail.com", jTextField33);
+        placeholder27.changeAlpha(0.50f);
+        placeholder27.changeStyle(Font.ITALIC);
+        
+        // INVENTARIO
+        TextPrompt placeholder28 = new TextPrompt("Ingrese el valor númerico entero correspondiente...", jTextField17);
+        placeholder28.changeAlpha(0.50f);
+        placeholder28.changeStyle(Font.ITALIC);
     }
 
     public void cargarDatosGenerales() {
@@ -232,8 +365,8 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                 double precio = Double.parseDouble(jTextField4.getText());
 
                 sqlVideojuegos.updateVideojuego(idVideojuego, new Videojuego(nombre, categoria, precio));
-                sqlVideojuegos.selectVideojuego();
-                obI.llenarTablaVideojuegos(tbVideojuegos, sqlVideojuegos.getData());
+
+                obI.llenarTablaVideojuegos(tbVideojuegos);
                 cargarDatosGenerales();
                 JOptionPane.showMessageDialog(null, "Actualización exitosa", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
@@ -247,8 +380,8 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                 String nombre = jTextField13.getText(), domicilio = jTextField14.getText();
 
                 sqlTiendas.updateTienda(idTienda, new Tienda(nombre, domicilio));
-                sqlTiendas.selectTienda();
-                obI.llenarTablaTiendas(tbTiendas, sqlTiendas.getData());
+
+                obI.llenarTablaTiendas(tbTiendas);
                 cargarDatosGenerales();
                 JOptionPane.showMessageDialog(null, "Actualización exitosa", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
@@ -265,8 +398,8 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                 int telefono = Integer.parseInt(jTextField32.getText());
 
                 sqlProveedores.updateProveedor(idProveedor, new Proveedor(nombre, telefono, domicilio, correo));
-                sqlProveedores.selectProveedor();
-                obI.llenarTablaProveedores(tbProveedores, sqlProveedores.getData());
+
+                obI.llenarTablaProveedores(tbProveedores);
                 cargarDatosGenerales();
                 JOptionPane.showMessageDialog(null, "Actualizacion exitosa", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
@@ -296,8 +429,8 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                 }
 
                 sqlInventario.updateInventario(idVideojuego, idTienda, stock);
-                sqlInventario.selectInventarioTable();
-                obI.llenarTablaInventario(tbInventario, sqlInventario.getDataTable());
+                
+                obI.llenarTablaInventario(tbInventario);
                 cargarDatosGenerales();
                 JOptionPane.showMessageDialog(null, "Actualizacion exitosa", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
@@ -313,10 +446,10 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                 String ApellidoM = jTextField22.getText();
                 String NSS = jTextField15.getText();
                 String CURP = jTextField21.getText();
-                Date fechaNacimiento = null;//jTextField38.getText();
+                Date fechaNacimiento = new Date(dateSelector.getDate().getTime());
                 int telefono = Integer.parseInt(jTextField24.getText());
                 String domicilio = jTextField6.getText();
-                int sueldo = Integer.parseInt(jTextField39.getText());
+                double sueldo = Double.parseDouble(jTextField39.getText());
                 int id_tienda = 0;
                 Time hrEntrada = new Time(Integer.parseInt(jTextField40.getText()), Integer.parseInt(jTextField41.getText()), 0),
                         hrSalida = new Time(Integer.parseInt(jTextField43.getText()), Integer.parseInt(jTextField44.getText()), 0);
@@ -331,8 +464,8 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                 }
 
                 sqlEmpleados.updateEmpleado(idEmpleado, new Empleado(nombre, ApellidoP, ApellidoM, NSS, CURP, fechaNacimiento, telefono, domicilio, sueldo), new Trabajo(id_tienda, hrEntrada, hrSalida, turno));
-                sqlEmpleados.selectEmpleado();
-                obI.llenarTablaEmpleados(tbEmpleados, sqlEmpleados.getDataEmpleado());
+
+                obI.llenarTablaEmpleados(tbEmpleados);
                 cargarDatosGenerales();
                 JOptionPane.showMessageDialog(null, "Actualización exitosa", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
@@ -344,15 +477,15 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         btnGuardarClientes.addActionListener((e) -> {
             try {
                 String nombre = jTextField9.getText(),
-                        app = jTextField11.getText(),
+                        app = jTextField12.getText(),
                         apm = jTextField25.getText(),
                         domicilio = jTextField11.getText(),
                         correo = jTextField29.getText();
                 int telefono = Integer.parseInt(jTextField27.getText());
-                Date fechaNac = null;//jTextField28.getText();
+                Date fechaNac = new Date(dateSelector1.getDate().getTime());
                 sqlClientes.updateCliente(idCliente, new Cliente(nombre, app, apm, fechaNac, telefono, domicilio, correo));
-                sqlClientes.selectCliente();
-                obI.llenarTablaClientes(tbClientes, sqlClientes.getData());
+
+                obI.llenarTablaClientes(tbClientes);
                 cargarDatosGenerales();
                 JOptionPane.showMessageDialog(null, "Actualización exitosa", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
@@ -529,7 +662,7 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         jComboBox4 = new javax.swing.JComboBox<>();
         jPanel36 = new javax.swing.JPanel();
         jLabel29 = new javax.swing.JLabel();
-        jTextField38 = new javax.swing.JTextField();
+        dateSelector = new com.toedter.calendar.JDateChooser();
         pnlBtnEmp = new javax.swing.JPanel();
         pnlAltaClientes = new CustomComponents.PanelRound();
         jPanel18 = new javax.swing.JPanel();
@@ -553,7 +686,7 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         jTextField29 = new javax.swing.JTextField();
         jPanel45 = new javax.swing.JPanel();
         jLabel38 = new javax.swing.JLabel();
-        jTextField28 = new javax.swing.JTextField();
+        dateSelector1 = new com.toedter.calendar.JDateChooser();
         jPanel40 = new javax.swing.JPanel();
         pnlBtnClientes = new javax.swing.JPanel();
         pnlAltaProveedores = new CustomComponents.PanelRound();
@@ -1064,15 +1197,10 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         jLabel29.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jPanel36.add(jLabel29);
 
-        jTextField38.setBackground(new java.awt.Color(30, 30, 30));
-        jTextField38.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        jTextField38.setForeground(new java.awt.Color(200, 200, 200));
-        jTextField38.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
-        jTextField38.setCaretColor(new java.awt.Color(25, 200, 178));
-        jTextField38.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jTextField38.setSelectedTextColor(new java.awt.Color(10, 10, 10));
-        jTextField38.setSelectionColor(new java.awt.Color(25, 200, 178));
-        jPanel36.add(jTextField38);
+        dateSelector.setBackground(new java.awt.Color(30, 30, 30));
+        dateSelector.setForeground(new java.awt.Color(200, 200, 200));
+        dateSelector.setDateFormatString("yyyy-MM-dd");
+        jPanel36.add(dateSelector);
 
         jPanel13.add(jPanel36);
 
@@ -1230,15 +1358,10 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         jLabel38.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jPanel45.add(jLabel38);
 
-        jTextField28.setBackground(new java.awt.Color(30, 30, 30));
-        jTextField28.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        jTextField28.setForeground(new java.awt.Color(200, 200, 200));
-        jTextField28.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
-        jTextField28.setCaretColor(new java.awt.Color(25, 200, 178));
-        jTextField28.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jTextField28.setSelectedTextColor(new java.awt.Color(10, 10, 10));
-        jTextField28.setSelectionColor(new java.awt.Color(25, 200, 178));
-        jPanel45.add(jTextField28);
+        dateSelector1.setBackground(new java.awt.Color(30, 30, 30));
+        dateSelector1.setForeground(new java.awt.Color(200, 200, 200));
+        dateSelector1.setDateFormatString("yyyy-MM-dd");
+        jPanel45.add(dateSelector1);
 
         jPanel18.add(jPanel45);
 
@@ -1469,7 +1592,7 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -1510,6 +1633,8 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser dateSelector;
+    private com.toedter.calendar.JDateChooser dateSelector1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
@@ -1607,14 +1732,12 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField24;
     private javax.swing.JTextField jTextField25;
     private javax.swing.JTextField jTextField27;
-    private javax.swing.JTextField jTextField28;
     private javax.swing.JTextField jTextField29;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField30;
     private javax.swing.JTextField jTextField31;
     private javax.swing.JTextField jTextField32;
     private javax.swing.JTextField jTextField33;
-    private javax.swing.JTextField jTextField38;
     private javax.swing.JTextField jTextField39;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField40;

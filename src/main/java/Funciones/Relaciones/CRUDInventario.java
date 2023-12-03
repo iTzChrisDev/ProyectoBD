@@ -92,6 +92,39 @@ public class CRUDInventario {
         }
         return aux;
     }
+    
+    public void selectInventarioTableBus() {
+        String aux[] = null;
+        dataTable.clear();
+        try {
+            query = "SELECT v.Nombre AS NombreVideojuego, t.Nombre AS NombreTienda, i.Stock, v.id_videojuego, t.id_tienda\n"
+                    + "FROM inventario AS i\n"
+                    + "INNER JOIN videojuegos v ON i.id_videojuego = v.id_videojuego\n"
+                    + "INNER JOIN tiendas t ON i.id_tienda = t.id_tienda;";
+            pstm = obC.setConnection().prepareStatement(query);
+            output = pstm.executeQuery();
+
+            while (output.next()) {
+                aux = new String[5];
+                aux[0] = output.getString("NombreVideojuego");
+                aux[1] = output.getString("NombreTienda");
+                aux[2] = output.getString("Stock");
+                aux[3] = output.getString("id_videojuego");
+                aux[4] = output.getString("id_tienda");
+                dataTable.add(aux);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pstm != null) {
+                try {
+                    pstm.close();
+                } catch (SQLException ex) {
+                }
+            }
+            obC.closeConnection();
+        }
+    }
 
     public void insertInventario(Inventario inventario) {
         try {

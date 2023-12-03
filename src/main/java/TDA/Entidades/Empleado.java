@@ -14,12 +14,12 @@ public class Empleado {
     private Date fechaNacimiento;
     private int telefono;
     private String domicilio;
-    private int sueldo;
+    private double sueldo;
     private String nombreTienda;
     private Time hrEntrada, hrSalida;
     private String turno;
     
-    public Empleado(int id, String nombre, String ApellidoP, String ApellidoM, String NSS, String CURP, Date fechaNacimiento, int telefono, String domicilio, int sueldo) {
+    public Empleado(int id, String nombre, String ApellidoP, String ApellidoM, String NSS, String CURP, Date fechaNacimiento, int telefono, String domicilio, double sueldo) {
         this.id = id;
         this.nombre = nombre;
         this.ApellidoP = ApellidoP;
@@ -32,7 +32,7 @@ public class Empleado {
         this.sueldo = sueldo;
     }
 
-    public Empleado(String nombre, String ApellidoP, String ApellidoM, String NSS, String CURP, Date fechaNacimiento, int telefono, String domicilio, int sueldo) {
+    public Empleado(String nombre, String ApellidoP, String ApellidoM, String NSS, String CURP, Date fechaNacimiento, int telefono, String domicilio, double sueldo) {
         this.nombre = nombre;
         this.ApellidoP = ApellidoP;
         this.ApellidoM = ApellidoM;
@@ -44,7 +44,7 @@ public class Empleado {
         this.sueldo = sueldo;
     }
 
-    public Empleado(int id, String nombre, String ApellidoP, String ApellidoM, String NSS, String CURP, Date fechaNacimiento, int telefono, String domicilio, int sueldo, String nombreTienda, Time hrEntrada, Time hrSalida, String turno) {
+    public Empleado(int id, String nombre, String ApellidoP, String ApellidoM, String NSS, String CURP, Date fechaNacimiento, int telefono, String domicilio, double sueldo, String nombreTienda, Time hrEntrada, Time hrSalida, String turno) {
         this.id = id;
         this.nombre = nombre;
         this.ApellidoP = ApellidoP;
@@ -165,11 +165,11 @@ public class Empleado {
         this.domicilio = domicilio;
     }
 
-    public int getSueldo() {
+    public double getSueldo() {
         return sueldo;
     }
 
-    public void setSueldo(int sueldo) {
+    public void setSueldo(double sueldo) {
         this.sueldo = sueldo;
     }
 

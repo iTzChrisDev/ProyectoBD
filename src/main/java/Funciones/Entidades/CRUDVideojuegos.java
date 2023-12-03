@@ -72,7 +72,7 @@ public class CRUDVideojuegos {
 
     public void updateVideojuego(int id, Videojuego obV) {
         try {
-            query = "UPDATE videojuegos SET Nombre = ?, Precio = ?, Categoria = ? WHERE id_videojuego = ?";
+            query = "UPDATE videojuegos SET Nombre = ?, Precio = ?, Categoria = ? WHERE id_videojuego = ?;";
             pstm = obC.setConnection().prepareStatement(query);
             pstm.setString(1, obV.getNombre());
             pstm.setDouble(2, obV.getPrecio());
@@ -94,7 +94,7 @@ public class CRUDVideojuegos {
 
     public void deleteVideojuego(int id) {
         try {
-            query = "DELETE FROM videojuegos WHERE id_videojuego = ?";
+            query = "DELETE FROM videojuegos WHERE id_videojuego = ?;";
             pstm = obC.setConnection().prepareStatement(query);
             pstm.setInt(1, id);
             pstm.executeUpdate();
