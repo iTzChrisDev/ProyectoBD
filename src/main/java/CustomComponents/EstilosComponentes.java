@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -179,5 +180,12 @@ public class EstilosComponentes {
         scroll.setCorner(JScrollPane.UPPER_RIGHT_CORNER, corner);
         scroll.setBorder(new LineBorder(headerColor, 2, true));
         scroll.setOpaque(false);
+    }
+    
+    public void setPlaceHolder(JTextField txt)
+    {
+        TextPrompt placeholder = new TextPrompt("Ingrese cualquier valor a buscar...", txt);
+        placeholder.changeAlpha(0.50f);
+        placeholder.changeStyle(Font.ITALIC);
     }
 }

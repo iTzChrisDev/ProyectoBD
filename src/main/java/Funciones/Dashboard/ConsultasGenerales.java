@@ -1,20 +1,14 @@
 package Funciones.Dashboard;
 
 import ConexionBD.Conexion;
-import Funciones.Entidades.CRUDClientes;
-import Funciones.Entidades.CRUDEmpleados;
-import Funciones.Entidades.CRUDProveedores;
-import Funciones.Entidades.CRUDTiendas;
-import Funciones.Entidades.CRUDVideojuegos;
-import Funciones.Relaciones.CRUDInventario;
 import TDA.Entidades.*;
-import TDA.Relaciones.Inventario;
 import com.mysql.cj.jdbc.CallableStatement;
 import java.awt.Color;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.sql.Types;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
@@ -38,7 +32,7 @@ public class ConsultasGenerales {
     private ArrayList<Cliente> dataCliente;
     private ArrayList<Proveedor> dataProveedor;
     private ArrayList<Tienda> dataTienda;
-    //private ArrayList<String[]> dataInventario;
+    private ArrayList<String[]> dataInventario;
     private DefaultTableCellRenderer tcr;
 
     public ConsultasGenerales() {
@@ -46,20 +40,14 @@ public class ConsultasGenerales {
         dataVideojuego = new ArrayList<>();
         dataTienda = new ArrayList<>();
         dataProveedor = new ArrayList<>();
-        //dataInventario = new ArrayList<>();
+        dataInventario = new ArrayList<>();
         dataEmpleado = new ArrayList<>();
         dataCliente = new ArrayList<>();
         tcr = new DefaultTableCellRenderer();
         tcr.setHorizontalAlignment(SwingConstants.CENTER);
         tcr.setBorder(new LineBorder(Color.BLACK));
     }
-
-    /* 1 - Videojuegos
-       2 - Tiendas
-       3 - Proveedores
-       4 - Empleados
-       5 - Clientes
-       6 - Inventario*/
+    
     public void buscarInformacion(String nombreTabla, String parametroBusqueda, int value) {
         CallableStatement stat = null;
         try {
@@ -88,22 +76,81 @@ public class ConsultasGenerales {
                 }
                 case 4 -> {
                     while (result.next()) {
-                        dataEmpleado.add(new Empleado(result.getInt("id_empleado"), result.getString("Nombre"), result.getString("ApellidoP"), result.getString("ApellidoM"), result.getString("NSS"), result.getString("CURP"), result.getDate("Fecha_Nacimiento"), result.getInt("Telefono"), result.getString("Domicilio"), result.getInt("Sueldo")));
-                    }
-                }
-                case 5 -> {
-                    while (result.next()) {
                         dataCliente.add(new Cliente(result.getInt("id_cliente"), result.getString("Nombre"), result.getString("ApellidoP"), result.getString("ApellidoM"), result.getDate("Fecha_Nacimiento"), result.getInt("Telefono"), result.getString("Domicilio"), result.getString("Correo")));
-                    }
-                }
-                case 6 -> {
-                    while (result.next()) {
-                        //dataInventario.add(new Inventario(result.getInt("id_videojuego"), result.getInt("id_tienda"), result.getInt("Stock")));
                     }
                 }
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
+        } finally {
+            if (stat != null) {
+                try {
+                    stat.close();
+                } catch (SQLException ex) {
+                }
+            }
+            obC.closeConnection();
+        }
+    }
+
+    public void buscarInformacionInventario(String parametroBusqueda) {
+        CallableStatement stat = null;
+        try {
+            sql = "CALL buscar_inventario(?);";
+            stat = (CallableStatement) obC.setConnection().prepareCall(sql);
+            stat.setString(1, parametroBusqueda);
+
+            result = stat.executeQuery();
+
+            while (result.next()) {
+                String[] aux = new String[5];
+                aux[0] = result.getString("NombreVideojuego");
+                aux[1] = result.getString("NombreTienda");
+                aux[2] = result.getString("Stock");
+                aux[3] = result.getString("id_videojuego");
+                aux[4] = result.getString("id_tienda");
+                dataInventario.add(aux);
+            }
+        } catch (Exception e) {
+        } finally {
+            if (stat != null) {
+                try {
+                    stat.close();
+                } catch (SQLException ex) {
+                }
+            }
+            obC.closeConnection();
+        }
+    }
+
+    public void buscarInformacionEmpleados(String parametroBusqueda) {
+        CallableStatement stat = null;
+        try {
+            sql = "CALL buscar_empleados(?);";
+            stat = (CallableStatement) obC.setConnection().prepareCall(sql);
+            stat.setString(1, parametroBusqueda);
+
+            result = stat.executeQuery();
+
+            while (result.next()) {
+                int id = result.getInt("id_empleado");
+                String nombre = result.getString("Nombre");
+                String apellidoP = result.getString("ApellidoP");
+                String apellidoM = result.getString("ApellidoM");
+                String nss = result.getString("NSS");
+                Date fechaNacimiento = result.getDate("Fecha_Nacimiento");
+                String curp = result.getString("CURP");
+                int telefono = result.getInt("Telefono");
+                String domicilio = result.getString("Domicilio");
+                int sueldo = result.getInt("Sueldo");
+                String nombreTienda = result.getString("Tienda");
+                Time horaEntrada = result.getTime("Hora_Entrada");
+                Time horaSalida = result.getTime("Hora_Salida");
+                String turno = result.getString("Turno");
+                
+                dataEmpleado.add(new Empleado(id, nombre, apellidoP, apellidoM, nss, curp, fechaNacimiento, telefono, domicilio, sueldo, nombreTienda, horaEntrada, horaSalida, turno));
+            }
+        } catch (Exception e) {
         } finally {
             if (stat != null) {
                 try {
@@ -737,33 +784,41 @@ public class ConsultasGenerales {
         tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     }
 
+    public void llenarTablaInventario(JTable tabla) {
+        DefaultTableModel tbModelInv = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tbModelInv.setRowCount(0);
+
+        tbModelInv.addColumn("ID_Videojuego");
+        tbModelInv.addColumn("Videojuego");
+        tbModelInv.addColumn("ID_Tienda");
+        tbModelInv.addColumn("Tienda");
+        tbModelInv.addColumn("Stock");
+
+        Object[] row = new Object[5];
+        for (int i = 0; i < dataInventario.size(); i++) {
+            row[0] = dataInventario.get(i)[3];
+            row[1] = dataInventario.get(i)[0];
+            row[2] = dataInventario.get(i)[4];
+            row[3] = dataInventario.get(i)[1];
+            row[4] = dataInventario.get(i)[2];
+
+            tbModelInv.addRow(row);
+        }
+        tabla.setModel(tbModelInv);
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
+        }
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    }
+    
     public void setLablesInvStock(JLabel lblR1, JLabel lblR2, JLabel lblR3) {
         this.lblR1 = lblR1;
         this.lblR2 = lblR2;
         this.lblR3 = lblR3;
     }
-
-    public ArrayList<Videojuego> getDataVideojuego() {
-        return dataVideojuego;
-    }
-
-    public ArrayList<Empleado> getDataEmpleado() {
-        return dataEmpleado;
-    }
-
-    public ArrayList<Cliente> getDataCliente() {
-        return dataCliente;
-    }
-
-    public ArrayList<Proveedor> getDataProveedor() {
-        return dataProveedor;
-    }
-
-    public ArrayList<Tienda> getDataTienda() {
-        return dataTienda;
-    }
-
-//    public ArrayList<Inventario> getDataInventario() {
-//        return dataInventario;
-//    }
 }

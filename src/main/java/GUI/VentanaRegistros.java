@@ -5,6 +5,7 @@ import CustomComponents.PanelRound;
 import CustomComponents.RoundButton;
 import Funciones.Dashboard.ConsultasGenerales;
 import CustomComponents.EstilosComponentes;
+import CustomComponents.TextPrompt;
 import Funciones.Entidades.*;
 import Funciones.Relaciones.CRUDInventario;
 import Funciones.TablasListas.LlenadoInformacion;
@@ -84,8 +85,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel7 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         pnlHeader = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -198,8 +197,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         lblJuegoMenosVend = new javax.swing.JLabel();
         panelRound4 = new CustomComponents.PanelRound();
-        scrollVideojuegos = new javax.swing.JScrollPane();
-        tbVideojuegos = new javax.swing.JTable();
         pnlOpcionesVideojuegos = new javax.swing.JPanel();
         vidAlta = new javax.swing.JPanel();
         pnlButtonsVideojuegosAlta = new javax.swing.JPanel();
@@ -214,6 +211,8 @@ public class VentanaRegistros extends javax.swing.JFrame {
         pnlButtonsVideojuegosMostrar = new javax.swing.JPanel();
         comboVideojuegos = new javax.swing.JComboBox<>();
         txtBusquedaVideojuegos2 = new javax.swing.JTextField();
+        scrollVideojuegos = new javax.swing.JScrollPane();
+        tbVideojuegos = new javax.swing.JTable();
         pnlTiendas = new javax.swing.JPanel();
         pnlOpcTiendas = new CustomComponents.PanelRound();
         jPanel6 = new javax.swing.JPanel();
@@ -378,25 +377,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
         txtBusquedaVideojuegos23 = new javax.swing.JTextField();
         pnlAside = new javax.swing.JPanel();
         pnlMenuContainer = new CustomComponents.PanelRound();
-
-        jPanel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        jPanel7.setOpaque(false);
-        jPanel7.setLayout(new java.awt.GridLayout(7, 1, 0, 5));
-
-        jPanel4.setOpaque(false);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 91, Short.MAX_VALUE)
-        );
-
-        jPanel7.add(jPanel4);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(950, 700));
@@ -1053,25 +1033,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
         panelRound4.setRoundBottomRight(15);
         panelRound4.setLayout(new java.awt.BorderLayout());
 
-        tbVideojuegos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tbVideojuegos.setGridColor(new java.awt.Color(40, 40, 40));
-        tbVideojuegos.setSelectionBackground(new java.awt.Color(66, 189, 159));
-        tbVideojuegos.setSelectionForeground(new java.awt.Color(10, 10, 10));
-        tbVideojuegos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        scrollVideojuegos.setViewportView(tbVideojuegos);
-
-        panelRound4.add(scrollVideojuegos, java.awt.BorderLayout.CENTER);
-
         pnlOpcionesVideojuegos.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 15, 5));
         pnlOpcionesVideojuegos.setOpaque(false);
         pnlOpcionesVideojuegos.setLayout(new java.awt.CardLayout());
@@ -1165,6 +1126,25 @@ public class VentanaRegistros extends javax.swing.JFrame {
         pnlOpcionesVideojuegos.add(vidMostrar, "card4");
 
         panelRound4.add(pnlOpcionesVideojuegos, java.awt.BorderLayout.PAGE_START);
+
+        tbVideojuegos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tbVideojuegos.setGridColor(new java.awt.Color(40, 40, 40));
+        tbVideojuegos.setSelectionBackground(new java.awt.Color(66, 189, 159));
+        tbVideojuegos.setSelectionForeground(new java.awt.Color(10, 10, 10));
+        tbVideojuegos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        scrollVideojuegos.setViewportView(tbVideojuegos);
+
+        panelRound4.add(scrollVideojuegos, java.awt.BorderLayout.CENTER);
 
         panelRound2.add(panelRound4, java.awt.BorderLayout.CENTER);
 
@@ -2547,6 +2527,31 @@ public class VentanaRegistros extends javax.swing.JFrame {
         lblMenosVendido.setIcon(new ImageIcon("./src/main/java/Resources/peor.png"));
         lblVentas.setIcon(new ImageIcon("./src/main/java/Resources/ventas.png"));
         lblIngresosVentas.setIcon(new ImageIcon("./src/main/java/Resources/ingresos.png"));
+        
+        obE.setPlaceHolder(txtBusquedaVideojuegos);
+        obE.setPlaceHolder(txtBusquedaVideojuegos1);
+        obE.setPlaceHolder(txtBusquedaVideojuegos2);
+        obE.setPlaceHolder(txtBusquedaVideojuegos3);
+        obE.setPlaceHolder(txtBusquedaVideojuegos4);
+        obE.setPlaceHolder(txtBusquedaVideojuegos5);
+        obE.setPlaceHolder(txtBusquedaVideojuegos6);
+        obE.setPlaceHolder(txtBusquedaVideojuegos7);
+        obE.setPlaceHolder(txtBusquedaVideojuegos8);
+        obE.setPlaceHolder(txtBusquedaVideojuegos9);
+        obE.setPlaceHolder(txtBusquedaVideojuegos10);
+        obE.setPlaceHolder(txtBusquedaVideojuegos11);
+        obE.setPlaceHolder(txtBusquedaVideojuegos12);
+        obE.setPlaceHolder(txtBusquedaVideojuegos13);
+        obE.setPlaceHolder(txtBusquedaVideojuegos14);
+        obE.setPlaceHolder(txtBusquedaVideojuegos15);
+        obE.setPlaceHolder(txtBusquedaVideojuegos16);
+        obE.setPlaceHolder(txtBusquedaVideojuegos17);
+        obE.setPlaceHolder(txtBusquedaVideojuegos18);
+        obE.setPlaceHolder(txtBusquedaVideojuegos19);
+        obE.setPlaceHolder(txtBusquedaVideojuegos20);
+        obE.setPlaceHolder(txtBusquedaVideojuegos21);
+        obE.setPlaceHolder(txtBusquedaVideojuegos22);
+        obE.setPlaceHolder(txtBusquedaVideojuegos23);
     }
 
     public void initButtonsCRUD() {
@@ -3007,201 +3012,298 @@ public class VentanaRegistros extends javax.swing.JFrame {
 
         // Buscar
         btnBuscarVideojuegosAlta.addActionListener((e) -> {
-            if (txtBusquedaVideojuegos3.getText().length() == 0) {
+            if (txtBusquedaVideojuegos3.getText().trim().length() == 0) {
                 obI.llenarTablaVideojuegos(tbVideojuegos);
             } else {
                 ConsultasGenerales obCons = new ConsultasGenerales();
-                obCons.buscarInformacion("videojuegos", txtBusquedaVideojuegos3.getText(), 1);
+                obCons.buscarInformacion("videojuegos", txtBusquedaVideojuegos3.getText().trim(), 1);
                 obCons.llenarTablaVideojuegosBus(tbVideojuegos);
             }
+            txtBusquedaVideojuegos.setText(txtBusquedaVideojuegos3.getText().trim());
+            txtBusquedaVideojuegos2.setText(txtBusquedaVideojuegos3.getText().trim());
+            txtBusquedaVideojuegos1.setText(txtBusquedaVideojuegos3.getText().trim());
+
         });
         btnBuscarVideojuegosElim.addActionListener((e) -> {
-            if (txtBusquedaVideojuegos.getText().length() == 0) {
+            if (txtBusquedaVideojuegos.getText().trim().length() == 0) {
                 obI.llenarTablaVideojuegos(tbVideojuegos);
             } else {
                 ConsultasGenerales obCons = new ConsultasGenerales();
-                obCons.buscarInformacion("videojuegos", txtBusquedaVideojuegos.getText(), 1);
+                obCons.buscarInformacion("videojuegos", txtBusquedaVideojuegos.getText().trim(), 1);
                 obCons.llenarTablaVideojuegosBus(tbVideojuegos);
             }
+            txtBusquedaVideojuegos3.setText(txtBusquedaVideojuegos.getText().trim());
+            txtBusquedaVideojuegos2.setText(txtBusquedaVideojuegos.getText().trim());
+            txtBusquedaVideojuegos1.setText(txtBusquedaVideojuegos.getText().trim());
         });
         btnBuscarVideojuegosAct.addActionListener((e) -> {
-            if (txtBusquedaVideojuegos1.getText().length() == 0) {
+            if (txtBusquedaVideojuegos1.getText().trim().length() == 0) {
                 obI.llenarTablaVideojuegos(tbVideojuegos);
             } else {
                 ConsultasGenerales obCons = new ConsultasGenerales();
-                obCons.buscarInformacion("videojuegos", txtBusquedaVideojuegos1.getText(), 1);
+                obCons.buscarInformacion("videojuegos", txtBusquedaVideojuegos1.getText().trim(), 1);
                 obCons.llenarTablaVideojuegosBus(tbVideojuegos);
             }
+            txtBusquedaVideojuegos.setText(txtBusquedaVideojuegos1.getText().trim());
+            txtBusquedaVideojuegos2.setText(txtBusquedaVideojuegos1.getText().trim());
+            txtBusquedaVideojuegos3.setText(txtBusquedaVideojuegos1.getText().trim());
         });
         btnBuscarVideojuegosMostrar.addActionListener((e) -> {
-            if (txtBusquedaVideojuegos2.getText().length() == 0) {
+            if (txtBusquedaVideojuegos2.getText().trim().length() == 0) {
                 obI.llenarTablaVideojuegos(tbVideojuegos);
             } else {
                 ConsultasGenerales obCons = new ConsultasGenerales();
-                obCons.buscarInformacion("videojuegos", txtBusquedaVideojuegos2.getText(), 1);
+                obCons.buscarInformacion("videojuegos", txtBusquedaVideojuegos2.getText().trim(), 1);
                 obCons.llenarTablaVideojuegosBus(tbVideojuegos);
             }
+            txtBusquedaVideojuegos.setText(txtBusquedaVideojuegos2.getText().trim());
+            txtBusquedaVideojuegos3.setText(txtBusquedaVideojuegos2.getText().trim());
+            txtBusquedaVideojuegos1.setText(txtBusquedaVideojuegos2.getText().trim());
         });
 
         btnBuscarTiendasAlta.addActionListener((e) -> {
-            if (txtBusquedaVideojuegos4.getText().length() == 0) {
+            if (txtBusquedaVideojuegos4.getText().trim().length() == 0) {
                 obI.llenarTablaTiendas(tbTiendas);
             } else {
                 ConsultasGenerales obCons = new ConsultasGenerales();
-                obCons.buscarInformacion("tiendas", txtBusquedaVideojuegos4.getText(), 2);
+                obCons.buscarInformacion("tiendas", txtBusquedaVideojuegos4.getText().trim(), 2);
                 obCons.llenarTablaTiendasBus(tbTiendas);
             }
+            txtBusquedaVideojuegos5.setText(txtBusquedaVideojuegos4.getText().trim());
+            txtBusquedaVideojuegos6.setText(txtBusquedaVideojuegos4.getText().trim());
+            txtBusquedaVideojuegos7.setText(txtBusquedaVideojuegos4.getText().trim());
         });
         btnBuscarTiendasElim.addActionListener((e) -> {
-            if (txtBusquedaVideojuegos5.getText().length() == 0) {
+            if (txtBusquedaVideojuegos5.getText().trim().length() == 0) {
                 obI.llenarTablaTiendas(tbTiendas);
             } else {
                 ConsultasGenerales obCons = new ConsultasGenerales();
-                obCons.buscarInformacion("tiendas", txtBusquedaVideojuegos5.getText(), 2);
+                obCons.buscarInformacion("tiendas", txtBusquedaVideojuegos5.getText().trim(), 2);
                 obCons.llenarTablaTiendasBus(tbTiendas);
             }
+            txtBusquedaVideojuegos4.setText(txtBusquedaVideojuegos5.getText().trim());
+            txtBusquedaVideojuegos6.setText(txtBusquedaVideojuegos5.getText().trim());
+            txtBusquedaVideojuegos7.setText(txtBusquedaVideojuegos5.getText().trim());
         });
         btnBuscarTiendasAct.addActionListener((e) -> {
-            if (txtBusquedaVideojuegos6.getText().length() == 0) {
+            if (txtBusquedaVideojuegos6.getText().trim().length() == 0) {
                 obI.llenarTablaTiendas(tbTiendas);
             } else {
                 ConsultasGenerales obCons = new ConsultasGenerales();
-                obCons.buscarInformacion("tiendas", txtBusquedaVideojuegos6.getText(), 2);
+                obCons.buscarInformacion("tiendas", txtBusquedaVideojuegos6.getText().trim(), 2);
                 obCons.llenarTablaTiendasBus(tbTiendas);
             }
+            txtBusquedaVideojuegos5.setText(txtBusquedaVideojuegos6.getText().trim());
+            txtBusquedaVideojuegos4.setText(txtBusquedaVideojuegos6.getText().trim());
+            txtBusquedaVideojuegos7.setText(txtBusquedaVideojuegos6.getText().trim());
         });
         btnBuscarTiendasMostrar.addActionListener((e) -> {
-            if (txtBusquedaVideojuegos7.getText().length() == 0) {
+            if (txtBusquedaVideojuegos7.getText().trim().length() == 0) {
                 obI.llenarTablaTiendas(tbTiendas);
             } else {
                 ConsultasGenerales obCons = new ConsultasGenerales();
-                obCons.buscarInformacion("tiendas", txtBusquedaVideojuegos7.getText(), 2);
+                obCons.buscarInformacion("tiendas", txtBusquedaVideojuegos7.getText().trim(), 2);
                 obCons.llenarTablaTiendasBus(tbTiendas);
             }
+            txtBusquedaVideojuegos5.setText(txtBusquedaVideojuegos7.getText().trim());
+            txtBusquedaVideojuegos6.setText(txtBusquedaVideojuegos7.getText().trim());
+            txtBusquedaVideojuegos4.setText(txtBusquedaVideojuegos7.getText().trim());
         });
 
         btnBuscarEmpleadosAlta.addActionListener((e) -> {
-            if (txtBusquedaVideojuegos8.getText().length() == 0) {
+            if (txtBusquedaVideojuegos8.getText().trim().length() == 0) {
                 obI.llenarTablaEmpleados(tbEmp);
             } else {
                 ConsultasGenerales obCons = new ConsultasGenerales();
-                obCons.buscarInformacion("empleados", txtBusquedaVideojuegos8.getText(), 4);
+                obCons.buscarInformacionEmpleados(txtBusquedaVideojuegos8.getText().trim());
                 obCons.llenarTablaEmpleadosBus(tbEmp);
             }
+            txtBusquedaVideojuegos9.setText(txtBusquedaVideojuegos8.getText().trim());
+            txtBusquedaVideojuegos10.setText(txtBusquedaVideojuegos8.getText().trim());
+            txtBusquedaVideojuegos11.setText(txtBusquedaVideojuegos8.getText().trim());
         });
         btnBuscarEmpleadosElim.addActionListener((e) -> {
-            if (txtBusquedaVideojuegos9.getText().length() == 0) {
+            if (txtBusquedaVideojuegos9.getText().trim().length() == 0) {
                 obI.llenarTablaEmpleados(tbEmp);
             } else {
                 ConsultasGenerales obCons = new ConsultasGenerales();
-                obCons.buscarInformacion("empleados", txtBusquedaVideojuegos9.getText(), 4);
+                obCons.buscarInformacionEmpleados(txtBusquedaVideojuegos9.getText().trim());
                 obCons.llenarTablaEmpleadosBus(tbEmp);
             }
+            txtBusquedaVideojuegos8.setText(txtBusquedaVideojuegos9.getText().trim());
+            txtBusquedaVideojuegos10.setText(txtBusquedaVideojuegos9.getText().trim());
+            txtBusquedaVideojuegos11.setText(txtBusquedaVideojuegos9.getText().trim());
         });
         btnBuscarEmpleadosAct.addActionListener((e) -> {
-            if (txtBusquedaVideojuegos10.getText().length() == 0) {
+            if (txtBusquedaVideojuegos10.getText().trim().length() == 0) {
                 obI.llenarTablaEmpleados(tbEmp);
             } else {
                 ConsultasGenerales obCons = new ConsultasGenerales();
-                obCons.buscarInformacion("empleados", txtBusquedaVideojuegos10.getText(), 4);
+                obCons.buscarInformacionEmpleados(txtBusquedaVideojuegos10.getText().trim());
                 obCons.llenarTablaEmpleadosBus(tbEmp);
             }
+            txtBusquedaVideojuegos9.setText(txtBusquedaVideojuegos10.getText().trim());
+            txtBusquedaVideojuegos8.setText(txtBusquedaVideojuegos10.getText().trim());
+            txtBusquedaVideojuegos11.setText(txtBusquedaVideojuegos10.getText().trim());
         });
         btnBuscarEmpleadosMostrar.addActionListener((e) -> {
-            if (txtBusquedaVideojuegos11.getText().length() == 0) {
+            if (txtBusquedaVideojuegos11.getText().trim().length() == 0) {
                 obI.llenarTablaEmpleados(tbEmp);
             } else {
                 ConsultasGenerales obCons = new ConsultasGenerales();
-                obCons.buscarInformacion("empleados", txtBusquedaVideojuegos11.getText(), 4);
+                obCons.buscarInformacionEmpleados(txtBusquedaVideojuegos11.getText().trim());
                 obCons.llenarTablaEmpleadosBus(tbEmp);
             }
+            txtBusquedaVideojuegos9.setText(txtBusquedaVideojuegos11.getText().trim());
+            txtBusquedaVideojuegos10.setText(txtBusquedaVideojuegos11.getText().trim());
+            txtBusquedaVideojuegos8.setText(txtBusquedaVideojuegos11.getText().trim());
         });
 
         btnBuscarClientesAlta.addActionListener((e) -> {
-            if (txtBusquedaVideojuegos12.getText().length() == 0) {
+            if (txtBusquedaVideojuegos12.getText().trim().length() == 0) {
                 obI.llenarTablaClientes(tbClientes);
             } else {
                 ConsultasGenerales obCons = new ConsultasGenerales();
-                obCons.buscarInformacion("clientes", txtBusquedaVideojuegos12.getText(), 5);
+                obCons.buscarInformacion("clientes", txtBusquedaVideojuegos12.getText().trim(), 4);
                 obCons.llenarTablaClientesBus(tbClientes);
             }
+            txtBusquedaVideojuegos13.setText(txtBusquedaVideojuegos12.getText().trim());
+            txtBusquedaVideojuegos14.setText(txtBusquedaVideojuegos12.getText().trim());
+            txtBusquedaVideojuegos15.setText(txtBusquedaVideojuegos12.getText().trim());
         });
         btnBuscarClientesElim.addActionListener((e) -> {
-            if (txtBusquedaVideojuegos13.getText().length() == 0) {
+            if (txtBusquedaVideojuegos13.getText().trim().length() == 0) {
                 obI.llenarTablaClientes(tbClientes);
             } else {
                 ConsultasGenerales obCons = new ConsultasGenerales();
-                obCons.buscarInformacion("clientes", txtBusquedaVideojuegos13.getText(), 5);
+                obCons.buscarInformacion("clientes", txtBusquedaVideojuegos13.getText().trim(), 4);
                 obCons.llenarTablaClientesBus(tbClientes);
             }
+            txtBusquedaVideojuegos12.setText(txtBusquedaVideojuegos13.getText().trim());
+            txtBusquedaVideojuegos14.setText(txtBusquedaVideojuegos13.getText().trim());
+            txtBusquedaVideojuegos15.setText(txtBusquedaVideojuegos13.getText().trim());
         });
         btnBuscarClientesAct.addActionListener((e) -> {
-            if (txtBusquedaVideojuegos14.getText().length() == 0) {
+            if (txtBusquedaVideojuegos14.getText().trim().length() == 0) {
                 obI.llenarTablaClientes(tbClientes);
             } else {
                 ConsultasGenerales obCons = new ConsultasGenerales();
-                obCons.buscarInformacion("clientes", txtBusquedaVideojuegos14.getText(), 5);
+                obCons.buscarInformacion("clientes", txtBusquedaVideojuegos14.getText().trim(), 4);
                 obCons.llenarTablaClientesBus(tbClientes);
             }
+            txtBusquedaVideojuegos13.setText(txtBusquedaVideojuegos14.getText().trim());
+            txtBusquedaVideojuegos12.setText(txtBusquedaVideojuegos14.getText().trim());
+            txtBusquedaVideojuegos15.setText(txtBusquedaVideojuegos14.getText().trim());
         });
         btnBuscarClientesMostrar.addActionListener((e) -> {
-            if (txtBusquedaVideojuegos15.getText().length() == 0) {
+            if (txtBusquedaVideojuegos15.getText().trim().length() == 0) {
                 obI.llenarTablaClientes(tbClientes);
             } else {
                 ConsultasGenerales obCons = new ConsultasGenerales();
-                obCons.buscarInformacion("clientes", txtBusquedaVideojuegos15.getText(), 5);
+                obCons.buscarInformacion("clientes", txtBusquedaVideojuegos15.getText().trim(), 4);
                 obCons.llenarTablaClientesBus(tbClientes);
             }
+            txtBusquedaVideojuegos13.setText(txtBusquedaVideojuegos15.getText().trim());
+            txtBusquedaVideojuegos14.setText(txtBusquedaVideojuegos15.getText().trim());
+            txtBusquedaVideojuegos12.setText(txtBusquedaVideojuegos15.getText().trim());
         });
 
         btnBuscarProveedoresAlta.addActionListener((e) -> {
-            if (txtBusquedaVideojuegos16.getText().length() == 0) {
+            if (txtBusquedaVideojuegos16.getText().trim().length() == 0) {
                 obI.llenarTablaProveedores(tbProv);
             } else {
                 ConsultasGenerales obCons = new ConsultasGenerales();
-                obCons.buscarInformacion("proveedores", txtBusquedaVideojuegos16.getText(), 3);
+                obCons.buscarInformacion("proveedores", txtBusquedaVideojuegos16.getText().trim(), 3);
                 obCons.llenarTablaProveedoresBus(tbProv);
             }
+            txtBusquedaVideojuegos17.setText(txtBusquedaVideojuegos16.getText().trim());
+            txtBusquedaVideojuegos18.setText(txtBusquedaVideojuegos16.getText().trim());
+            txtBusquedaVideojuegos19.setText(txtBusquedaVideojuegos16.getText().trim());
         });
         btnBuscarProveedoresElim.addActionListener((e) -> {
-            if (txtBusquedaVideojuegos17.getText().length() == 0) {
+            if (txtBusquedaVideojuegos17.getText().trim().length() == 0) {
                 obI.llenarTablaProveedores(tbProv);
             } else {
                 ConsultasGenerales obCons = new ConsultasGenerales();
-                obCons.buscarInformacion("proveedores", txtBusquedaVideojuegos17.getText(), 3);
+                obCons.buscarInformacion("proveedores", txtBusquedaVideojuegos17.getText().trim(), 3);
                 obCons.llenarTablaProveedoresBus(tbProv);
             }
+            txtBusquedaVideojuegos16.setText(txtBusquedaVideojuegos17.getText().trim());
+            txtBusquedaVideojuegos18.setText(txtBusquedaVideojuegos17.getText().trim());
+            txtBusquedaVideojuegos19.setText(txtBusquedaVideojuegos17.getText().trim());
         });
         btnBuscarProveedoresAct.addActionListener((e) -> {
-            if (txtBusquedaVideojuegos18.getText().length() == 0) {
+            if (txtBusquedaVideojuegos18.getText().trim().length() == 0) {
                 obI.llenarTablaProveedores(tbProv);
             } else {
                 ConsultasGenerales obCons = new ConsultasGenerales();
-                obCons.buscarInformacion("proveedores", txtBusquedaVideojuegos18.getText(), 3);
+                obCons.buscarInformacion("proveedores", txtBusquedaVideojuegos18.getText().trim(), 3);
                 obCons.llenarTablaProveedoresBus(tbProv);
             }
+            txtBusquedaVideojuegos17.setText(txtBusquedaVideojuegos18.getText().trim());
+            txtBusquedaVideojuegos16.setText(txtBusquedaVideojuegos18.getText().trim());
+            txtBusquedaVideojuegos19.setText(txtBusquedaVideojuegos18.getText().trim());
         });
         btnBuscarProveedoresMostrar.addActionListener((e) -> {
-            if (txtBusquedaVideojuegos19.getText().length() == 0) {
+            if (txtBusquedaVideojuegos19.getText().trim().length() == 0) {
                 obI.llenarTablaProveedores(tbProv);
             } else {
                 ConsultasGenerales obCons = new ConsultasGenerales();
-                obCons.buscarInformacion("proveedores", txtBusquedaVideojuegos19.getText(), 3);
+                obCons.buscarInformacion("proveedores", txtBusquedaVideojuegos19.getText().trim(), 3);
                 obCons.llenarTablaProveedoresBus(tbProv);
             }
+            txtBusquedaVideojuegos17.setText(txtBusquedaVideojuegos19.getText().trim());
+            txtBusquedaVideojuegos18.setText(txtBusquedaVideojuegos19.getText().trim());
+            txtBusquedaVideojuegos16.setText(txtBusquedaVideojuegos19.getText().trim());
         });
 
         btnBuscarInventarioAlta.addActionListener((e) -> {
-            obCons.buscarInformacion("inventario", txtBusquedaVideojuegos20.getText(), 6);
+            if (txtBusquedaVideojuegos20.getText().trim().length() == 0) {
+                obI.llenarTablaInventario(tbInv);
+            } else {
+                ConsultasGenerales obCons = new ConsultasGenerales();
+                obCons.buscarInformacionInventario(txtBusquedaVideojuegos20.getText().trim());
+                obCons.llenarTablaInventario(tbInv);
+            }
+            txtBusquedaVideojuegos21.setText(txtBusquedaVideojuegos20.getText().trim());
+            txtBusquedaVideojuegos22.setText(txtBusquedaVideojuegos20.getText().trim());
+            txtBusquedaVideojuegos23.setText(txtBusquedaVideojuegos20.getText().trim());
         });
         btnBuscarInventarioElim.addActionListener((e) -> {
-            obCons.buscarInformacion("inventario", txtBusquedaVideojuegos21.getText(), 6);
+            if (txtBusquedaVideojuegos21.getText().trim().length() == 0) {
+                obI.llenarTablaInventario(tbInv);
+            } else {
+                ConsultasGenerales obCons = new ConsultasGenerales();
+                obCons.buscarInformacionInventario(txtBusquedaVideojuegos21.getText().trim());
+                obCons.llenarTablaInventario(tbInv);
+            }
+            txtBusquedaVideojuegos20.setText(txtBusquedaVideojuegos21.getText().trim());
+            txtBusquedaVideojuegos22.setText(txtBusquedaVideojuegos21.getText().trim());
+            txtBusquedaVideojuegos23.setText(txtBusquedaVideojuegos21.getText().trim());
         });
         btnBuscarInventarioAct.addActionListener((e) -> {
-            obCons.buscarInformacion("inventario", txtBusquedaVideojuegos22.getText(), 6);
+            if (txtBusquedaVideojuegos22.getText().trim().length() == 0) {
+                obI.llenarTablaInventario(tbInv);
+            } else {
+                ConsultasGenerales obCons = new ConsultasGenerales();
+                obCons.buscarInformacionInventario(txtBusquedaVideojuegos22.getText().trim());
+                obCons.llenarTablaInventario(tbInv);
+            }
+            txtBusquedaVideojuegos21.setText(txtBusquedaVideojuegos22.getText().trim());
+            txtBusquedaVideojuegos20.setText(txtBusquedaVideojuegos22.getText().trim());
+            txtBusquedaVideojuegos23.setText(txtBusquedaVideojuegos22.getText().trim());
         });
         btnBuscarInventarioMostrar.addActionListener((e) -> {
-            obCons.buscarInformacion("inventario", txtBusquedaVideojuegos23.getText(), 6);
+            if (txtBusquedaVideojuegos23.getText().trim().length() == 0) {
+                obI.llenarTablaInventario(tbInv);
+            } else {
+                ConsultasGenerales obCons = new ConsultasGenerales();
+                obCons.buscarInformacionInventario(txtBusquedaVideojuegos23.getText().trim());
+                obCons.llenarTablaInventario(tbInv);
+            }
+            txtBusquedaVideojuegos21.setText(txtBusquedaVideojuegos23.getText().trim());
+            txtBusquedaVideojuegos22.setText(txtBusquedaVideojuegos23.getText().trim());
+            txtBusquedaVideojuegos20.setText(txtBusquedaVideojuegos23.getText().trim());
         });
     }
 
@@ -3478,7 +3580,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel37;
     private javax.swing.JPanel jPanel38;
     private javax.swing.JPanel jPanel39;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel40;
     private javax.swing.JPanel jPanel41;
     private javax.swing.JPanel jPanel42;
@@ -3495,7 +3596,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel52;
     private javax.swing.JPanel jPanel53;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lblCantVendida;
