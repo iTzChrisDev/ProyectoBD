@@ -22,6 +22,37 @@ public class CRUDVideojuegos {
         data = new ArrayList<>();
     }
 
+    public void selectVideojuegoVentas(ArrayList<Videojuego> data) {
+        try {
+            query = "SELECT v.*, i.Stock, i.id_tienda FROM  videojuegos AS v\n"
+                    + "INNER JOIN inventario AS i \n"
+                    + "ON v.id_videojuego = i.id_videojuego;";
+            pstm = obC.setConnection().prepareStatement(query);
+            output = pstm.executeQuery();
+
+            while (output.next()) {
+                int id = output.getInt("id_videojuego");
+                String nombre = output.getString("Nombre");
+                String categoria = output.getString("Categoria");
+                double precio = output.getDouble("Precio");
+                int stock = output.getInt("Stock");
+                int idTienda = output.getInt("id_tienda");
+
+                data.add(new Videojuego(id, idTienda, nombre, categoria, precio, stock));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pstm != null) {
+                try {
+                    pstm.close();
+                } catch (SQLException ex) {
+                }
+            }
+            obC.closeConnection();
+        }
+    }
+
     public void selectVideojuego() {
         try {
             query = "SELECT * FROM videojuegos;";

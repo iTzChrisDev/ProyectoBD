@@ -2498,12 +2498,12 @@ public class VentanaRegistros extends javax.swing.JFrame {
         obE.setStylePanelMas(panelGradient19);
         obE.setStylePanelMenos(panelGradient20);
 
-        obE.setStyleTableDefault(tbVideojuegos, scrollVideojuegos, new Color(40, 40, 40), new Color(10, 10, 10), new Color(100, 100, 100), new Color(30, 30, 30), new Color(66, 189, 159));
-        obE.setStyleTableDefault(tbTiendas, scrollTiendas, new Color(40, 40, 40), new Color(10, 10, 10), new Color(100, 100, 100), new Color(30, 30, 30), new Color(66, 189, 159));
-        obE.setStyleTableDefault(tbProv, scrollProv, new Color(40, 40, 40), new Color(10, 10, 10), new Color(100, 100, 100), new Color(30, 30, 30), new Color(66, 189, 159));
-        obE.setStyleTableDefault(tbInv, scrollInv, new Color(40, 40, 40), new Color(10, 10, 10), new Color(100, 100, 100), new Color(30, 30, 30), new Color(66, 189, 159));
-        obE.setStyleTableDefault(tbEmp, scrollEmp, new Color(40, 40, 40), new Color(10, 10, 10), new Color(100, 100, 100), new Color(30, 30, 30), new Color(66, 189, 159));
-        obE.setStyleTableDefault(tbClientes, scrollClientes, new Color(40, 40, 40), new Color(10, 10, 10), new Color(100, 100, 100), new Color(30, 30, 30), new Color(66, 189, 159));
+        obE.setStyleTableDefault(tbVideojuegos, scrollVideojuegos, new Color(40, 40, 40), new Color(30, 30, 30), new Color(100, 100, 100), new Color(30, 30, 30), new Color(66, 189, 159));
+        obE.setStyleTableDefault(tbTiendas, scrollTiendas, new Color(40, 40, 40), new Color(30, 30, 30), new Color(100, 100, 100), new Color(30, 30, 30), new Color(66, 189, 159));
+        obE.setStyleTableDefault(tbProv, scrollProv, new Color(40, 40, 40), new Color(30, 30, 30), new Color(100, 100, 100), new Color(30, 30, 30), new Color(66, 189, 159));
+        obE.setStyleTableDefault(tbInv, scrollInv, new Color(40, 40, 40), new Color(30, 30, 30), new Color(100, 100, 100), new Color(30, 30, 30), new Color(66, 189, 159));
+        obE.setStyleTableDefault(tbEmp, scrollEmp, new Color(40, 40, 40), new Color(30, 30, 30), new Color(100, 100, 100), new Color(30, 30, 30), new Color(66, 189, 159));
+        obE.setStyleTableDefault(tbClientes, scrollClientes, new Color(40, 40, 40), new Color(30, 30, 30), new Color(100, 100, 100), new Color(30, 30, 30), new Color(66, 189, 159));
 
         lblCategoria.setIcon(new ImageIcon("./src/main/java/Resources/like.png"));
         lblMasVend.setIcon(new ImageIcon("./src/main/java/Resources/mas.png"));
@@ -2527,7 +2527,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         lblMenosVendido.setIcon(new ImageIcon("./src/main/java/Resources/peor.png"));
         lblVentas.setIcon(new ImageIcon("./src/main/java/Resources/ventas.png"));
         lblIngresosVentas.setIcon(new ImageIcon("./src/main/java/Resources/ingresos.png"));
-        
+
         obE.setPlaceHolder(txtBusquedaVideojuegos);
         obE.setPlaceHolder(txtBusquedaVideojuegos1);
         obE.setPlaceHolder(txtBusquedaVideojuegos2);

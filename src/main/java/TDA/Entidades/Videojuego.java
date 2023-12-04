@@ -2,10 +2,11 @@ package TDA.Entidades;
 
 public class Videojuego {
 
-    private int id;
+    private int id, idTienda;
     private String nombre;
     private String categoria;
     private double precio;
+    private int stock;
 
     public Videojuego(int id, String nombre, String categoria, double precio) {
         this.id = id;
@@ -18,6 +19,31 @@ public class Videojuego {
         this.nombre = nombre;
         this.categoria = categoria;
         this.precio = precio;
+    }
+
+    public Videojuego(int id, int idTienda, String nombre, String categoria, double precio, int stock) {
+        this.id = id;
+        this.idTienda = idTienda;
+        this.nombre = nombre;
+        this.categoria = categoria;
+        this.precio = precio;
+        this.stock = stock;
+    }
+
+    public int getIdTienda() {
+        return idTienda;
+    }
+
+    public void setIdTienda(int idTienda) {
+        this.idTienda = idTienda;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     public int getId() {
