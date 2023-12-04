@@ -43,6 +43,7 @@ public class VentanaAltas extends javax.swing.JFrame {
     private JTable tbVideojuegos, tbClientes, tbEmpleados, tbProveedores, tbTiendas, tbInventario;
     private JLabel lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, stock1, stock2, stock3;
     private ConsultasGenerales obCons;
+    private String user;
 
     public VentanaAltas() {
         initComponents();
@@ -57,6 +58,10 @@ public class VentanaAltas extends javax.swing.JFrame {
         sqlTiendas = new CRUDTiendas();
         sqlInventario = new CRUDInventario();
         actionListenerButtons();
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     public void setValuesGen(JLabel lblJuegoMasVenCant, JLabel lblJuegoMenosVenCant, JLabel lblVidCont, JLabel lblTienCont, JLabel lblProvCont, JLabel lblCliCont, JLabel lblEmpCont, JLabel lblInvCont, JLabel lblCompraCont, JLabel lblCantVendida, JLabel lblJuegoMasVen, JLabel lblJuegoMenosVen, JLabel lblJuegoMasVend, JLabel lblJuegoMenosVend, JLabel lblTiendaMasVentas, JLabel lblTiendaMenosVentas, JLabel lblEmpMasAtenciones, JLabel lblEmpMejorSueldo, JLabel lblMejorCliente, JLabel lblProvMasActivo, JLabel stock1, JLabel stock2, JLabel stock3) {
@@ -147,103 +152,103 @@ public class VentanaAltas extends javax.swing.JFrame {
         dateSelector1.getDateEditor().getUiComponent().setForeground(new Color(200, 200, 200));
         dateSelector1.getCalendarButton().setBackground(new Color(30, 30, 30));
         dateSelector1.setForeground(new Color(200, 200, 200));
-        
+
         // VIDEOJUEGOS
         TextPrompt placeholder = new TextPrompt("Ingrese el nombre del videojuego...", jTextField2);
         placeholder.changeAlpha(0.50f);
         placeholder.changeStyle(Font.ITALIC);
-        
+
         TextPrompt placeholder2 = new TextPrompt("Ej. Acción, Aventura, etc...", jTextField3);
         placeholder2.changeAlpha(0.50f);
         placeholder2.changeStyle(Font.ITALIC);
-        
+
         TextPrompt placeholder3 = new TextPrompt("Ingrese el valor númerico del precio", jTextField4);
         placeholder3.changeAlpha(0.50f);
         placeholder3.changeStyle(Font.ITALIC);
-        
+
         // TIENDAS
         TextPrompt placeholder4 = new TextPrompt("Ingrese el nombre de la tienda...", jTextField13);
         placeholder4.changeAlpha(0.50f);
         placeholder4.changeStyle(Font.ITALIC);
-        
+
         TextPrompt placeholder5 = new TextPrompt("Ej. Calle Gardenias #123...", jTextField14);
         placeholder5.changeAlpha(0.50f);
         placeholder5.changeStyle(Font.ITALIC);
-        
+
         // EMPLEADOS
         TextPrompt placeholder6 = new TextPrompt("Ingrese el nombre del empleado...", jTextField7);
         placeholder6.changeAlpha(0.50f);
         placeholder6.changeStyle(Font.ITALIC);
-        
+
         TextPrompt placeholder7 = new TextPrompt("Ingrese el ap. paterno del empleado...", jTextField16);
         placeholder7.changeAlpha(0.50f);
         placeholder7.changeStyle(Font.ITALIC);
-        
+
         TextPrompt placeholder8 = new TextPrompt("Ingrese el ap. materno del empleado...", jTextField22);
         placeholder8.changeAlpha(0.50f);
         placeholder8.changeStyle(Font.ITALIC);
-        
+
         TextPrompt placeholder9 = new TextPrompt("Max. 18 caracteres", jTextField21);
         placeholder9.changeAlpha(0.50f);
         placeholder9.changeStyle(Font.ITALIC);
-        
+
         TextPrompt placeholder10 = new TextPrompt("Max. 11 caracteres númericos", jTextField15);
         placeholder10.changeAlpha(0.50f);
         placeholder10.changeStyle(Font.ITALIC);
-        
+
         TextPrompt placeholder11 = new TextPrompt("Ej. Calle Gardenias #123...", jTextField6);
         placeholder11.changeAlpha(0.50f);
         placeholder11.changeStyle(Font.ITALIC);
-        
+
         TextPrompt placeholder12 = new TextPrompt("Max. 10 caracteres númericos", jTextField24);
         placeholder12.changeAlpha(0.50f);
         placeholder12.changeStyle(Font.ITALIC);
-        
+
         TextPrompt placeholder13 = new TextPrompt("Ingrese el sueldo del empleado...", jTextField39);
         placeholder13.changeAlpha(0.50f);
         placeholder13.changeStyle(Font.ITALIC);
-        
+
         TextPrompt placeholder14 = new TextPrompt("Hora (0 a 23)", jTextField40);
         placeholder14.changeAlpha(0.50f);
         placeholder14.changeStyle(Font.ITALIC);
-        
+
         TextPrompt placeholder15 = new TextPrompt("Minutos (0 a 59)", jTextField41);
         placeholder15.changeAlpha(0.50f);
         placeholder15.changeStyle(Font.ITALIC);
-        
+
         TextPrompt placeholder16 = new TextPrompt("Hora (0 a 23)", jTextField43);
         placeholder16.changeAlpha(0.50f);
         placeholder16.changeStyle(Font.ITALIC);
-        
+
         TextPrompt placeholder17 = new TextPrompt("Minutos (0 a 59)", jTextField44);
         placeholder17.changeAlpha(0.50f);
         placeholder17.changeStyle(Font.ITALIC);
-        
+
         // CLIENTES
         TextPrompt placeholder18 = new TextPrompt("Ingrese el nombre del cliente...", jTextField9);
         placeholder18.changeAlpha(0.50f);
         placeholder18.changeStyle(Font.ITALIC);
-        
+
         TextPrompt placeholder19 = new TextPrompt("Ingrese el ap. paterno del cliente...", jTextField12);
         placeholder19.changeAlpha(0.50f);
         placeholder19.changeStyle(Font.ITALIC);
-        
+
         TextPrompt placeholder20 = new TextPrompt("Ingrese el ap. materno del cliente...", jTextField25);
         placeholder20.changeAlpha(0.50f);
         placeholder20.changeStyle(Font.ITALIC);
-        
+
         TextPrompt placeholder21 = new TextPrompt("Ej. Calle Gardenias #123...", jTextField11);
         placeholder21.changeAlpha(0.50f);
         placeholder21.changeStyle(Font.ITALIC);
-        
+
         TextPrompt placeholder22 = new TextPrompt("Max. 10 caracteres númericos", jTextField27);
         placeholder22.changeAlpha(0.50f);
         placeholder22.changeStyle(Font.ITALIC);
-        
+
         TextPrompt placeholder23 = new TextPrompt("Ej. correo123@gmail.com", jTextField29);
         placeholder23.changeAlpha(0.50f);
         placeholder23.changeStyle(Font.ITALIC);
-        
+
         // PROVEEDORES
         TextPrompt placeholder24 = new TextPrompt("Ingrese el nombre del proveedor...", jTextField30);
         placeholder24.changeAlpha(0.50f);
@@ -252,15 +257,15 @@ public class VentanaAltas extends javax.swing.JFrame {
         TextPrompt placeholder25 = new TextPrompt("Ej. Calle Gardenias #123...", jTextField31);
         placeholder25.changeAlpha(0.50f);
         placeholder25.changeStyle(Font.ITALIC);
-        
+
         TextPrompt placeholder26 = new TextPrompt("Max. 10 caracteres númericos", jTextField32);
         placeholder26.changeAlpha(0.50f);
         placeholder26.changeStyle(Font.ITALIC);
-        
+
         TextPrompt placeholder27 = new TextPrompt("Ej. correo123@gmail.com", jTextField33);
         placeholder27.changeAlpha(0.50f);
         placeholder27.changeStyle(Font.ITALIC);
-        
+
         // INVENTARIO
         TextPrompt placeholder28 = new TextPrompt("Ingrese el valor númerico entero correspondiente...", jTextField17);
         placeholder28.changeAlpha(0.50f);
@@ -268,26 +273,28 @@ public class VentanaAltas extends javax.swing.JFrame {
     }
 
     public void cargarDatosGenerales() {
-        obCons.consultarDatoGeneral("videojuegos", lblVidCont, null);
-        obCons.consultarDatoGeneral("tiendas", lblTienCont, null);
-        obCons.consultarDatoGeneral("proveedores", lblProvCont, null);
-        obCons.consultarDatoGeneral("clientes", lblCliCont, null);
-        obCons.consultarDatoGeneral("empleados", lblEmpCont, null);
-        obCons.consultarDatoGeneral("inventario", lblInvCont, null);
-        obCons.consultarDatoGeneral("compra", lblCompraCont, null);
-        obCons.consultarDatoGeneral("ventas", lblCantVendida, null);
-        obCons.consultarDatoGeneral("mas vendido", lblJuegoMasVen, lblJuegoMasVenCant);
-        obCons.consultarDatoGeneral("menos vendido", lblJuegoMenosVen, lblJuegoMenosVenCant);
-        obCons.consultarDatoGeneral("mas vendido1", lblJuegoMasVend, null);
-        obCons.consultarDatoGeneral("menos vendido1", lblJuegoMenosVend, null);
-        obCons.consultarDatoGeneral("mas ventas", lblTiendaMasVentas, null);
-        obCons.consultarDatoGeneral("menos ventas", lblTiendaMenosVentas, null);
-        obCons.consultarDatoGeneral("mas atento", lblEmpMasAtenciones, null);
-        obCons.consultarDatoGeneral("mejor sueldo", lblEmpMejorSueldo, null);
-        obCons.consultarDatoGeneral("mejor cliente", lblMejorCliente, null);
-        obCons.consultarDatoGeneral("mas activo", lblProvMasActivo, null);
-        obCons.setLablesInvStock(stock1, stock2, stock3);
-        obCons.consultarDatoGeneral("stock", null, null);
+        if (user.equals("admin")) {
+            obCons.consultarDatoGeneral("videojuegos", lblVidCont);
+            obCons.consultarDatoGeneral("tiendas", lblTienCont);
+            obCons.consultarDatoGeneral("proveedores", lblProvCont);
+            obCons.consultarDatoGeneral("clientes", lblCliCont);
+            obCons.consultarDatoGeneral("empleados", lblEmpCont);
+            obCons.consultarDatoGeneral("inventario", lblInvCont);
+            obCons.consultarDatoGeneral("compra", lblCompraCont);
+            obCons.consultarDatoGeneral("ventas", lblCantVendida);
+            obCons.consultarDatoGeneralVentas("mas vendido", lblJuegoMasVen, lblJuegoMasVenCant);
+            obCons.consultarDatoGeneralVentas("menos vendido", lblJuegoMenosVen, lblJuegoMenosVenCant);
+            obCons.consultarDatoGeneral("mas vendido1", lblJuegoMasVend);
+            obCons.consultarDatoGeneral("menos vendido1", lblJuegoMenosVend);
+            obCons.consultarDatoGeneral("mas ventas", lblTiendaMasVentas);
+            obCons.consultarDatoGeneral("menos ventas", lblTiendaMenosVentas);
+            obCons.consultarDatoGeneral("mas atento", lblEmpMasAtenciones);
+            obCons.consultarDatoGeneral("mejor sueldo", lblEmpMejorSueldo);
+            obCons.consultarDatoGeneral("mejor cliente", lblMejorCliente);
+            obCons.consultarDatoGeneral("mas activo", lblProvMasActivo);
+            obCons.setLablesInvStock(stock1, stock2, stock3);
+            obCons.consultarStock();
+        }
     }
 
     public void actionListenerButtons() {
@@ -317,7 +324,7 @@ public class VentanaAltas extends javax.swing.JFrame {
                 cargarDatosGenerales();
                 JOptionPane.showMessageDialog(null, "Guardado Correctamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
-            } catch (Exception ex) {
+            } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Campos no validos", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         });
@@ -334,7 +341,7 @@ public class VentanaAltas extends javax.swing.JFrame {
                 cargarDatosGenerales();
                 JOptionPane.showMessageDialog(null, "Guardado Correctamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
-            } catch (Exception ex) {
+            } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Campos no validos", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         });
@@ -364,7 +371,7 @@ public class VentanaAltas extends javax.swing.JFrame {
                 cargarDatosGenerales();
                 JOptionPane.showMessageDialog(null, "Guardado Correctamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
-            } catch (Exception ex) {
+            } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Campos no validos", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         });
@@ -406,11 +413,11 @@ public class VentanaAltas extends javax.swing.JFrame {
 
         btnGuardarClientes.addActionListener((e) -> {
             try {
-                String nombre = jTextField9.getText(),
-                        app = jTextField11.getText(), apm = jTextField25.getText(),
-                        domicilio = jTextField11.getText(),
-                        correo = jTextField29.getText();
-                int telefono = Integer.parseInt(jTextField27.getText());
+                String nombre = jTextField9.getText().trim(),
+                        app = jTextField11.getText(), apm = jTextField25.getText().trim(),
+                        domicilio = jTextField11.getText().trim(),
+                        correo = jTextField29.getText().trim();
+                int telefono = Integer.parseInt(jTextField27.getText().trim());
                 Date fechaNac = new Date(dateSelector1.getDate().getTime());
                 sqlClientes.insertCliente(new Cliente(nombre, app, apm, fechaNac, telefono, domicilio, correo));
 
@@ -418,7 +425,8 @@ public class VentanaAltas extends javax.swing.JFrame {
                 cargarDatosGenerales();
                 JOptionPane.showMessageDialog(null, "Guardado Correctamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
-            } catch (Exception ex) {
+            } catch (NumberFormatException ex) {
+                ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Campos no validos", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
 

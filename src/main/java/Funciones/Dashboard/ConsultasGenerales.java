@@ -47,7 +47,7 @@ public class ConsultasGenerales {
         tcr.setHorizontalAlignment(SwingConstants.CENTER);
         tcr.setBorder(new LineBorder(Color.BLACK));
     }
-    
+
     public void buscarInformacion(String nombreTabla, String parametroBusqueda, int value) {
         CallableStatement stat = null;
         try {
@@ -147,7 +147,7 @@ public class ConsultasGenerales {
                 Time horaEntrada = result.getTime("Hora_Entrada");
                 Time horaSalida = result.getTime("Hora_Salida");
                 String turno = result.getString("Turno");
-                
+
                 dataEmpleado.add(new Empleado(id, nombre, apellidoP, apellidoM, nss, curp, fechaNacimiento, telefono, domicilio, sueldo, nombreTienda, horaEntrada, horaSalida, turno));
             }
         } catch (Exception e) {
@@ -162,7 +162,62 @@ public class ConsultasGenerales {
         }
     }
 
-    public void consultarDatoGeneral(String tabla, JLabel lblResult, JLabel lblResultCant) {
+    public void consultarDatoGeneralVentas(String tabla, JLabel lblResult, JLabel lblResultCant) {
+        switch (tabla) {
+            case "mas vendido":
+                try {
+                sql = "SELECT v.Nombre, SUM(c.Cantidad) AS cant"
+                        + " FROM videojuegos AS v"
+                        + " INNER JOIN compra AS c ON v.id_videojuego = c.id_videojuego"
+                        + " GROUP BY c.id_videojuego"
+                        + " ORDER BY cant DESC LIMIT 1;";
+                query = obC.setConnection().prepareStatement(sql);
+                result = query.executeQuery();
+                while (result.next()) {
+                    lblResult.setText(result.getString(1));
+                    lblResultCant.setText(result.getString(2) + " vendidos");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                if (query != null) {
+                    try {
+                        query.close();
+                    } catch (SQLException ex) {
+                    }
+                }
+                obC.closeConnection();
+            }
+            break;
+            case "menos vendido":
+                try {
+                sql = "SELECT v.Nombre, SUM(c.Cantidad) AS cant"
+                        + " FROM videojuegos AS v"
+                        + " INNER JOIN compra AS c ON v.id_videojuego = c.id_videojuego"
+                        + " GROUP BY c.id_videojuego"
+                        + " ORDER BY cant ASC LIMIT 1;";
+                query = obC.setConnection().prepareStatement(sql);
+                result = query.executeQuery();
+                while (result.next()) {
+                    lblResult.setText(result.getString(1));
+                    lblResultCant.setText(result.getString(2) + " vendidos");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                if (query != null) {
+                    try {
+                        query.close();
+                    } catch (SQLException ex) {
+                    }
+                }
+                obC.closeConnection();
+            }
+            break;
+        }
+    }
+
+    public void consultarDatoGeneral(String tabla, JLabel lblResult) {
         switch (tabla) {
             case "videojuegos":
                 try {
@@ -327,56 +382,6 @@ public class ConsultasGenerales {
                     obC.closeConnection();
                 }
                 break;
-            case "mas vendido":
-                try {
-                sql = "SELECT v.Nombre, SUM(c.Cantidad) AS cant"
-                        + " FROM videojuegos AS v"
-                        + " INNER JOIN compra AS c ON v.id_videojuego = c.id_videojuego"
-                        + " GROUP BY c.id_videojuego"
-                        + " ORDER BY cant DESC LIMIT 1;";
-                query = obC.setConnection().prepareStatement(sql);
-                result = query.executeQuery();
-                while (result.next()) {
-                    lblResult.setText(result.getString(1));
-                    lblResultCant.setText(result.getString(2) + " vendidos");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                if (query != null) {
-                    try {
-                        query.close();
-                    } catch (SQLException ex) {
-                    }
-                }
-                obC.closeConnection();
-            }
-            break;
-            case "menos vendido":
-                try {
-                sql = "SELECT v.Nombre, SUM(c.Cantidad) AS cant"
-                        + " FROM videojuegos AS v"
-                        + " INNER JOIN compra AS c ON v.id_videojuego = c.id_videojuego"
-                        + " GROUP BY c.id_videojuego"
-                        + " ORDER BY cant ASC LIMIT 1;";
-                query = obC.setConnection().prepareStatement(sql);
-                result = query.executeQuery();
-                while (result.next()) {
-                    lblResult.setText(result.getString(1));
-                    lblResultCant.setText(result.getString(2) + " vendidos");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                if (query != null) {
-                    try {
-                        query.close();
-                    } catch (SQLException ex) {
-                    }
-                }
-                obC.closeConnection();
-            }
-            break;
             case "mas vendido1":
                 try {
                 sql = "SELECT v.Nombre, SUM(c.Cantidad) AS cant"
@@ -567,42 +572,43 @@ public class ConsultasGenerales {
                 obC.closeConnection();
             }
             break;
-            case "stock":
-                try {
-                sql = "SELECT v.Nombre, SUM(i.Stock) AS cantidad\n"
-                        + "FROM videojuegos AS v\n"
-                        + "INNER JOIN inventario AS i ON v.id_videojuego = i.id_videojuego\n"
-                        + "GROUP BY i.id_videojuego\n"
-                        + "ORDER BY cantidad ASC LIMIT 3;";
-                query = obC.setConnection().prepareStatement(sql);
-                result = query.executeQuery();
-                int cont = 1;
-                while (result.next()) {
-                    switch (cont) {
-                        case 1:
-                            lblR1.setText(result.getString(1) + "   |");
-                            break;
-                        case 2:
-                            lblR2.setText(result.getString(1) + "   |");
-                            break;
-                        case 3:
-                            lblR3.setText(result.getString(1));
-                            break;
-                    }
-                    cont++;
+        }
+    }
+
+    public void consultarStock() {
+        try {
+            sql = "SELECT v.Nombre, SUM(i.Stock) AS cantidad\n"
+                    + "FROM videojuegos AS v\n"
+                    + "INNER JOIN inventario AS i ON v.id_videojuego = i.id_videojuego\n"
+                    + "GROUP BY i.id_videojuego\n"
+                    + "ORDER BY cantidad ASC LIMIT 3;";
+            query = obC.setConnection().prepareStatement(sql);
+            result = query.executeQuery();
+            int cont = 1;
+            while (result.next()) {
+                switch (cont) {
+                    case 1:
+                        lblR1.setText(result.getString(1) + "   |");
+                        break;
+                    case 2:
+                        lblR2.setText(result.getString(1) + "   |");
+                        break;
+                    case 3:
+                        lblR3.setText(result.getString(1));
+                        break;
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                if (query != null) {
-                    try {
-                        query.close();
-                    } catch (SQLException ex) {
-                    }
-                }
-                obC.closeConnection();
+                cont++;
             }
-            break;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (query != null) {
+                try {
+                    query.close();
+                } catch (SQLException ex) {
+                }
+            }
+            obC.closeConnection();
         }
     }
 
@@ -815,7 +821,7 @@ public class ConsultasGenerales {
         }
         tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     }
-    
+
     public void setLablesInvStock(JLabel lblR1, JLabel lblR2, JLabel lblR3) {
         this.lblR1 = lblR1;
         this.lblR2 = lblR2;

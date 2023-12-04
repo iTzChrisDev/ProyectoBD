@@ -53,6 +53,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
     private CRUDProveedores sqlProveedores;
     private CRUDTiendas sqlTiendas;
     private CRUDInventario sqlInventario;
+    private String user;
 
     public VentanaRegistros() {
         initComponents();
@@ -79,6 +80,10 @@ public class VentanaRegistros extends javax.swing.JFrame {
         initButtonsCRUD();
         actionListenerBtnActions();
         cargarDatosGenerales();
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     @SuppressWarnings("unchecked")
@@ -2275,26 +2280,26 @@ public class VentanaRegistros extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public void cargarDatosGenerales() {
-        obCons.consultarDatoGeneral("videojuegos", lblVidCont, null);
-        obCons.consultarDatoGeneral("tiendas", lblTienCont, null);
-        obCons.consultarDatoGeneral("proveedores", lblProvCont, null);
-        obCons.consultarDatoGeneral("clientes", lblCliCont, null);
-        obCons.consultarDatoGeneral("empleados", lblEmpCont, null);
-        obCons.consultarDatoGeneral("inventario", lblInvCont, null);
-        obCons.consultarDatoGeneral("compra", lblCompraCont, null);
-        obCons.consultarDatoGeneral("ventas", lblCantVendida, null);
-        obCons.consultarDatoGeneral("mas vendido", lblJuegoMasVen, lblJuegoMasVenCant);
-        obCons.consultarDatoGeneral("menos vendido", lblJuegoMenosVen, lblJuegoMenosVenCant);
-        obCons.consultarDatoGeneral("mas vendido1", lblJuegoMasVend, null);
-        obCons.consultarDatoGeneral("menos vendido1", lblJuegoMenosVend, null);
-        obCons.consultarDatoGeneral("mas ventas", lblTiendaMasVentas, null);
-        obCons.consultarDatoGeneral("menos ventas", lblTiendaMenosVentas, null);
-        obCons.consultarDatoGeneral("mas atento", lblEmpMasAtenciones, null);
-        obCons.consultarDatoGeneral("mejor sueldo", lblEmpMejorSueldo, null);
-        obCons.consultarDatoGeneral("mejor cliente", lblMejorCliente, null);
-        obCons.consultarDatoGeneral("mas activo", lblProvMasActivo, null);
+        obCons.consultarDatoGeneral("videojuegos", lblVidCont);
+        obCons.consultarDatoGeneral("tiendas", lblTienCont);
+        obCons.consultarDatoGeneral("proveedores", lblProvCont);
+        obCons.consultarDatoGeneral("clientes", lblCliCont);
+        obCons.consultarDatoGeneral("empleados", lblEmpCont);
+        obCons.consultarDatoGeneral("inventario", lblInvCont);
+        obCons.consultarDatoGeneral("compra", lblCompraCont);
+        obCons.consultarDatoGeneral("ventas", lblCantVendida);
+        obCons.consultarDatoGeneralVentas("mas vendido", lblJuegoMasVen, lblJuegoMasVenCant);
+        obCons.consultarDatoGeneralVentas("menos vendido", lblJuegoMenosVen, lblJuegoMenosVenCant);
+        obCons.consultarDatoGeneral("mas vendido1", lblJuegoMasVend);
+        obCons.consultarDatoGeneral("menos vendido1", lblJuegoMenosVend);
+        obCons.consultarDatoGeneral("mas ventas", lblTiendaMasVentas);
+        obCons.consultarDatoGeneral("menos ventas", lblTiendaMenosVentas);
+        obCons.consultarDatoGeneral("mas atento", lblEmpMasAtenciones);
+        obCons.consultarDatoGeneral("mejor sueldo", lblEmpMejorSueldo);
+        obCons.consultarDatoGeneral("mejor cliente", lblMejorCliente);
+        obCons.consultarDatoGeneral("mas activo", lblProvMasActivo);
         obCons.setLablesInvStock(jLabel40, jLabel41, jLabel42);
-        obCons.consultarDatoGeneral("stock", null, null);
+        obCons.consultarStock();
 
         obI.llenarTablaVideojuegos(tbVideojuegos);
         obI.llenarTablaTiendas(tbTiendas);
@@ -2718,6 +2723,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
             alta.setTbVideojuegos(tbVideojuegos);
             alta.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
             alta.setVisible(true);
+            alta.setUser(user);
         });
 
         btnAgregarTiendas.addActionListener((e) -> {
@@ -2727,6 +2733,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
             alta2.setTbTiendas(tbTiendas);
             alta2.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
             alta2.setVisible(true);
+            alta2.setUser(user);
         });
 
         btnAgregarEmpleados.addActionListener((e) -> {
@@ -2736,6 +2743,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
             alta3.setTbEmpleados(tbEmp);
             alta3.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
             alta3.setVisible(true);
+            alta3.setUser(user);
         });
 
         btnAgregarClientes.addActionListener((e) -> {
@@ -2745,6 +2753,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
             alta4.setTbClientes(tbClientes);
             alta4.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
             alta4.setVisible(true);
+            alta4.setUser(user);
         });
 
         btnAgregarProveedores.addActionListener((e) -> {
@@ -2754,6 +2763,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
             alta5.setTbProveedores(tbProv);
             alta5.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
             alta5.setVisible(true);
+            alta5.setUser(user);
         });
 
         btnAgregarInventario.addActionListener((e) -> {
@@ -2763,6 +2773,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
             alta6.setTbInventario(tbInv);
             alta6.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
             alta6.setVisible(true);
+            alta6.setUser(user);
         });
 
         // Eliminar
@@ -2878,6 +2889,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
                 actu.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
                 actu.setStr("altaVideojuegos", "Videojuegos", "./src/main/java/Resources/selectedGames.png");
                 actu.setVisible(true);
+                actu.setUser(user);
             } else {
                 JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
@@ -2902,6 +2914,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
                 actu2.setStr("altaTiendas", "Tiendas", "./src/main/java/Resources/selectedTienda.png");
                 actu2.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
                 actu2.setVisible(true);
+                actu2.setUser(user);
             } else {
                 JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
@@ -2928,6 +2941,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
                 actu3.setStr("altaProveedores", "Proveedores", "./src/main/java/Resources/selectedProv.png");
                 actu3.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
                 actu3.setVisible(true);
+                actu3.setUser(user);
             } else {
                 JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
@@ -2955,6 +2969,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
                 actu4.setStr("altaInventario", "Inventario", "./src/main/java/Resources/selectedInv.png");
                 actu4.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
                 actu4.setVisible(true);
+                actu4.setUser(user);
             } else {
                 JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
@@ -2980,6 +2995,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
                 actu5.setStr("altaEmpleados", "Empleados", "./src/main/java/Resources/selectedEmp.png");
                 actu5.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
                 actu5.setVisible(true);
+                actu5.setUser(user);
             } else {
                 JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
@@ -3005,6 +3021,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
                 actu6.setStr("altaClientes", "Clientes", "./src/main/java/Resources/selectedCliente.png");
                 actu6.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
                 actu6.setVisible(true);
+                actu6.setUser(user);
             } else {
                 JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
