@@ -1,4 +1,5 @@
 package Funciones.Relaciones;
+
 import ConexionBD.Conexion;
 import TDA.Relaciones.Provee;
 import java.sql.Date;
@@ -22,20 +23,30 @@ public class CRUDProveen {
         data = new ArrayList<>();
     }
 
+    public ArrayList<Provee> getData() {
+        return data;
+    }
+
     public void selectProveen() {
         try {
-            query = "SELECT * FROM proveen;";
+            query = "SELECT p.*, v.Nombre AS Videojuego, t.Nombre AS Tienda, pr.Nombre AS Proveedor FROM proveen AS p\n"
+                    + "INNER JOIN videojuegos AS v ON p.id_videojuego = v.id_videojuego\n"
+                    + "INNER JOIN proveedores AS pr ON p.id_proveedor = pr.id_proveedor\n"
+                    + "INNER JOIN tiendas AS t ON p.id_tienda = t.id_tienda;";
             pstm = obC.setConnection().prepareStatement(query);
             output = pstm.executeQuery();
 
             while (output.next()) {
                 int idVideojuego = output.getInt("id_videojuego");
-                int idProveedor = output.getInt("id_proveedores");
-                int idTienda = output.getInt("id_tiendas");
+                int idProveedor = output.getInt("id_proveedor");
+                int idTienda = output.getInt("id_tienda");
                 int cantidad = output.getInt("Cantidad");
                 Date fecha = output.getDate("Fecha");
+                String videojuego = output.getString("Videojuego");
+                String tienda = output.getString("Tienda");
+                String proveedor = output.getString("Proveedor");
 
-                data.add(new Provee(idVideojuego, idProveedor, idTienda, cantidad, fecha));
+                data.add(new Provee(idVideojuego, idProveedor, idTienda, cantidad, fecha, videojuego, tienda, proveedor));
             }
 
         } catch (SQLException ex) {
@@ -53,7 +64,7 @@ public class CRUDProveen {
 
     public void insertProveen(Provee proveen) {
         try {
-            query = "INSERT INTO proveen (id_videojuego, id_proveedores, id_tiendas, Cantidad, Fecha) VALUES (?, ?, ?, ?, ?);";
+            query = "INSERT INTO proveen (id_videojuego, id_proveedor, id_tienda, Cantidad, Fecha) VALUES (?, ?, ?, ?, ?);";
             pstm = obC.setConnection().prepareStatement(query);
             pstm.setInt(1, proveen.getId_videojuego());
             pstm.setInt(2, proveen.getId_proveedor());
@@ -76,7 +87,7 @@ public class CRUDProveen {
 
     public void updateProveen(int idVideojuego, int idProveedor, int idTienda, Provee proveen) {
         try {
-            query = "UPDATE proveen SET Cantidad = ?, Fecha = ? WHERE id_videojuego = ? AND id_proveedores = ? AND id_tiendas = ?";
+            query = "UPDATE proveen SET Cantidad = ?, Fecha = ? WHERE id_videojuego = ? AND id_proveedor = ? AND id_tienda = ?";
             pstm = obC.setConnection().prepareStatement(query);
             pstm.setInt(1, proveen.getCantidad());
             pstm.setDate(2, proveen.getFechaSurtido());
@@ -99,7 +110,7 @@ public class CRUDProveen {
 
     public void deleteProveen(int idVideojuego, int idProveedor, int idTienda) {
         try {
-            query = "DELETE FROM proveen WHERE id_videojuego = ? AND id_proveedores = ? AND id_tiendas = ?";
+            query = "DELETE FROM proveen WHERE id_videojuego = ? AND id_proveedor = ? AND id_tienda = ?;";
             pstm = obC.setConnection().prepareStatement(query);
             pstm.setInt(1, idVideojuego);
             pstm.setInt(2, idProveedor);

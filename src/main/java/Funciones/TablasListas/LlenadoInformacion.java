@@ -6,8 +6,11 @@ import Funciones.Entidades.CRUDProveedores;
 import Funciones.Entidades.CRUDTiendas;
 import Funciones.Entidades.CRUDVideojuegos;
 import Funciones.Relaciones.CRUDInventario;
+import Funciones.Relaciones.CRUDProveen;
 import TDA.Entidades.*;
+import TDA.Relaciones.Provee;
 import java.awt.Color;
+import java.util.ArrayList;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -32,6 +35,16 @@ public class LlenadoInformacion {
         obV.selectVideojuego();
         for (Videojuego v : obV.getData()) {
             combo.addItem(v.getNombre());
+        }
+    }
+
+    public void llenarComboProv(JComboBox combo) {
+        combo.removeAllItems();
+
+        CRUDProveedores obP = new CRUDProveedores();
+        obP.selectProveedor();
+        for (Proveedor p : obP.getData()) {
+            combo.addItem(p.getNombre());
         }
     }
 
@@ -243,7 +256,7 @@ public class LlenadoInformacion {
         tbModelInv.setRowCount(0);
         CRUDInventario obI = new CRUDInventario();
         obI.selectInventarioTable();
-        
+
         tbModelInv.addColumn("ID_Videojuego");
         tbModelInv.addColumn("Videojuego");
         tbModelInv.addColumn("ID_Tienda");
@@ -267,4 +280,43 @@ public class LlenadoInformacion {
         tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     }
 
+    public void llenarTablaProveen(JTable tabla) {
+        DefaultTableModel tbModelProv = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tbModelProv.setRowCount(0);
+        CRUDProveen obP = new CRUDProveen();
+        obP.selectProveen();
+
+        tbModelProv.addColumn("ID_Videojuego");
+        tbModelProv.addColumn("Videojuego");
+        tbModelProv.addColumn("ID_Proveedor");
+        tbModelProv.addColumn("Proveedor");
+        tbModelProv.addColumn("ID_Tienda");
+        tbModelProv.addColumn("Tienda");
+        tbModelProv.addColumn("Cantidad");
+        tbModelProv.addColumn("Fecha");
+
+        Object[] row = new Object[8];
+        for (Provee p : obP.getData()) {
+            row[0] = p.getId_videojuego();
+            row[1] = p.getVideojuego();
+            row[2] = p.getId_proveedor();
+            row[3] = p.getProveedor();
+            row[4] = p.getId_tienda();
+            row[5] = p.getTienda();
+            row[6] = p.getCantidad();
+            row[7] = p.getFechaSurtido();
+
+            tbModelProv.addRow(row);
+        }
+        tabla.setModel(tbModelProv);
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
+        }
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    }
 }

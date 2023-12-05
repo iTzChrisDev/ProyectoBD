@@ -5,7 +5,6 @@ import CustomComponents.PanelRound;
 import CustomComponents.RoundButton;
 import Funciones.Dashboard.ConsultasGenerales;
 import CustomComponents.EstilosComponentes;
-import CustomComponents.TextPrompt;
 import Funciones.Entidades.*;
 import Funciones.Relaciones.CRUDInventario;
 import Funciones.TablasListas.LlenadoInformacion;
@@ -24,11 +23,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 public class VentanaRegistros extends javax.swing.JFrame {
-
     private final Color select = new Color(25, 200, 178);
     private final Color unselect = new Color(100, 100, 100);
     private boolean estado = true;
@@ -54,7 +50,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
     private CRUDTiendas sqlTiendas;
     private CRUDInventario sqlInventario;
     private String user;
-
+    
     public VentanaRegistros() {
         initComponents();
         setLocationRelativeTo(this);

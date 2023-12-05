@@ -1,21 +1,30 @@
 package GUI;
 
+import CustomComponents.CustomComboBoxRenderer;
 import CustomComponents.EstilosComponentes;
 import CustomComponents.PanelVideojuego;
 import CustomComponents.RoundButton;
 import CustomComponents.ScrollBarCustom;
 import Funciones.Dashboard.ConsultasGenerales;
 import Funciones.Entidades.CRUDClientes;
+import Funciones.Entidades.CRUDProveedores;
+import Funciones.Entidades.CRUDTiendas;
 import Funciones.Entidades.CRUDVideojuegos;
+import Funciones.Relaciones.CRUDProveen;
 import Funciones.TablasListas.LlenadoInformacion;
 import TDA.Entidades.Cliente;
+import TDA.Entidades.Proveedor;
+import TDA.Entidades.Tienda;
 import TDA.Entidades.Videojuego;
+import TDA.Relaciones.Provee;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -28,10 +37,11 @@ import javax.swing.border.LineBorder;
 
 public class VentanaVentas extends javax.swing.JFrame {
 
-    private RoundButton btnVentas, btnProv, btnClientes, btnSalir, btnAgregarClientes, btnEliminarClientes, btnActClientes;
+    private RoundButton btnVentas, btnProv, btnClientes, btnSalir, btnAgregarClientes, btnEliminarClientes, btnActClientes, btnConfirmar, btnEliminar, btnAgregarSurtido, btnEliminarSurtido, btnActualizarSurtido;
     private VentanaAltas alta;
-    private VentanaActualizaciones actualizar;
+    private VentanaActualizaciones actualizar, actualizar2;
     private CRUDClientes sqlClientes;
+    private CRUDProveen sqlProveen;
     private ConsultasGenerales obCons;
     private EstilosComponentes obE;
     private LlenadoInformacion obI;
@@ -51,18 +61,24 @@ public class VentanaVentas extends javax.swing.JFrame {
         obCons = new ConsultasGenerales();
         obI = new LlenadoInformacion();
         sqlClientes = new CRUDClientes();
+        sqlProveen = new CRUDProveen();
         obC = (CardLayout) pnlMain.getLayout();
         obE = new EstilosComponentes();
         setLocationRelativeTo(this);
         initComponentsCustom();
     }
 
-    public void setTiendaTrabajo(int idTiendaTrabajo) {
+    public void setUser(String user, int idTiendaTrabajo) {
         this.idTiendaTrabajo = idTiendaTrabajo;
-    }
-
-    public void setUser(String user) {
         this.user = user;
+        obI.llenarTablaProveen(tbProv);
+        CRUDTiendas tienda = new CRUDTiendas();
+        tienda.selectTienda();
+        for (Tienda t : tienda.getData()) {
+            if (t.getId() == idTiendaTrabajo) {
+                txtTienda.setText(t.getNombre());
+            }
+        }
     }
 
     public void initButtonsCliente() {
@@ -124,6 +140,8 @@ public class VentanaVentas extends javax.swing.JFrame {
 
     public void initComponentsCustom() {
         obI.llenarTablaClientes(tbClientes1);
+        obI.llenarComboProv(comboProve);
+        obI.llenarComboVideojuegos(comboVideojuegos);
 
         btnVentas = obE.getStyleMenuBtn(btnVentas, pnlMenuData);
         btnVentas.setVerticalTextPosition(SwingConstants.CENTER);
@@ -204,6 +222,119 @@ public class VentanaVentas extends javax.swing.JFrame {
         pnlOpcClientes.add(btnAgregarClientes);
         pnlOpcClientes.add(btnEliminarClientes);
         pnlOpcClientes.add(btnActClientes);
+
+        btnConfirmar = obE.getStyleButtonAdd(btnAgregarClientes);
+        btnConfirmar.setBorderColor(new Color(40, 40, 40));
+        btnConfirmar.setText("Finalizar");
+        btnConfirmar.setIcon(new ImageIcon("./src/main/java/Resources/confirmar.png"));
+
+        btnEliminar = obE.getStyleButtonEliminar(btnEliminarClientes);
+        btnEliminar.setBorderColor(new Color(40, 40, 40));
+        btnEliminar.setText("Eliminar");
+
+        obE.setStyleTableDefault(tbProv, scrollProv, new Color(40, 40, 40), new Color(30, 30, 30), new Color(100, 100, 100), new Color(30, 30, 30), new Color(66, 189, 159));
+
+        pnlButtonsCompra.add(btnEliminar);
+        pnlButtonsCompra.add(btnConfirmar);
+
+        comboVideojuegos.setRenderer(new CustomComboBoxRenderer());
+        comboVideojuegos.setFocusable(false);
+        comboVideojuegos.getComponent(0).setBackground(new Color(140, 255, 241));
+
+        comboProve.setRenderer(new CustomComboBoxRenderer());
+        comboProve.setFocusable(false);
+        comboProve.getComponent(0).setBackground(new Color(140, 255, 241));
+
+        btnAgregarSurtido = obE.getStyleButtonAdd(btnAgregarSurtido);
+        btnAgregarSurtido.addActionListener((e) -> {
+            int idV = 0, idP = 0;
+            CRUDVideojuegos obV = new CRUDVideojuegos();
+            CRUDProveedores obP = new CRUDProveedores();
+            obV.selectVideojuego();
+            obP.selectProveedor();
+
+            for (Videojuego v : obV.getData()) {
+                if (String.valueOf(comboVideojuegos.getSelectedItem()).equals(v.getNombre())) {
+                    idV = v.getId();
+                    break;
+                }
+            }
+
+            for (Proveedor p : obP.getData()) {
+                if (String.valueOf(comboProve.getSelectedItem()).equals(p.getNombre())) {
+                    idP = p.getId();
+                    break;
+                }
+            }
+
+            Calendar c = Calendar.getInstance();
+            int day = c.get(Calendar.DATE);
+            int month = c.get(Calendar.MONTH) + 1;
+            int year = c.get(Calendar.YEAR);
+
+            c.set(year, month, day);
+            long milis = c.getTimeInMillis();
+            int cant = Integer.parseInt(txtCant.getText().trim());
+            sqlProveen.insertProveen(new Provee(idV, idTiendaTrabajo, idP, cant, new Date(milis)));
+            obI.llenarTablaProveen(tbProv);
+        });
+
+        btnEliminarSurtido = obE.getStyleButtonEliminar(btnEliminarSurtido);
+        btnEliminarSurtido.addActionListener((e) -> {
+            int selectedRowIndex = tbProv.getSelectedRow();
+            if (selectedRowIndex != -1) {
+                Object auxV = tbProv.getModel().getValueAt(selectedRowIndex, 0);
+                int idV = Integer.parseInt(String.valueOf(auxV));
+                Object auxP = tbProv.getModel().getValueAt(selectedRowIndex, 2);
+                int idP = Integer.parseInt(String.valueOf(auxP));
+                Object auxT = tbProv.getModel().getValueAt(selectedRowIndex, 4);
+                int idT = Integer.parseInt(String.valueOf(auxT));
+
+                System.out.println("video "+idV + " | prov " + idP + " | tien" + idT);
+                sqlProveen.deleteProveen(idV, idP, idT);
+                obI.llenarTablaProveen(tbProv);
+                cargarDatosGenerales();
+                JOptionPane.showMessageDialog(null, "Se ha eliminado el registro", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        btnActualizarSurtido = obE.getStyleButtonUpdate(btnActualizarSurtido);
+        btnActualizarSurtido.addActionListener((e) -> {
+            int selectedRowIndex = tbProv.getSelectedRow();
+            if (selectedRowIndex != -1) {
+                Object auxV = tbProv.getModel().getValueAt(selectedRowIndex, 0);
+                int idV = Integer.parseInt(String.valueOf(auxV));
+                Object auxP = tbProv.getModel().getValueAt(selectedRowIndex, 2);
+                int idP = Integer.parseInt(String.valueOf(auxP));
+                Object auxT = tbProv.getModel().getValueAt(selectedRowIndex, 4);
+                int idT = Integer.parseInt(String.valueOf(auxT));
+                actualizar2 = new VentanaActualizaciones();
+                actualizar2.setTitle("Actualizar entrada mercancia");
+                actualizar2.setTbProveen(tbProv);
+
+                sqlProveen.selectProveen();
+                for (Provee p : sqlProveen.getData()) {
+                    if (p.getId_videojuego() == idV && p.getId_tienda() == idT && p.getId_proveedor() == idP) {
+                        actualizar2.setProveer(p, idV, idT, idP);
+                        break;
+                    }
+                }
+
+                actualizar2.setStr("altaProveen", "Entradas", "./src/main/java/Resources/selectedProv.png");
+                actualizar2.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, stock1, stock2, stock3);
+                actualizar2.setVisible(true);
+                actualizar2.setUser(user);
+            } else {
+                JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        btnAgregarSurtido.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnAgregarSurtido.setHorizontalTextPosition(SwingConstants.CENTER);
+        jPanel8.add(btnAgregarSurtido);
+        pnlBtnProv.add(btnEliminarSurtido);
+        pnlBtnProv.add(btnActualizarSurtido);
 
         initButtonsVideojuegos();
         System.out.println(buttonsVideojuegos.size());
@@ -297,13 +428,6 @@ public class VentanaVentas extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
-        ComboBoxTienda = new javax.swing.JComboBox<>();
-        jLabel12 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        ComboBoxCliente = new javax.swing.JComboBox<>();
-        jLabel13 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         pnlHeader = new javax.swing.JPanel();
         pnlMenuData = new CustomComponents.PanelRound();
@@ -323,12 +447,34 @@ public class VentanaVentas extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
+        pnlButtonsCompra = new javax.swing.JPanel();
         pnlSelectorVideojuegos = new javax.swing.JPanel();
         panelRound2 = new CustomComponents.PanelRound();
         scrollVideojuegos = new javax.swing.JScrollPane();
         pnlVideojuegos = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
         pnlProveedores = new javax.swing.JPanel();
+        pnlHeaderProv = new javax.swing.JPanel();
+        pnlMenuContainerProv = new CustomComponents.PanelRound();
+        jPanel7 = new javax.swing.JPanel();
+        jPanel11 = new javax.swing.JPanel();
+        txtTienda = new javax.swing.JTextField();
+        jLabel22 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel23 = new javax.swing.JLabel();
+        comboVideojuegos = new javax.swing.JComboBox<>();
+        jPanel4 = new javax.swing.JPanel();
+        txtCant = new javax.swing.JTextField();
+        jLabel25 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel24 = new javax.swing.JLabel();
+        comboProve = new javax.swing.JComboBox<>();
+        jPanel8 = new javax.swing.JPanel();
+        pnlSelectorVideojuegos1 = new javax.swing.JPanel();
+        panelRound4 = new CustomComponents.PanelRound();
+        scrollProv = new javax.swing.JScrollPane();
+        tbProv = new javax.swing.JTable();
+        pnlBtnProv = new CustomComponents.PanelRound();
         pnlClientes = new javax.swing.JPanel();
         pnlOpcClientes = new CustomComponents.PanelRound();
         jPanel29 = new javax.swing.JPanel();
@@ -337,52 +483,14 @@ public class VentanaVentas extends javax.swing.JFrame {
         scrollClientes1 = new javax.swing.JScrollPane();
         tbClientes1 = new javax.swing.JTable();
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 5));
-        jPanel2.setOpaque(false);
-        jPanel2.setLayout(new java.awt.BorderLayout());
-
-        ComboBoxTienda.setBackground(new java.awt.Color(30, 30, 30));
-        ComboBoxTienda.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        ComboBoxTienda.setForeground(new java.awt.Color(200, 200, 200));
-        ComboBoxTienda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        ComboBoxTienda.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
-        jPanel2.add(ComboBoxTienda, java.awt.BorderLayout.CENTER);
-
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(100, 100, 100));
-        jLabel12.setText("Tienda");
-        jLabel12.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jPanel2.add(jLabel12, java.awt.BorderLayout.NORTH);
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 5));
-        jPanel3.setOpaque(false);
-        jPanel3.setLayout(new java.awt.BorderLayout());
-
-        ComboBoxCliente.setBackground(new java.awt.Color(30, 30, 30));
-        ComboBoxCliente.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        ComboBoxCliente.setForeground(new java.awt.Color(200, 200, 200));
-        ComboBoxCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        ComboBoxCliente.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
-        jPanel3.add(ComboBoxCliente, java.awt.BorderLayout.CENTER);
-
-        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(100, 100, 100));
-        jLabel13.setText("Cliente");
-        jLabel13.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jPanel3.add(jLabel13, java.awt.BorderLayout.NORTH);
-
-        jPanel4.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        jPanel4.setOpaque(false);
-        jPanel4.setLayout(new java.awt.BorderLayout());
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(20, 20, 20));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        pnlHeader.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 10, 10));
+        pnlHeader.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         pnlHeader.setOpaque(false);
-        pnlHeader.setLayout(new java.awt.BorderLayout(5, 5));
+        pnlHeader.setLayout(new java.awt.BorderLayout(10, 10));
 
         pnlMenuData.setBackground(new java.awt.Color(10, 10, 10));
         pnlMenuData.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -398,6 +506,7 @@ public class VentanaVentas extends javax.swing.JFrame {
         pnlMain.setOpaque(false);
         pnlMain.setLayout(new java.awt.CardLayout());
 
+        pnlVentas.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 5, 0));
         pnlVentas.setOpaque(false);
         pnlVentas.setLayout(new java.awt.BorderLayout());
 
@@ -489,17 +598,23 @@ public class VentanaVentas extends javax.swing.JFrame {
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel19.setText("Total");
-        jLabel19.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jLabel19.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        jLabel19.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel6.add(jLabel19, java.awt.BorderLayout.PAGE_START);
 
         jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(25, 200, 178));
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel20.setText("$0.00");
         jLabel20.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        jLabel20.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel6.add(jLabel20, java.awt.BorderLayout.CENTER);
 
         panelRound1.add(jPanel6, java.awt.BorderLayout.CENTER);
+
+        pnlButtonsCompra.setOpaque(false);
+        pnlButtonsCompra.setLayout(new java.awt.GridLayout(1, 2, 5, 5));
+        panelRound1.add(pnlButtonsCompra, java.awt.BorderLayout.PAGE_START);
 
         pnlMenuContainer.add(panelRound1, java.awt.BorderLayout.SOUTH);
 
@@ -528,7 +643,7 @@ public class VentanaVentas extends javax.swing.JFrame {
         pnlVideojuegos.setLayout(pnlVideojuegosLayout);
         pnlVideojuegosLayout.setHorizontalGroup(
             pnlVideojuegosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 597, Short.MAX_VALUE)
+            .addGap(0, 4191, Short.MAX_VALUE)
         );
         pnlVideojuegosLayout.setVerticalGroup(
             pnlVideojuegosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -553,22 +668,167 @@ public class VentanaVentas extends javax.swing.JFrame {
 
         pnlMain.add(pnlVentas, "card1");
 
+        pnlProveedores.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 10, 10));
         pnlProveedores.setOpaque(false);
+        pnlProveedores.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout pnlProveedoresLayout = new javax.swing.GroupLayout(pnlProveedores);
-        pnlProveedores.setLayout(pnlProveedoresLayout);
-        pnlProveedoresLayout.setHorizontalGroup(
-            pnlProveedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 900, Short.MAX_VALUE)
-        );
-        pnlProveedoresLayout.setVerticalGroup(
-            pnlProveedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 675, Short.MAX_VALUE)
-        );
+        pnlHeaderProv.setBackground(new java.awt.Color(63, 63, 63));
+        pnlHeaderProv.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        pnlHeaderProv.setOpaque(false);
+        pnlHeaderProv.setLayout(new java.awt.GridLayout());
+
+        pnlMenuContainerProv.setBackground(new java.awt.Color(10, 10, 10));
+        pnlMenuContainerProv.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        pnlMenuContainerProv.setRoundBottomLeft(20);
+        pnlMenuContainerProv.setRoundBottomRight(20);
+        pnlMenuContainerProv.setRoundTopLeft(20);
+        pnlMenuContainerProv.setRoundTopRight(20);
+        pnlMenuContainerProv.setLayout(new java.awt.BorderLayout());
+
+        jPanel7.setOpaque(false);
+        jPanel7.setLayout(new java.awt.GridLayout(2, 2, 10, 5));
+
+        jPanel11.setOpaque(false);
+        jPanel11.setLayout(new java.awt.BorderLayout());
+
+        txtTienda.setBackground(new java.awt.Color(10, 10, 10));
+        txtTienda.setFont(new java.awt.Font("Roboto", 0, 16)); // NOI18N
+        txtTienda.setForeground(new java.awt.Color(200, 200, 200));
+        txtTienda.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtTienda.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
+        txtTienda.setCaretColor(new java.awt.Color(25, 200, 178));
+        txtTienda.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtTienda.setEnabled(false);
+        txtTienda.setSelectedTextColor(new java.awt.Color(10, 10, 10));
+        txtTienda.setSelectionColor(new java.awt.Color(25, 200, 178));
+        jPanel11.add(txtTienda, java.awt.BorderLayout.CENTER);
+
+        jLabel22.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel22.setForeground(new java.awt.Color(100, 100, 100));
+        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel22.setText("Tienda actual");
+        jLabel22.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jPanel11.add(jLabel22, java.awt.BorderLayout.PAGE_START);
+
+        jPanel7.add(jPanel11);
+
+        jPanel2.setOpaque(false);
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        jLabel23.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(100, 100, 100));
+        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel23.setText("Videojuego");
+        jLabel23.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jPanel2.add(jLabel23, java.awt.BorderLayout.CENTER);
+
+        comboVideojuegos.setBackground(new java.awt.Color(30, 30, 30));
+        comboVideojuegos.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        comboVideojuegos.setForeground(new java.awt.Color(200, 200, 200));
+        comboVideojuegos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4" }));
+        comboVideojuegos.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
+        jPanel2.add(comboVideojuegos, java.awt.BorderLayout.SOUTH);
+
+        jPanel7.add(jPanel2);
+
+        jPanel4.setOpaque(false);
+        jPanel4.setLayout(new java.awt.BorderLayout());
+
+        txtCant.setBackground(new java.awt.Color(30, 30, 30));
+        txtCant.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        txtCant.setForeground(new java.awt.Color(200, 200, 200));
+        txtCant.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
+        txtCant.setCaretColor(new java.awt.Color(25, 200, 178));
+        txtCant.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtCant.setSelectedTextColor(new java.awt.Color(10, 10, 10));
+        txtCant.setSelectionColor(new java.awt.Color(25, 200, 178));
+        jPanel4.add(txtCant, java.awt.BorderLayout.CENTER);
+
+        jLabel25.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel25.setForeground(new java.awt.Color(100, 100, 100));
+        jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel25.setText("Cantidad");
+        jLabel25.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jPanel4.add(jLabel25, java.awt.BorderLayout.PAGE_START);
+
+        jPanel7.add(jPanel4);
+
+        jPanel3.setOpaque(false);
+        jPanel3.setLayout(new java.awt.BorderLayout());
+
+        jLabel24.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel24.setForeground(new java.awt.Color(100, 100, 100));
+        jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel24.setText("Proveedor");
+        jLabel24.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jPanel3.add(jLabel24, java.awt.BorderLayout.CENTER);
+
+        comboProve.setBackground(new java.awt.Color(30, 30, 30));
+        comboProve.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        comboProve.setForeground(new java.awt.Color(200, 200, 200));
+        comboProve.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4" }));
+        comboProve.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
+        jPanel3.add(comboProve, java.awt.BorderLayout.SOUTH);
+
+        jPanel7.add(jPanel3);
+
+        pnlMenuContainerProv.add(jPanel7, java.awt.BorderLayout.CENTER);
+
+        jPanel8.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        jPanel8.setOpaque(false);
+        jPanel8.setLayout(new java.awt.GridLayout(1, 1));
+        pnlMenuContainerProv.add(jPanel8, java.awt.BorderLayout.EAST);
+
+        pnlHeaderProv.add(pnlMenuContainerProv);
+
+        pnlProveedores.add(pnlHeaderProv, java.awt.BorderLayout.NORTH);
+
+        pnlSelectorVideojuegos1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        pnlSelectorVideojuegos1.setOpaque(false);
+        pnlSelectorVideojuegos1.setLayout(new java.awt.BorderLayout());
+
+        panelRound4.setBackground(new java.awt.Color(10, 10, 10));
+        panelRound4.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panelRound4.setRoundBottomLeft(20);
+        panelRound4.setRoundBottomRight(20);
+        panelRound4.setRoundTopLeft(20);
+        panelRound4.setRoundTopRight(20);
+        panelRound4.setLayout(new java.awt.BorderLayout(0, 5));
+
+        tbProv.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tbProv.setGridColor(new java.awt.Color(40, 40, 40));
+        tbProv.setSelectionBackground(new java.awt.Color(66, 189, 159));
+        tbProv.setSelectionForeground(new java.awt.Color(10, 10, 10));
+        scrollProv.setViewportView(tbProv);
+
+        panelRound4.add(scrollProv, java.awt.BorderLayout.CENTER);
+
+        pnlSelectorVideojuegos1.add(panelRound4, java.awt.BorderLayout.CENTER);
+
+        pnlProveedores.add(pnlSelectorVideojuegos1, java.awt.BorderLayout.CENTER);
+
+        pnlBtnProv.setBackground(new java.awt.Color(10, 10, 10));
+        pnlBtnProv.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        pnlBtnProv.setRoundBottomLeft(15);
+        pnlBtnProv.setRoundBottomRight(15);
+        pnlBtnProv.setRoundTopLeft(15);
+        pnlBtnProv.setRoundTopRight(15);
+        pnlBtnProv.setLayout(new java.awt.GridLayout(1, 3, 5, 5));
+        pnlProveedores.add(pnlBtnProv, java.awt.BorderLayout.SOUTH);
 
         pnlMain.add(pnlProveedores, "card2");
 
-        pnlClientes.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10));
+        pnlClientes.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 10, 10, 10));
         pnlClientes.setOpaque(false);
         pnlClientes.setLayout(new java.awt.BorderLayout(0, 10));
 
@@ -579,9 +839,8 @@ public class VentanaVentas extends javax.swing.JFrame {
         pnlOpcClientes.setRoundTopLeft(15);
         pnlOpcClientes.setRoundTopRight(15);
         pnlOpcClientes.setLayout(new java.awt.GridLayout(1, 3, 5, 5));
-        pnlClientes.add(pnlOpcClientes, java.awt.BorderLayout.NORTH);
+        pnlClientes.add(pnlOpcClientes, java.awt.BorderLayout.SOUTH);
 
-        jPanel29.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 10, 0));
         jPanel29.setOpaque(false);
         jPanel29.setLayout(new java.awt.GridLayout(1, 1));
 
@@ -676,10 +935,8 @@ public class VentanaVentas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> ComboBoxCliente;
-    private javax.swing.JComboBox<String> ComboBoxTienda;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
+    private javax.swing.JComboBox<String> comboProve;
+    private javax.swing.JComboBox<String> comboVideojuegos;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -688,32 +945,49 @@ public class VentanaVentas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private CustomComponents.PanelRound panelRound1;
     private CustomComponents.PanelRound panelRound2;
     private CustomComponents.PanelRound panelRound23;
     private CustomComponents.PanelRound panelRound27;
+    private CustomComponents.PanelRound panelRound4;
     private javax.swing.JPanel pnlAside;
+    private CustomComponents.PanelRound pnlBtnProv;
+    private javax.swing.JPanel pnlButtonsCompra;
     private javax.swing.JPanel pnlClientes;
     private javax.swing.JPanel pnlHeader;
+    private javax.swing.JPanel pnlHeaderProv;
     private javax.swing.JPanel pnlMain;
     private CustomComponents.PanelRound pnlMenuContainer;
+    private CustomComponents.PanelRound pnlMenuContainerProv;
     private CustomComponents.PanelRound pnlMenuData;
     private CustomComponents.PanelRound pnlOpcClientes;
     private javax.swing.JPanel pnlProveedores;
     private javax.swing.JPanel pnlSelectorVideojuegos;
+    private javax.swing.JPanel pnlSelectorVideojuegos1;
     private javax.swing.JPanel pnlVentas;
     private javax.swing.JPanel pnlVideojuegos;
     private javax.swing.JScrollPane scrollCarrito;
     private javax.swing.JScrollPane scrollClientes1;
+    private javax.swing.JScrollPane scrollProv;
     private javax.swing.JScrollPane scrollVideojuegos;
     private javax.swing.JTable tbCarrito;
     private javax.swing.JTable tbClientes1;
+    private javax.swing.JTable tbProv;
+    private javax.swing.JTextField txtCant;
+    private javax.swing.JTextField txtTienda;
     // End of variables declaration//GEN-END:variables
 }

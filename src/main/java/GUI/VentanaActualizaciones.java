@@ -7,6 +7,7 @@ import CustomComponents.TextPrompt;
 import Funciones.Dashboard.ConsultasGenerales;
 import Funciones.Entidades.*;
 import Funciones.Relaciones.CRUDInventario;
+import Funciones.Relaciones.CRUDProveen;
 import Funciones.TablasListas.LlenadoInformacion;
 import TDA.Entidades.Cliente;
 import TDA.Entidades.Empleado;
@@ -14,14 +15,19 @@ import TDA.Entidades.Proveedor;
 import TDA.Entidades.Tienda;
 import TDA.Entidades.Videojuego;
 import TDA.Relaciones.Inventario;
+import TDA.Relaciones.Provee;
 import TDA.Relaciones.Trabajo;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.Calendar;
+import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -31,7 +37,7 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
 
     private LlenadoInformacion obI;
     private EstilosComponentes obE;
-    private RoundButton btnSalir, btnGuardarVid, btnGuardarTiendas, btnGuardarEmp, btnGuardarClientes, btnGuardarProv, btnGuardarInv;
+    private RoundButton btnGuardarProveen, btnSalir, btnGuardarVid, btnGuardarTiendas, btnGuardarEmp, btnGuardarClientes, btnGuardarProv, btnGuardarInv;
     private CardLayout obC;
     private String str;
     private CRUDVideojuegos sqlVideojuegos;
@@ -40,7 +46,8 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
     private CRUDProveedores sqlProveedores;
     private CRUDTiendas sqlTiendas;
     private CRUDInventario sqlInventario;
-    private JTable tbVideojuegos, tbClientes, tbEmpleados, tbProveedores, tbTiendas, tbInventario;
+    private CRUDProveen sqlProveen;
+    private JTable tbVideojuegos, tbClientes, tbEmpleados, tbProveedores, tbTiendas, tbInventario, tbProveen;
     private JLabel lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, stock1, stock2, stock3;
     private ConsultasGenerales obCons;
     private Videojuego videojuego;
@@ -49,7 +56,8 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
     private Empleado empleado;
     private Cliente cliente;
     private Inventario inventario;
-    private int idVideojuego, idTienda, idProveedor, idEmpleado, idCliente;
+    private Provee proveer;
+    private int idVideojuego, idTienda, idProveedor, idEmpleado, idCliente, idVidP, idProP, idTienP;
     private String user;
 
     public VentanaActualizaciones() {
@@ -64,6 +72,7 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         sqlProveedores = new CRUDProveedores();
         sqlTiendas = new CRUDTiendas();
         sqlInventario = new CRUDInventario();
+        sqlProveen = new CRUDProveen();
         actionListenerButtons();
     }
 
@@ -72,11 +81,6 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
     }
 
     public void verificar() {
-        if (str == "altaVideojuegos") {
-            jTextField2.setText(videojuego.getNombre());
-            jTextField3.setText(videojuego.getCategoria());
-            jTextField4.setText(String.valueOf(videojuego.getPrecio()));
-        }
         switch (str) {
             case "altaVideojuegos":
                 jTextField2.setText(videojuego.getNombre());
@@ -128,7 +132,6 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                 jTextField33.setText(proveedor.getCorreo());
                 break;
             case "altaInventario":
-                //1 video 2 tienda
                 sqlInventario.selectInventarioTable();
                 for (String s[] : sqlInventario.getDataTable()) {
                     if (Integer.parseInt(s[3]) == inventario.getId_videojuego()) {
@@ -140,7 +143,13 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                 }
                 jTextField17.setText(String.valueOf(inventario.getStock()));
                 break;
-
+            case "altaProveen":
+                jTextField28.setText(String.valueOf(proveer.getProveedor()));
+                jTextField23.setText(String.valueOf(proveer.getTienda()));
+                jTextField26.setText(String.valueOf(proveer.getVideojuego()));
+                jTextField19.setText(String.valueOf(proveer.getFechaSurtido()));
+                jTextField20.setText(String.valueOf(proveer.getCantidad()));
+                break;
         }
     }
 
@@ -181,12 +190,14 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         btnGuardarClientes = obE.getStyleBtnSave(btnGuardarClientes);
         btnGuardarProv = obE.getStyleBtnSave(btnGuardarProv);
         btnGuardarInv = obE.getStyleBtnSave(btnGuardarInv);
+        btnGuardarProveen = obE.getStyleBtnSave(btnGuardarProveen);
         pnlBtnVideojuegos.add(btnGuardarVid);
         pnlBtnTiendas.add(btnGuardarTiendas);
         pnlBtnEmp.add(btnGuardarEmp);
         pnlBtnClientes.add(btnGuardarClientes);
         pnlBtnProv.add(btnGuardarProv);
         pnlBtnInventario.add(btnGuardarInv);
+        pnlBtnInventario1.add(btnGuardarProveen);
 
         jComboBox1.setRenderer(new CustomComboBoxRenderer());
         jComboBox1.setFocusable(false);
@@ -502,6 +513,70 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
             }
 
         });
+
+        btnGuardarProveen.addActionListener((e) -> {
+            try {
+                int idVid = 0, idTien = 0, idPro = 0;
+                CRUDVideojuegos obV = new CRUDVideojuegos();
+                CRUDTiendas obT = new CRUDTiendas();
+                CRUDProveedores obP = new CRUDProveedores();
+                obV.selectVideojuego();
+                obT.selectTienda();
+                obP.selectProveedor();
+                int cantidad = Integer.parseInt(jTextField20.getText().trim());
+
+                Calendar c = Calendar.getInstance();
+                int day = c.get(Calendar.DATE);
+                int month = c.get(Calendar.MONTH) + 1;
+                int year = c.get(Calendar.YEAR);
+
+                c.set(year, month, day);
+                long milis = c.getTimeInMillis();
+                
+                Date fecha = new Date(milis);
+
+                for (Videojuego v : obV.getData()) {
+                    if (jTextField26.getText().trim().equals(v.getNombre())) {
+                        idVid = v.getId();
+                        break;
+                    }
+                }
+
+                for (Tienda t : obT.getData()) {
+                    if (jTextField23.getText().trim().equals(t.getNombre())) {
+                        idTien = t.getId();
+                        break;
+                    }
+                }
+
+                for (Proveedor p : obP.getData()) {
+                    if (jTextField28.getText().trim().equals(p.getNombre())) {
+                        idPro = p.getId();
+                        break;
+                    }
+                }
+
+                sqlProveen.updateProveen(idVid, idPro, idTien, new Provee(cantidad, fecha));
+                obI.llenarTablaProveen(tbProveen);
+                cargarDatosGenerales();
+                JOptionPane.showMessageDialog(null, "Actualizacion exitosa", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
+            } catch (NumberFormatException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Campos no validos", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+    }
+
+    private int idTiendaTrabajo;
+
+    public void setIdTiendaTrabajo(int idTiendaTrabajo) {
+        this.idTiendaTrabajo = idTiendaTrabajo;
+    }
+    
+    
+    public void setTbProveen(JTable tbProveen) {
+        this.tbProveen = tbProveen;
     }
 
     public void setTbVideojuegos(JTable tbVideojuegos) {
@@ -539,6 +614,17 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         lblTitulo.setIcon(new ImageIcon(rutaImg));
         lblTitulo.setIconTextGap(10);
         verificar();
+    }
+
+    public Provee getProveer() {
+        return proveer;
+    }
+
+    public void setProveer(Provee proveer, int idVid, int idTie, int idProv) {
+        this.proveer = proveer;
+        this.idVidP = idVid;
+        this.idProP = idProv;
+        this.idTienP = idTie;
     }
 
     public Videojuego getVideojuego() {
@@ -727,6 +813,26 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         jTextField17 = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         pnlBtnInventario = new javax.swing.JPanel();
+        pnlAltaProveen = new CustomComponents.PanelRound();
+        jPanel49 = new javax.swing.JPanel();
+        jPanel50 = new javax.swing.JPanel();
+        jPanel51 = new javax.swing.JPanel();
+        jLabel25 = new javax.swing.JLabel();
+        jTextField26 = new javax.swing.JTextField();
+        jPanel52 = new javax.swing.JPanel();
+        jLabel33 = new javax.swing.JLabel();
+        jTextField28 = new javax.swing.JTextField();
+        jPanel54 = new javax.swing.JPanel();
+        jPanel55 = new javax.swing.JPanel();
+        jLabel42 = new javax.swing.JLabel();
+        jTextField19 = new javax.swing.JTextField();
+        jPanel53 = new javax.swing.JPanel();
+        jLabel41 = new javax.swing.JLabel();
+        jTextField23 = new javax.swing.JTextField();
+        jPanel56 = new javax.swing.JPanel();
+        jLabel43 = new javax.swing.JLabel();
+        jTextField20 = new javax.swing.JTextField();
+        pnlBtnInventario1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -1590,6 +1696,144 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
 
         pnlMain.add(pnlAltaInventario, "altaInventario");
 
+        pnlAltaProveen.setBackground(new java.awt.Color(20, 20, 20));
+        pnlAltaProveen.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        pnlAltaProveen.setRoundBottomLeft(25);
+        pnlAltaProveen.setRoundBottomRight(25);
+        pnlAltaProveen.setLayout(new java.awt.BorderLayout());
+
+        jPanel49.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 5));
+        jPanel49.setOpaque(false);
+        jPanel49.setLayout(new java.awt.GridLayout(4, 1, 0, 5));
+
+        jPanel50.setOpaque(false);
+        jPanel50.setLayout(new java.awt.GridLayout(1, 2, 5, 0));
+
+        jPanel51.setOpaque(false);
+        jPanel51.setLayout(new java.awt.GridLayout(2, 1, 0, 5));
+
+        jLabel25.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel25.setForeground(new java.awt.Color(100, 100, 100));
+        jLabel25.setText("Videojuego");
+        jLabel25.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jPanel51.add(jLabel25);
+
+        jTextField26.setBackground(new java.awt.Color(20, 20, 20));
+        jTextField26.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jTextField26.setForeground(new java.awt.Color(200, 200, 200));
+        jTextField26.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
+        jTextField26.setCaretColor(new java.awt.Color(25, 200, 178));
+        jTextField26.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jTextField26.setEnabled(false);
+        jTextField26.setSelectedTextColor(new java.awt.Color(10, 10, 10));
+        jTextField26.setSelectionColor(new java.awt.Color(25, 200, 178));
+        jPanel51.add(jTextField26);
+
+        jPanel50.add(jPanel51);
+
+        jPanel52.setOpaque(false);
+        jPanel52.setLayout(new java.awt.GridLayout(2, 1, 0, 5));
+
+        jLabel33.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel33.setForeground(new java.awt.Color(100, 100, 100));
+        jLabel33.setText("Proveedor");
+        jLabel33.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jPanel52.add(jLabel33);
+
+        jTextField28.setBackground(new java.awt.Color(20, 20, 20));
+        jTextField28.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jTextField28.setForeground(new java.awt.Color(200, 200, 200));
+        jTextField28.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
+        jTextField28.setCaretColor(new java.awt.Color(25, 200, 178));
+        jTextField28.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jTextField28.setEnabled(false);
+        jTextField28.setSelectedTextColor(new java.awt.Color(10, 10, 10));
+        jTextField28.setSelectionColor(new java.awt.Color(25, 200, 178));
+        jPanel52.add(jTextField28);
+
+        jPanel50.add(jPanel52);
+
+        jPanel49.add(jPanel50);
+
+        jPanel54.setOpaque(false);
+        jPanel54.setLayout(new java.awt.GridLayout(1, 2, 5, 0));
+
+        jPanel55.setOpaque(false);
+        jPanel55.setLayout(new java.awt.GridLayout(2, 1, 0, 5));
+
+        jLabel42.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel42.setForeground(new java.awt.Color(100, 100, 100));
+        jLabel42.setText("Fecha surtido");
+        jLabel42.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jPanel55.add(jLabel42);
+
+        jTextField19.setBackground(new java.awt.Color(20, 20, 20));
+        jTextField19.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jTextField19.setForeground(new java.awt.Color(200, 200, 200));
+        jTextField19.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
+        jTextField19.setCaretColor(new java.awt.Color(25, 200, 178));
+        jTextField19.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jTextField19.setEnabled(false);
+        jTextField19.setSelectedTextColor(new java.awt.Color(10, 10, 10));
+        jTextField19.setSelectionColor(new java.awt.Color(25, 200, 178));
+        jPanel55.add(jTextField19);
+
+        jPanel54.add(jPanel55);
+
+        jPanel53.setOpaque(false);
+        jPanel53.setLayout(new java.awt.GridLayout(2, 1, 0, 5));
+
+        jLabel41.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel41.setForeground(new java.awt.Color(100, 100, 100));
+        jLabel41.setText("Tienda");
+        jLabel41.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jPanel53.add(jLabel41);
+
+        jTextField23.setBackground(new java.awt.Color(20, 20, 20));
+        jTextField23.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jTextField23.setForeground(new java.awt.Color(200, 200, 200));
+        jTextField23.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
+        jTextField23.setCaretColor(new java.awt.Color(25, 200, 178));
+        jTextField23.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jTextField23.setEnabled(false);
+        jTextField23.setSelectedTextColor(new java.awt.Color(10, 10, 10));
+        jTextField23.setSelectionColor(new java.awt.Color(25, 200, 178));
+        jPanel53.add(jTextField23);
+
+        jPanel54.add(jPanel53);
+
+        jPanel49.add(jPanel54);
+
+        jPanel56.setOpaque(false);
+        jPanel56.setLayout(new java.awt.GridLayout(2, 1, 0, 5));
+
+        jLabel43.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel43.setForeground(new java.awt.Color(100, 100, 100));
+        jLabel43.setText("Cantidad surtida");
+        jLabel43.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jPanel56.add(jLabel43);
+
+        jTextField20.setBackground(new java.awt.Color(30, 30, 30));
+        jTextField20.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jTextField20.setForeground(new java.awt.Color(200, 200, 200));
+        jTextField20.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
+        jTextField20.setCaretColor(new java.awt.Color(25, 200, 178));
+        jTextField20.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jTextField20.setSelectedTextColor(new java.awt.Color(10, 10, 10));
+        jTextField20.setSelectionColor(new java.awt.Color(25, 200, 178));
+        jPanel56.add(jTextField20);
+
+        jPanel49.add(jPanel56);
+
+        pnlAltaProveen.add(jPanel49, java.awt.BorderLayout.CENTER);
+
+        pnlBtnInventario1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        pnlBtnInventario1.setOpaque(false);
+        pnlBtnInventario1.setLayout(new java.awt.GridLayout(1, 1, 0, 10));
+        pnlAltaProveen.add(pnlBtnInventario1, java.awt.BorderLayout.SOUTH);
+
+        pnlMain.add(pnlAltaProveen, "altaProveen");
+
         jPanel1.add(pnlMain, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1660,6 +1904,7 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
@@ -1668,6 +1913,7 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
@@ -1676,6 +1922,9 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -1722,7 +1971,15 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel46;
     private javax.swing.JPanel jPanel47;
     private javax.swing.JPanel jPanel48;
+    private javax.swing.JPanel jPanel49;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel50;
+    private javax.swing.JPanel jPanel51;
+    private javax.swing.JPanel jPanel52;
+    private javax.swing.JPanel jPanel53;
+    private javax.swing.JPanel jPanel54;
+    private javax.swing.JPanel jPanel55;
+    private javax.swing.JPanel jPanel56;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
@@ -1734,12 +1991,17 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField15;
     private javax.swing.JTextField jTextField16;
     private javax.swing.JTextField jTextField17;
+    private javax.swing.JTextField jTextField19;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField20;
     private javax.swing.JTextField jTextField21;
     private javax.swing.JTextField jTextField22;
+    private javax.swing.JTextField jTextField23;
     private javax.swing.JTextField jTextField24;
     private javax.swing.JTextField jTextField25;
+    private javax.swing.JTextField jTextField26;
     private javax.swing.JTextField jTextField27;
+    private javax.swing.JTextField jTextField28;
     private javax.swing.JTextField jTextField29;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField30;
@@ -1760,11 +2022,13 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
     private CustomComponents.PanelRound pnlAltaEmpleados;
     private CustomComponents.PanelRound pnlAltaInventario;
     private CustomComponents.PanelRound pnlAltaProveedores;
+    private CustomComponents.PanelRound pnlAltaProveen;
     private CustomComponents.PanelRound pnlAltaTiendas;
     private CustomComponents.PanelRound pnlAltaVideojuegos;
     private javax.swing.JPanel pnlBtnClientes;
     private javax.swing.JPanel pnlBtnEmp;
     private javax.swing.JPanel pnlBtnInventario;
+    private javax.swing.JPanel pnlBtnInventario1;
     private javax.swing.JPanel pnlBtnProv;
     private javax.swing.JPanel pnlBtnTiendas;
     private javax.swing.JPanel pnlBtnVideojuegos;

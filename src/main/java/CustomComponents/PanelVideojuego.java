@@ -48,11 +48,11 @@ public class PanelVideojuego extends PanelRound {
         lblNombre.setFont(fuenteT);
         lblNombre.setForeground(new Color(30, 30, 30));
 
-        JLabel lblCategoria = new JLabel("<html><b>Categoria: </b><br>" + categoria + "<html>");
+        JLabel lblCategoria = new JLabel("<html><b style=\"color: #19C8B2;font-size:15px;\">Categoria: </b><br>" + categoria + "<html>");
         lblCategoria.setFont(fuente);
         lblCategoria.setForeground(fontColor);
 
-        JLabel lblStock = new JLabel("<html><b>Cantidad disponible: </b><br>" + String.valueOf(stock) + "</html>");
+        JLabel lblStock = new JLabel("<html><b style=\"color: #19C8B2;font-size:15px;\">Cantidad disponible: </b><br>" + String.valueOf(stock) + "</html>");
         lblStock.setFont(fuente);
         lblStock.setForeground(fontColor);
 
@@ -100,13 +100,13 @@ public class PanelVideojuego extends PanelRound {
         txtCant.setHorizontalAlignment(SwingConstants.CENTER);
         txtCant.setForeground(Color.white);
 
-        JPanel pnlCant = new JPanel(new GridLayout(1, 3, 5, 5));
+        JPanel pnlCant = new JPanel(new GridLayout(1, 3, 3, 3));
         pnlCant.setOpaque(false);
         pnlCant.add(btnMenos);
         pnlCant.add(txtCant);
         pnlCant.add(btnMas);
 
-        JPanel pnlData = new JPanel(new GridLayout(3, 1, 5, 5));
+        JPanel pnlData = new JPanel(new GridLayout(2, 1, 5, 5));
         pnlData.setBorder(new EmptyBorder(0, 5, 5, 5));
         pnlData.setOpaque(false);
         pnlData.add(lblCategoria);

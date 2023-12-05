@@ -9,6 +9,7 @@ public class Provee {
     private int id_proveedor;
     private int cantidad;
     private Date fechaSurtido;
+    private String videojuego, tienda, proveedor;
 
     public Provee(int id_videojuego, int id_tienda, int id_proveedor, int cantidad, Date fechaSurtido) {
         this.id_videojuego = id_videojuego;
@@ -18,11 +19,48 @@ public class Provee {
         this.fechaSurtido = fechaSurtido;
     }
 
+    public Provee(int id_videojuego, int id_tienda, int id_proveedor, int cantidad, Date fechaSurtido, String videojuego, String tienda, String proveedor) {
+        this.id_videojuego = id_videojuego;
+        this.id_tienda = id_tienda;
+        this.id_proveedor = id_proveedor;
+        this.cantidad = cantidad;
+        this.fechaSurtido = fechaSurtido;
+        this.videojuego = videojuego;
+        this.tienda = tienda;
+        this.proveedor = proveedor;
+    }
+
     public Provee(int cantidad, Date fechaSurtido) {
         this.cantidad = cantidad;
         this.fechaSurtido = fechaSurtido;
     }
 
+    public String getVideojuego() {
+        return videojuego;
+    }
+
+    public void setVideojuego(String videojuego) {
+        this.videojuego = videojuego;
+    }
+
+    public String getTienda() {
+        return tienda;
+    }
+
+    public void setTienda(String tienda) {
+        this.tienda = tienda;
+    }
+
+    public String getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(String proveedor) {
+        this.proveedor = proveedor;
+    }
+
+    
+    
     public int getId_videojuego() {
         return id_videojuego;
     }
