@@ -96,7 +96,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
         panelRound1 = new CustomComponents.PanelRound();
         jLabel8 = new javax.swing.JLabel();
         pnlHeaderButtons = new javax.swing.JPanel();
-        pnlHeaderButtons1 = new javax.swing.JPanel();
         pnlMain = new javax.swing.JPanel();
         pnlPrincipal = new javax.swing.JPanel();
         jPanel52 = new javax.swing.JPanel();
@@ -385,7 +384,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         pnlMenuContainer = new CustomComponents.PanelRound();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(950, 710));
+        setPreferredSize(new java.awt.Dimension(950, 715));
 
         jPanel1.setBackground(new java.awt.Color(20, 20, 20));
         jPanel1.setLayout(new java.awt.BorderLayout());
@@ -418,11 +417,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
         pnlHeaderButtons.setOpaque(false);
         pnlHeaderButtons.setLayout(new java.awt.GridLayout(1, 2, 5, 5));
         pnlHeader.add(pnlHeaderButtons, java.awt.BorderLayout.EAST);
-
-        pnlHeaderButtons1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        pnlHeaderButtons1.setOpaque(false);
-        pnlHeaderButtons1.setLayout(new java.awt.GridLayout(1, 2, 5, 5));
-        pnlHeader.add(pnlHeaderButtons1, java.awt.BorderLayout.WEST);
 
         jPanel1.add(pnlHeader, java.awt.BorderLayout.NORTH);
 
@@ -2263,7 +2257,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         pnlMenuContainer.setRoundBottomRight(20);
         pnlMenuContainer.setRoundTopLeft(20);
         pnlMenuContainer.setRoundTopRight(20);
-        pnlMenuContainer.setLayout(new java.awt.GridLayout(7, 1, 0, 5));
+        pnlMenuContainer.setLayout(new java.awt.GridLayout(8, 1));
         pnlAside.add(pnlMenuContainer, java.awt.BorderLayout.WEST);
 
         jPanel1.add(pnlAside, java.awt.BorderLayout.WEST);
@@ -2276,7 +2270,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -2346,7 +2340,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         btnPuntoVenta = obE.getStyleButtonUpdate(btnPuntoVenta);
         btnPuntoVenta.setVerticalTextPosition(SwingConstants.BOTTOM);
         btnPuntoVenta.setHorizontalTextPosition(SwingConstants.CENTER);
-        btnPuntoVenta.setText("Punto de venta");
+        btnPuntoVenta.setText("Vender");
         btnPuntoVenta.setFont(new Font("Roboto", Font.PLAIN, 16));
         btnPuntoVenta.setIcon(new ImageIcon("./src/main/java/Resources/puntoVenta.png"));
         btnPuntoVenta.setBorderColor(new Color(20, 20, 20));
@@ -2525,7 +2519,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         btnMenu.setBorder(new EmptyBorder(10, 15, 10, 15));
         btnMenu.setVerticalTextPosition(SwingConstants.BOTTOM);
         btnMenu.setHorizontalTextPosition(SwingConstants.CENTER);
-        pnlHeaderButtons1.add(btnMenu);
+        pnlHeader.add(btnMenu, BorderLayout.WEST);
         btnMenu.setIcon(new ImageIcon("./src/main/java/Resources/menu.png"));
         btnMenu.addActionListener((e) -> {
             if (estado) {
@@ -2539,17 +2533,11 @@ public class VentanaRegistros extends javax.swing.JFrame {
             }
         });
 
-        btnVentas = new RoundButton(new Color(10, 10, 10), new Color(22, 49, 39), new Color(43, 61, 49), new Color(20, 20, 20), 20);
-        btnVentas.setFocusable(false);
-        btnVentas.setBorder(new EmptyBorder(10, 15, 10, 15));
+        btnVentas = obE.getStyleMenuBtn(btnVentas, pnlMenuContainer);
         btnVentas.setText("Ventas");
-        btnVentas.setForeground(new Color(100, 100, 100));
-        btnVentas.setVerticalTextPosition(SwingConstants.BOTTOM);
-        btnVentas.setFont(new Font("Roboto", Font.PLAIN, 16));
-        btnVentas.setHorizontalTextPosition(SwingConstants.CENTER);
         btnVentas.setIcon(new ImageIcon("./src/main/java/Resources/ventasGen.png"));
-        pnlHeaderButtons1.add(btnVentas);
-
+        
+        
         obE.setStylePanel(panelGradient1);
         obE.setStylePanel(panelGradient2);
         obE.setStylePanel(panelGradient3);
@@ -3910,7 +3898,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
     private javax.swing.JPanel pnlEmpleados;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlHeaderButtons;
-    private javax.swing.JPanel pnlHeaderButtons1;
     private javax.swing.JPanel pnlInventario;
     private javax.swing.JPanel pnlMain;
     private CustomComponents.PanelRound pnlMenuContainer;

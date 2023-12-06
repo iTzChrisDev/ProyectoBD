@@ -29,7 +29,8 @@ public class EstilosComponentes {
         btn.setForeground(grisUnselect);
         btn.setFocusable(false);
         btn.setBorder(new EmptyBorder(10, 15, 10, 15));
-        btn.setFont(new Font("Roboto", Font.PLAIN, 16));
+        btn.setIconTextGap(1);
+        btn.setFont(new Font("Roboto", Font.PLAIN, 15));
         btn.setVerticalTextPosition(SwingConstants.BOTTOM);
         btn.setHorizontalTextPosition(SwingConstants.CENTER);
         pnlAdd.add(btn);
