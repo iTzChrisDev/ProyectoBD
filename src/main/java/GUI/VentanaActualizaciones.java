@@ -3,6 +3,7 @@ package GUI;
 import CustomComponents.CustomComboBoxRenderer;
 import CustomComponents.RoundButton;
 import CustomComponents.EstilosComponentes;
+import CustomComponents.PanelVideojuego;
 import CustomComponents.TextPrompt;
 import Funciones.Dashboard.ConsultasGenerales;
 import Funciones.Entidades.*;
@@ -22,15 +23,19 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 public class VentanaActualizaciones extends javax.swing.JFrame {
@@ -59,7 +64,11 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
     private Provee proveer;
     private int idVideojuego, idTienda, idProveedor, idEmpleado, idCliente, idVidP, idProP, idTienP;
     private String user;
-
+    private int idTiendaTrabajo;
+    private ArrayList<RoundButton> buttonsVideojuegos;
+    private ArrayList<JTextField> txtsVideojuegos;
+    private JPanel pnlVideojuegos;
+    
     public VentanaActualizaciones() {
         initComponents();
         initComponentsCustom();
@@ -525,16 +534,6 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                 obP.selectProveedor();
                 int cantidad = Integer.parseInt(jTextField20.getText().trim());
 
-                Calendar c = Calendar.getInstance();
-                int day = c.get(Calendar.DATE);
-                int month = c.get(Calendar.MONTH) + 1;
-                int year = c.get(Calendar.YEAR);
-
-                c.set(year, month, day);
-                long milis = c.getTimeInMillis();
-                
-                Date fecha = new Date(milis);
-
                 for (Videojuego v : obV.getData()) {
                     if (jTextField26.getText().trim().equals(v.getNombre())) {
                         idVid = v.getId();
@@ -556,9 +555,10 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                     }
                 }
 
-                sqlProveen.updateProveen(idVid, idPro, idTien, new Provee(cantidad, fecha));
-                obI.llenarTablaProveen(tbProveen);
+                sqlProveen.updateProveen(idVid, idPro, idTien, cantidad);
+                obI.llenarTablaProveen(tbProveen, idTiendaTrabajo);
                 cargarDatosGenerales();
+                actualizarVideojuegos();
                 JOptionPane.showMessageDialog(null, "Actualizacion exitosa", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
             } catch (NumberFormatException ex) {
@@ -568,7 +568,39 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         });
     }
 
-    private int idTiendaTrabajo;
+    public void setInfoVideojuegos(ArrayList<RoundButton> btns, ArrayList<JTextField> txts, JPanel pnl)
+    {
+        buttonsVideojuegos = btns;
+        txtsVideojuegos = txts;
+        pnlVideojuegos = pnl;
+    }
+    
+    public void actualizarVideojuegos() {
+        buttonsVideojuegos.clear();
+        txtsVideojuegos.clear();
+        pnlVideojuegos.removeAll();
+
+        CRUDVideojuegos obV2 = new CRUDVideojuegos();
+        obV2.selectVideojuegoVentas();
+        for (Videojuego v : obV2.getDataVenta()) {
+            if (v.getIdTienda() == idTiendaTrabajo) {
+                RoundButton btnAux = new RoundButton(new Color(187, 142, 61), new Color(231, 179, 125), new Color(239, 204, 168), new Color(40, 40, 40), 20);
+                buttonsVideojuegos.add(btnAux);
+                JTextField txt = new JTextField();
+                txtsVideojuegos.add(txt);
+                pnlVideojuegos.add(new PanelVideojuego(v.getId(), v.getNombre(), v.getCategoria(), v.getStock(), v.getPrecio(), btnAux, txt));
+            }
+        }
+        System.out.println(buttonsVideojuegos.size());
+        if (buttonsVideojuegos.size() == 1) {
+            pnlVideojuegos.setLayout(new GridLayout(buttonsVideojuegos.size() + 2, 1, 10, 10));
+        } else if (buttonsVideojuegos.size() == 2) {
+            pnlVideojuegos.setLayout(new GridLayout(buttonsVideojuegos.size() + 1, 1, 10, 10));
+        } else if (buttonsVideojuegos.size() >= 3) {
+            pnlVideojuegos.setLayout(new GridLayout(buttonsVideojuegos.size(), 1, 10, 10));
+        }
+    }
+    
 
     public void setIdTiendaTrabajo(int idTiendaTrabajo) {
         this.idTiendaTrabajo = idTiendaTrabajo;

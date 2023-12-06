@@ -280,7 +280,7 @@ public class LlenadoInformacion {
         tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     }
 
-    public void llenarTablaProveen(JTable tabla) {
+    public void llenarTablaProveen(JTable tabla, int id) {
         DefaultTableModel tbModelProv = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -289,7 +289,7 @@ public class LlenadoInformacion {
         };
         tbModelProv.setRowCount(0);
         CRUDProveen obP = new CRUDProveen();
-        obP.selectProveen();
+        obP.selectProveenTb(id);
 
         tbModelProv.addColumn("ID_Videojuego");
         tbModelProv.addColumn("Videojuego");

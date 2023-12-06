@@ -957,6 +957,7 @@
                                 <Property name="selectionForeground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                   <Color blue="a" green="a" red="a" type="rgb"/>
                                 </Property>
+                                <Property name="selectionMode" type="int" value="0"/>
                               </Properties>
                             </Component>
                           </SubComponents>

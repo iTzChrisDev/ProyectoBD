@@ -24,7 +24,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -71,14 +70,115 @@ public class VentanaVentas extends javax.swing.JFrame {
     public void setUser(String user, int idTiendaTrabajo) {
         this.idTiendaTrabajo = idTiendaTrabajo;
         this.user = user;
-        obI.llenarTablaProveen(tbProv);
+        obI.llenarTablaProveen(tbProv, this.idTiendaTrabajo);
         CRUDTiendas tienda = new CRUDTiendas();
         tienda.selectTienda();
         for (Tienda t : tienda.getData()) {
             if (t.getId() == idTiendaTrabajo) {
                 txtTienda.setText(t.getNombre());
+                break;
             }
         }
+        initButtonsVideojuegos();
+        System.out.println(buttonsVideojuegos.size());
+        if (buttonsVideojuegos.size() == 1) {
+            pnlVideojuegos.setLayout(new GridLayout(buttonsVideojuegos.size() + 2, 1, 10, 10));
+        } else if (buttonsVideojuegos.size() == 2) {
+            pnlVideojuegos.setLayout(new GridLayout(buttonsVideojuegos.size() + 1, 1, 10, 10));
+        } else if (buttonsVideojuegos.size() >= 3) {
+            pnlVideojuegos.setLayout(new GridLayout(buttonsVideojuegos.size(), 1, 10, 10));
+        }
+        initButtonProv();
+    }
+
+    public void initButtonProv() {
+        btnAgregarSurtido = obE.getStyleButtonAdd(btnAgregarSurtido);
+        btnAgregarSurtido.addActionListener((e) -> {
+            int idV = 0, idP = 0;
+            CRUDVideojuegos obV = new CRUDVideojuegos();
+            CRUDProveedores obP = new CRUDProveedores();
+            obV.selectVideojuego();
+            obP.selectProveedor();
+
+            for (Videojuego v : obV.getData()) {
+                if (String.valueOf(comboVideojuegos.getSelectedItem()).equals(v.getNombre())) {
+                    idV = v.getId();
+                    break;
+                }
+            }
+
+            for (Proveedor p : obP.getData()) {
+                if (String.valueOf(comboProve.getSelectedItem()).equals(p.getNombre())) {
+                    idP = p.getId();
+                    break;
+                }
+            }
+            
+            int cant = Integer.parseInt(txtCant.getText().trim());
+            sqlProveen.insertProveen(new Provee(idV, idTiendaTrabajo, idP, cant, new Date(System.currentTimeMillis())));
+            obI.llenarTablaProveen(tbProv, idTiendaTrabajo);
+            actualizarVideojuegos();
+            JOptionPane.showMessageDialog(null, "Ingreso registrado exitosamente!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+        });
+
+        btnEliminarSurtido = obE.getStyleButtonEliminar(btnEliminarSurtido);
+        btnEliminarSurtido.addActionListener((e) -> {
+            int selectedRowIndex = tbProv.getSelectedRow();
+            if (selectedRowIndex != -1) {
+                Object auxV = tbProv.getModel().getValueAt(selectedRowIndex, 0);
+                int idV = Integer.parseInt(String.valueOf(auxV));
+                Object auxP = tbProv.getModel().getValueAt(selectedRowIndex, 2);
+                int idP = Integer.parseInt(String.valueOf(auxP));
+                Object auxT = tbProv.getModel().getValueAt(selectedRowIndex, 4);
+                int idT = Integer.parseInt(String.valueOf(auxT));
+
+                sqlProveen.deleteProveen(idV, idP, idT);
+                obI.llenarTablaProveen(tbProv, idTiendaTrabajo);
+                cargarDatosGenerales();
+                actualizarVideojuegos();
+                JOptionPane.showMessageDialog(null, "Se ha eliminado el registro", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        btnActualizarSurtido = obE.getStyleButtonUpdate(btnActualizarSurtido);
+        btnActualizarSurtido.addActionListener((e) -> {
+            int selectedRowIndex = tbProv.getSelectedRow();
+            if (selectedRowIndex != -1) {
+                Object auxV = tbProv.getModel().getValueAt(selectedRowIndex, 0);
+                int idV = Integer.parseInt(String.valueOf(auxV));
+                Object auxP = tbProv.getModel().getValueAt(selectedRowIndex, 2);
+                int idP = Integer.parseInt(String.valueOf(auxP));
+                Object auxT = tbProv.getModel().getValueAt(selectedRowIndex, 4);
+                int idT = Integer.parseInt(String.valueOf(auxT));
+                actualizar2 = new VentanaActualizaciones();
+                actualizar2.setTitle("Actualizar entrada mercancia");
+                actualizar2.setTbProveen(tbProv);
+                actualizar2.setIdTiendaTrabajo(idTiendaTrabajo);
+                actualizar2.setInfoVideojuegos(buttonsVideojuegos, txtsVideojuegos, pnlVideojuegos);
+
+                sqlProveen.selectProveenTb(idTiendaTrabajo);
+                for (Provee p : sqlProveen.getData()) {
+                    if (p.getId_videojuego() == idV && p.getId_tienda() == idT && p.getId_proveedor() == idP) {
+                        actualizar2.setProveer(p, idV, idT, idP);
+                        break;
+                    }
+                }
+
+                actualizar2.setStr("altaProveen", "Entradas", "./src/main/java/Resources/selectedProv.png");
+                actualizar2.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, stock1, stock2, stock3);
+                actualizar2.setVisible(true);
+                actualizar2.setUser(user);
+            } else {
+                JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        btnAgregarSurtido.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnAgregarSurtido.setHorizontalTextPosition(SwingConstants.CENTER);
+        jPanel8.add(btnAgregarSurtido);
+        pnlBtnProv.add(btnEliminarSurtido);
+        pnlBtnProv.add(btnActualizarSurtido);
     }
 
     public void initButtonsCliente() {
@@ -136,6 +236,32 @@ public class VentanaVentas extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         });
+    }
+
+    public void actualizarVideojuegos() {
+        buttonsVideojuegos.clear();
+        txtsVideojuegos.clear();
+        pnlVideojuegos.removeAll();
+
+        CRUDVideojuegos obV2 = new CRUDVideojuegos();
+        obV2.selectVideojuegoVentas();
+        for (Videojuego v : obV2.getDataVenta()) {
+            if (v.getIdTienda() == idTiendaTrabajo) {
+                RoundButton btnAux = new RoundButton(new Color(187, 142, 61), new Color(231, 179, 125), new Color(239, 204, 168), new Color(40, 40, 40), 20);
+                buttonsVideojuegos.add(btnAux);
+                JTextField txt = new JTextField();
+                txtsVideojuegos.add(txt);
+                pnlVideojuegos.add(new PanelVideojuego(v.getId(), v.getNombre(), v.getCategoria(), v.getStock(), v.getPrecio(), btnAux, txt));
+            }
+        }
+        System.out.println(buttonsVideojuegos.size());
+        if (buttonsVideojuegos.size() == 1) {
+            pnlVideojuegos.setLayout(new GridLayout(buttonsVideojuegos.size() + 2, 1, 10, 10));
+        } else if (buttonsVideojuegos.size() == 2) {
+            pnlVideojuegos.setLayout(new GridLayout(buttonsVideojuegos.size() + 1, 1, 10, 10));
+        } else if (buttonsVideojuegos.size() >= 3) {
+            pnlVideojuegos.setLayout(new GridLayout(buttonsVideojuegos.size(), 1, 10, 10));
+        }
     }
 
     public void initComponentsCustom() {
@@ -244,118 +370,14 @@ public class VentanaVentas extends javax.swing.JFrame {
         comboProve.setRenderer(new CustomComboBoxRenderer());
         comboProve.setFocusable(false);
         comboProve.getComponent(0).setBackground(new Color(140, 255, 241));
-
-        btnAgregarSurtido = obE.getStyleButtonAdd(btnAgregarSurtido);
-        btnAgregarSurtido.addActionListener((e) -> {
-            int idV = 0, idP = 0;
-            CRUDVideojuegos obV = new CRUDVideojuegos();
-            CRUDProveedores obP = new CRUDProveedores();
-            obV.selectVideojuego();
-            obP.selectProveedor();
-
-            for (Videojuego v : obV.getData()) {
-                if (String.valueOf(comboVideojuegos.getSelectedItem()).equals(v.getNombre())) {
-                    idV = v.getId();
-                    break;
-                }
-            }
-
-            for (Proveedor p : obP.getData()) {
-                if (String.valueOf(comboProve.getSelectedItem()).equals(p.getNombre())) {
-                    idP = p.getId();
-                    break;
-                }
-            }
-
-            Calendar c = Calendar.getInstance();
-            int day = c.get(Calendar.DATE);
-            int month = c.get(Calendar.MONTH) + 1;
-            int year = c.get(Calendar.YEAR);
-
-            c.set(year, month, day);
-            long milis = c.getTimeInMillis();
-            int cant = Integer.parseInt(txtCant.getText().trim());
-            sqlProveen.insertProveen(new Provee(idV, idTiendaTrabajo, idP, cant, new Date(milis)));
-            obI.llenarTablaProveen(tbProv);
-        });
-
-        btnEliminarSurtido = obE.getStyleButtonEliminar(btnEliminarSurtido);
-        btnEliminarSurtido.addActionListener((e) -> {
-            int selectedRowIndex = tbProv.getSelectedRow();
-            if (selectedRowIndex != -1) {
-                Object auxV = tbProv.getModel().getValueAt(selectedRowIndex, 0);
-                int idV = Integer.parseInt(String.valueOf(auxV));
-                Object auxP = tbProv.getModel().getValueAt(selectedRowIndex, 2);
-                int idP = Integer.parseInt(String.valueOf(auxP));
-                Object auxT = tbProv.getModel().getValueAt(selectedRowIndex, 4);
-                int idT = Integer.parseInt(String.valueOf(auxT));
-
-                System.out.println("video "+idV + " | prov " + idP + " | tien" + idT);
-                sqlProveen.deleteProveen(idV, idP, idT);
-                obI.llenarTablaProveen(tbProv);
-                cargarDatosGenerales();
-                JOptionPane.showMessageDialog(null, "Se ha eliminado el registro", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
-            }
-        });
-
-        btnActualizarSurtido = obE.getStyleButtonUpdate(btnActualizarSurtido);
-        btnActualizarSurtido.addActionListener((e) -> {
-            int selectedRowIndex = tbProv.getSelectedRow();
-            if (selectedRowIndex != -1) {
-                Object auxV = tbProv.getModel().getValueAt(selectedRowIndex, 0);
-                int idV = Integer.parseInt(String.valueOf(auxV));
-                Object auxP = tbProv.getModel().getValueAt(selectedRowIndex, 2);
-                int idP = Integer.parseInt(String.valueOf(auxP));
-                Object auxT = tbProv.getModel().getValueAt(selectedRowIndex, 4);
-                int idT = Integer.parseInt(String.valueOf(auxT));
-                actualizar2 = new VentanaActualizaciones();
-                actualizar2.setTitle("Actualizar entrada mercancia");
-                actualizar2.setTbProveen(tbProv);
-
-                sqlProveen.selectProveen();
-                for (Provee p : sqlProveen.getData()) {
-                    if (p.getId_videojuego() == idV && p.getId_tienda() == idT && p.getId_proveedor() == idP) {
-                        actualizar2.setProveer(p, idV, idT, idP);
-                        break;
-                    }
-                }
-
-                actualizar2.setStr("altaProveen", "Entradas", "./src/main/java/Resources/selectedProv.png");
-                actualizar2.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, stock1, stock2, stock3);
-                actualizar2.setVisible(true);
-                actualizar2.setUser(user);
-            } else {
-                JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
-            }
-        });
-        btnAgregarSurtido.setVerticalTextPosition(SwingConstants.BOTTOM);
-        btnAgregarSurtido.setHorizontalTextPosition(SwingConstants.CENTER);
-        jPanel8.add(btnAgregarSurtido);
-        pnlBtnProv.add(btnEliminarSurtido);
-        pnlBtnProv.add(btnActualizarSurtido);
-
-        initButtonsVideojuegos();
-        System.out.println(buttonsVideojuegos.size());
-        if (buttonsVideojuegos.size() == 1) {
-            pnlVideojuegos.setLayout(new GridLayout(buttonsVideojuegos.size() + 2, 1, 10, 10));
-        } else if (buttonsVideojuegos.size() == 2) {
-            pnlVideojuegos.setLayout(new GridLayout(buttonsVideojuegos.size() + 1, 1, 10, 10));
-        } else if (buttonsVideojuegos.size() >= 3) {
-            pnlVideojuegos.setLayout(new GridLayout(buttonsVideojuegos.size(), 1, 10, 10));
-        }
     }
 
     public void initButtonsVideojuegos() {
         CRUDVideojuegos obV = new CRUDVideojuegos();
-        obV.selectVideojuegoVentas(dataVideojuegos);
+        obV.selectVideojuegoVentas();
 
-        idTiendaTrabajo = 5;
-
-        for (Videojuego v : dataVideojuegos) {
+        for (Videojuego v : obV.getDataVenta()) {
             if (v.getIdTienda() == idTiendaTrabajo) {
-                System.out.println(v.getNombre() + " - " + v.getStock());
                 RoundButton btnAux = new RoundButton(new Color(187, 142, 61), new Color(231, 179, 125), new Color(239, 204, 168), new Color(40, 40, 40), 20);
                 buttonsVideojuegos.add(btnAux);
                 JTextField txt = new JTextField();
@@ -675,7 +697,7 @@ public class VentanaVentas extends javax.swing.JFrame {
         pnlHeaderProv.setBackground(new java.awt.Color(63, 63, 63));
         pnlHeaderProv.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 10, 0));
         pnlHeaderProv.setOpaque(false);
-        pnlHeaderProv.setLayout(new java.awt.GridLayout());
+        pnlHeaderProv.setLayout(new java.awt.GridLayout(1, 0));
 
         pnlMenuContainerProv.setBackground(new java.awt.Color(10, 10, 10));
         pnlMenuContainerProv.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -809,6 +831,7 @@ public class VentanaVentas extends javax.swing.JFrame {
         tbProv.setGridColor(new java.awt.Color(40, 40, 40));
         tbProv.setSelectionBackground(new java.awt.Color(66, 189, 159));
         tbProv.setSelectionForeground(new java.awt.Color(10, 10, 10));
+        tbProv.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         scrollProv.setViewportView(tbProv);
 
         panelRound4.add(scrollProv, java.awt.BorderLayout.CENTER);

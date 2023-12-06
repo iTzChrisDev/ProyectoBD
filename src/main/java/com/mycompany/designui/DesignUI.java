@@ -2,10 +2,6 @@ package com.mycompany.designui;
 
 import GUI.VentanaRegistros;
 import GUI.VentanaVentas;
-import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-
 public class DesignUI {
 
     public static void main(String[] args) {

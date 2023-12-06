@@ -13,32 +13,38 @@ public class CRUDVideojuegos {
     private PreparedStatement pstm;
     private ResultSet output;
     private String query;
-    private ArrayList<Videojuego> data;
+    private ArrayList<Videojuego> data, dataVenta;
 
     public CRUDVideojuegos() {
         obC = new Conexion();
         pstm = null;
         output = null;
         data = new ArrayList<>();
+        dataVenta = new ArrayList<>();
     }
 
-    public void selectVideojuegoVentas(ArrayList<Videojuego> data) {
+    public ArrayList<Videojuego> getDataVenta() {
+        return dataVenta;
+    }
+
+    public void selectVideojuegoVentas() {
         try {
-            query = "SELECT v.*, i.Stock, i.id_tienda FROM  videojuegos AS v\n"
-                    + "INNER JOIN inventario AS i \n"
-                    + "ON v.id_videojuego = i.id_videojuego;";
+            query = "SELECT v.*, i.Stock, i.id_tienda FROM inventario AS i\n"
+                    + "INNER JOIN proveen AS p \n"
+                    + "ON i.id_tienda = p.id_tienda AND i.id_videojuego = p.id_videojuego\n"
+                    + "INNER JOIN videojuegos AS v ON v.id_videojuego = p.id_videojuego;";
             pstm = obC.setConnection().prepareStatement(query);
             output = pstm.executeQuery();
 
             while (output.next()) {
                 int id = output.getInt("id_videojuego");
                 String nombre = output.getString("Nombre");
-                String categoria = output.getString("Categoria");
                 double precio = output.getDouble("Precio");
+                String categoria = output.getString("Categoria");
                 int stock = output.getInt("Stock");
                 int idTienda = output.getInt("id_tienda");
 
-                data.add(new Videojuego(id, idTienda, nombre, categoria, precio, stock));
+                dataVenta.add(new Videojuego(id, idTienda, nombre, categoria, precio, stock));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
