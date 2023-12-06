@@ -26,7 +26,6 @@ public class CRUDProveedores {
         return data;
     }
 
-    
     public void selectProveedor() {
         try {
             query = "SELECT * FROM proveedores;";
@@ -106,6 +105,59 @@ public class CRUDProveedores {
             pstm = obC.setConnection().prepareStatement(query);
             pstm.setInt(1, id);
             pstm.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pstm != null) {
+                try {
+                    pstm.close();
+                } catch (SQLException ex) {
+                }
+            }
+            obC.closeConnection();
+        }
+    }
+
+    public void selectProveedorCampo(String campo) {
+        try {
+            query = "SELECT * FROM proveedoresall ORDER BY " + campo + " ASC;";
+            pstm = obC.setConnection().prepareStatement(query);
+            output = pstm.executeQuery();
+
+            while (output.next()) {
+                int id = output.getInt("id_proveedor");
+                String nombre = output.getString("Nombre");
+                int telefono = output.getInt("Telefono");
+                String domicilio = output.getString("Domicilio");
+                String correo = output.getString("Correo");
+
+                data.add(new Proveedor(id, nombre, telefono, domicilio, correo));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pstm != null) {
+                try {
+                    pstm.close();
+                } catch (SQLException ex) {
+                }
+            }
+            obC.closeConnection();
+        }
+    }
+    
+    public void selectProveedorCantSurtida() {
+        try {
+            query = "SELECT * FROM provsurtido;";
+            pstm = obC.setConnection().prepareStatement(query);
+            output = pstm.executeQuery();
+
+            while (output.next()) {
+                String nombre = output.getString("Proveedor");
+                int cant = output.getInt("Cantidad_Surtida");
+
+                data.add(new Proveedor(nombre, cant));
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {

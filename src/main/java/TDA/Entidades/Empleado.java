@@ -18,6 +18,7 @@ public class Empleado {
     private String nombreTienda;
     private Time hrEntrada, hrSalida;
     private String turno;
+    private int clientes;
     
     public Empleado(int id, String nombre, String ApellidoP, String ApellidoM, String NSS, String CURP, Date fechaNacimiento, int telefono, String domicilio, double sueldo) {
         this.id = id;
@@ -44,6 +45,13 @@ public class Empleado {
         this.sueldo = sueldo;
     }
 
+    public Empleado(int id, String nombre, String ApellidoP, int clientes) {
+        this.id = id;
+        this.nombre = nombre;
+        this.ApellidoP = ApellidoP;
+        this.clientes = clientes;
+    }
+    
     public Empleado(int id, String nombre, String ApellidoP, String ApellidoM, String NSS, String CURP, Date fechaNacimiento, int telefono, String domicilio, double sueldo, String nombreTienda, Time hrEntrada, Time hrSalida, String turno) {
         this.id = id;
         this.nombre = nombre;
@@ -59,6 +67,14 @@ public class Empleado {
         this.hrEntrada = hrEntrada;
         this.hrSalida = hrSalida;
         this.turno = turno;
+    }
+
+    public int getClientes() {
+        return clientes;
+    }
+
+    public void setClientes(int clientes) {
+        this.clientes = clientes;
     }
 
     public String getNombreTienda() {

@@ -90,6 +90,66 @@ public class LlenadoInformacion {
         tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     }
 
+    public void llenarTablaVideojuegosCategoria(JTable tabla) {
+        DefaultTableModel tbModelVideojuegos = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tbModelVideojuegos.setRowCount(0);
+        CRUDVideojuegos obV = new CRUDVideojuegos();
+        obV.selectVideojuegoCategoria();
+
+        tbModelVideojuegos.addColumn("Categoria");
+        tbModelVideojuegos.addColumn("Cantidad");
+
+        Object[] row = new Object[2];
+        for (Videojuego v : obV.getData()) {
+            row[0] = v.getCategoria();
+            row[1] = v.getCantidad();
+
+            tbModelVideojuegos.addRow(row);
+        }
+        tabla.setModel(tbModelVideojuegos);
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
+        }
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    }
+
+    public void llenarTablaVideojuegosCampo(JTable tabla, String campo) {
+        DefaultTableModel tbModelVideojuegos = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tbModelVideojuegos.setRowCount(0);
+        CRUDVideojuegos obV = new CRUDVideojuegos();
+        obV.selectVideojuegoCampo(campo);
+
+        tbModelVideojuegos.addColumn("ID");
+        tbModelVideojuegos.addColumn("Nombre");
+        tbModelVideojuegos.addColumn("Categoria");
+        tbModelVideojuegos.addColumn("Precio");
+
+        Object[] row = new Object[4];
+        for (Videojuego v : obV.getData()) {
+            row[0] = v.getId();
+            row[1] = v.getNombre();
+            row[2] = v.getCategoria();
+            row[3] = v.getPrecio();
+
+            tbModelVideojuegos.addRow(row);
+        }
+        tabla.setModel(tbModelVideojuegos);
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
+        }
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    }
+
     public void llenarTablaTiendas(JTable tabla) {
         DefaultTableModel tbModelTiendas = new DefaultTableModel() {
             @Override
@@ -110,6 +170,92 @@ public class LlenadoInformacion {
             row[0] = t.getId();
             row[1] = t.getNombre();
             row[2] = t.getDomicilio();
+
+            tbModelTiendas.addRow(row);
+        }
+        tabla.setModel(tbModelTiendas);
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
+        }
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    }
+
+    public void llenarTablaTiendasCampo(JTable tabla, String campo) {
+        DefaultTableModel tbModelTiendas = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tbModelTiendas.setRowCount(0);
+        CRUDTiendas obT = new CRUDTiendas();
+        obT.selectTiendaCampo(campo);
+
+        tbModelTiendas.addColumn("ID");
+        tbModelTiendas.addColumn("Nombre");
+        tbModelTiendas.addColumn("Domicilio");
+
+        Object[] row = new Object[3];
+        for (Tienda t : obT.getData()) {
+            row[0] = t.getId();
+            row[1] = t.getNombre();
+            row[2] = t.getDomicilio();
+
+            tbModelTiendas.addRow(row);
+        }
+        tabla.setModel(tbModelTiendas);
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
+        }
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    }
+
+    public void llenarTablaTiendasVentas(JTable tabla) {
+        DefaultTableModel tbModelTiendas = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tbModelTiendas.setRowCount(0);
+        CRUDTiendas obT = new CRUDTiendas();
+        obT.selectTiendaVentas();
+
+        tbModelTiendas.addColumn("Tienda");
+        tbModelTiendas.addColumn("Ventas");
+
+        Object[] row = new Object[2];
+        for (Tienda t : obT.getData()) {
+            row[0] = t.getNombre();
+            row[1] = t.getVentas();
+
+            tbModelTiendas.addRow(row);
+        }
+        tabla.setModel(tbModelTiendas);
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
+        }
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    }
+    
+    public void llenarTablaTiendasEmpleados(JTable tabla) {
+        DefaultTableModel tbModelTiendas = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tbModelTiendas.setRowCount(0);
+        CRUDTiendas obT = new CRUDTiendas();
+        obT.selectTiendaEmpleados();
+
+        tbModelTiendas.addColumn("Tienda");
+        tbModelTiendas.addColumn("Empleados");
+
+        Object[] row = new Object[2];
+        for (Tienda t : obT.getData()) {
+            row[0] = t.getNombre();
+            row[1] = t.getVentas();
 
             tbModelTiendas.addRow(row);
         }
@@ -144,6 +290,68 @@ public class LlenadoInformacion {
             row[2] = p.getTelefono();
             row[3] = p.getDomicilio();
             row[4] = p.getCorreo();
+
+            tbModelProv.addRow(row);
+        }
+        tabla.setModel(tbModelProv);
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
+        }
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    }
+
+    public void llenarTablaProveedoresCampo(JTable tabla, String campo) {
+        DefaultTableModel tbModelProv = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tbModelProv.setRowCount(0);
+        CRUDProveedores obP = new CRUDProveedores();
+        obP.selectProveedorCampo(campo);
+
+        tbModelProv.addColumn("ID");
+        tbModelProv.addColumn("Nombre");
+        tbModelProv.addColumn("Telefono");
+        tbModelProv.addColumn("Domicilio");
+        tbModelProv.addColumn("Correo");
+
+        Object[] row = new Object[5];
+        for (Proveedor p : obP.getData()) {
+            row[0] = p.getId();
+            row[1] = p.getNombre();
+            row[2] = p.getTelefono();
+            row[3] = p.getDomicilio();
+            row[4] = p.getCorreo();
+
+            tbModelProv.addRow(row);
+        }
+        tabla.setModel(tbModelProv);
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
+        }
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    }
+
+    public void llenarTablaProveedoresCantSurtida(JTable tabla) {
+        DefaultTableModel tbModelProv = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tbModelProv.setRowCount(0);
+        CRUDProveedores obP = new CRUDProveedores();
+        obP.selectProveedorCantSurtida();
+
+        tbModelProv.addColumn("Proveedor");
+        tbModelProv.addColumn("Cantidad Surtida");
+
+        Object[] row = new Object[2];
+        for (Proveedor p : obP.getData()) {
+            row[0] = p.getNombre();
+            row[1] = p.getCantSurtida();
 
             tbModelProv.addRow(row);
         }
@@ -206,6 +414,38 @@ public class LlenadoInformacion {
         tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     }
 
+    public void llenarTablaEmpleadosAtenciones(JTable tabla) {
+        DefaultTableModel tbModelEmp = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tbModelEmp.setRowCount(0);
+        CRUDEmpleados obE = new CRUDEmpleados();
+        obE.selectEmpleadoClientes();
+
+        tbModelEmp.addColumn("ID");
+        tbModelEmp.addColumn("Nombre");
+        tbModelEmp.addColumn("ApellidoP");
+        tbModelEmp.addColumn("Clientes Atendidos");
+
+        Object[] row = new Object[4];
+        for (Empleado e : obE.getDataEmpleado()) {
+            row[0] = e.getId();
+            row[1] = e.getNombre();
+            row[2] = e.getApellidoP();
+            row[3] = e.getClientes();
+
+            tbModelEmp.addRow(row);
+        }
+        tabla.setModel(tbModelEmp);
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
+        }
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    }
+
     public void llenarTablaClientes(JTable tabla) {
         DefaultTableModel tbModelClientes = new DefaultTableModel() {
             @Override
@@ -236,6 +476,77 @@ public class LlenadoInformacion {
             row[5] = c.getTelefono();
             row[6] = c.getDomicilio();
             row[7] = c.getCorreo();
+
+            tbModelClientes.addRow(row);
+        }
+        tabla.setModel(tbModelClientes);
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
+        }
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    }
+
+    public void llenarTablaClientesCampo(JTable tabla, String campo) {
+        DefaultTableModel tbModelClientes = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tbModelClientes.setRowCount(0);
+        CRUDClientes obC = new CRUDClientes();
+        obC.selectClientesCampo(campo);
+
+        tbModelClientes.addColumn("ID");
+        tbModelClientes.addColumn("Nombre");
+        tbModelClientes.addColumn("ApellidoP");
+        tbModelClientes.addColumn("ApellidoM");
+        tbModelClientes.addColumn("Fecha Nacimiento");
+        tbModelClientes.addColumn("Telefono");
+        tbModelClientes.addColumn("Domicilio");
+        tbModelClientes.addColumn("Correo");
+
+        Object[] row = new Object[8];
+        for (Cliente c : obC.getData()) {
+            row[0] = c.getId();
+            row[1] = c.getNombre();
+            row[2] = c.getApellidoP();
+            row[3] = c.getApellidoM();
+            row[4] = c.getFechaNacimiento();
+            row[5] = c.getTelefono();
+            row[6] = c.getDomicilio();
+            row[7] = c.getCorreo();
+
+            tbModelClientes.addRow(row);
+        }
+        tabla.setModel(tbModelClientes);
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
+        }
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    }
+
+    public void llenarTablaClientesCompra(JTable tabla) {
+        DefaultTableModel tbModelClientes = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tbModelClientes.setRowCount(0);
+        CRUDClientes obC = new CRUDClientes();
+        obC.selectClienteCompra();
+
+        tbModelClientes.addColumn("Nombre");
+        tbModelClientes.addColumn("Apellido Paterno");
+        tbModelClientes.addColumn("Cantidad Comprada");
+        
+
+        Object[] row = new Object[3];
+        for (Cliente c : obC.getData()) {
+            row[0] = c.getNombre();
+            row[1] = c.getApellidoP();
+            row[2] = c.getCantComprada();
 
             tbModelClientes.addRow(row);
         }
@@ -319,4 +630,5 @@ public class LlenadoInformacion {
         }
         tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     }
+
 }

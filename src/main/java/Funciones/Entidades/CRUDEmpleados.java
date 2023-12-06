@@ -155,4 +155,32 @@ public class CRUDEmpleados {
             obC.closeConnection();
         }
     }
+    
+    public void selectEmpleadoClientes() {
+        try {
+            query = "SELECT * FROM eatenciones;";
+            pstm = obC.setConnection().prepareStatement(query);
+            output = pstm.executeQuery();
+
+            while (output.next()) {
+                int id = output.getInt("id");
+                String nombre = output.getString("Empleado");
+                String apPaterno = output.getString("Apellido_Paterno");
+                int clientes = output.getInt("Atendidos");
+                
+                dataEmpleado.add(new Empleado(id, nombre, apPaterno, clientes));
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pstm != null) {
+                try {
+                    pstm.close();
+                } catch (SQLException ex) {
+                }
+            }
+            obC.closeConnection();
+        }
+    }
 }

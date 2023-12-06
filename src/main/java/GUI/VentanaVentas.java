@@ -113,7 +113,7 @@ public class VentanaVentas extends javax.swing.JFrame {
                     break;
                 }
             }
-            
+
             int cant = Integer.parseInt(txtCant.getText().trim());
             sqlProveen.insertProveen(new Provee(idV, idTiendaTrabajo, idP, cant, new Date(System.currentTimeMillis())));
             obI.llenarTablaProveen(tbProv, idTiendaTrabajo);
@@ -327,7 +327,11 @@ public class VentanaVentas extends javax.swing.JFrame {
         btnSalir.setFont(new Font("Segoe UI", Font.BOLD, 16));
         btnSalir.setIconTextGap(10);
         btnSalir.addActionListener((e) -> {
-            System.exit(0);
+            if (user.equals("admin")) {
+                this.dispose();
+            } else {
+                System.exit(0);
+            }
         });
         pnlHeader.add(btnSalir, BorderLayout.EAST);
 

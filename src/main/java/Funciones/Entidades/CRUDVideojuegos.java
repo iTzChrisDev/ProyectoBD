@@ -148,6 +148,57 @@ public class CRUDVideojuegos {
         }
     }
 
+    public void selectVideojuegoCampo(String campo) {
+        try {
+            query = "SELECT * FROM videojuegosall ORDER BY " + campo + " ASC;";
+            pstm = obC.setConnection().prepareStatement(query);
+            output = pstm.executeQuery();
+
+            while (output.next()) {
+                int id = output.getInt("id_videojuego");
+                String nombre = output.getString("Nombre");
+                String categoria = output.getString("Categoria");
+                double precio = output.getDouble("Precio");
+
+                data.add(new Videojuego(id, nombre, categoria, precio));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pstm != null) {
+                try {
+                    pstm.close();
+                } catch (SQLException ex) {
+                }
+            }
+            obC.closeConnection();
+        }
+    }
+
+    public void selectVideojuegoCategoria() {
+        try {
+            query = "SELECT * FROM vjcategorias;";
+            pstm = obC.setConnection().prepareStatement(query);
+            output = pstm.executeQuery();
+
+            while (output.next()) {
+                String categoria = output.getString("Categoria");
+                int count = output.getInt("Cantidad");
+                data.add(new Videojuego(categoria, count));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pstm != null) {
+                try {
+                    pstm.close();
+                } catch (SQLException ex) {
+                }
+            }
+            obC.closeConnection();
+        }
+    }
+
     public ArrayList<Videojuego> getData() {
         return data;
     }

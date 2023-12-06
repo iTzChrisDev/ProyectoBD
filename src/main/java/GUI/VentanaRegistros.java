@@ -25,6 +25,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 public class VentanaRegistros extends javax.swing.JFrame {
+
     private final Color select = new Color(25, 200, 178);
     private final Color unselect = new Color(100, 100, 100);
     private boolean estado = true;
@@ -33,13 +34,13 @@ public class VentanaRegistros extends javax.swing.JFrame {
     private CardLayout obCMenu, obCVid, obCTien, obCEmp, obCCli, obCProv, obCInv;
     private VentanaAltas alta, alta2, alta3, alta4, alta5, alta6;
     private VentanaActualizaciones actu, actu2, actu3, actu4, actu5, actu6;
-    private RoundButton btnPrincipal, btnVideojuegos, btnProveedores, btnEmpleados, btnClientes, btnTiendas, btnInventario, btnSalir, btnMenu;
+    private RoundButton btnPrincipal, btnVideojuegos, btnProveedores, btnEmpleados, btnClientes, btnTiendas, btnInventario, btnSalir, btnMenu, btnPuntoVenta, btnVentas;
     private RoundButton btnBuscarVideojuegosElim, btnBuscarVideojuegosAct, btnBuscarVideojuegosMostrar, btnBuscarVideojuegosAlta, btnAgregarVideojuegos, btnEliminarVideojuegos, btnActVideojuegos, btnFiltrarVideojuegos;
     private RoundButton btnBuscarTiendasElim, btnBuscarTiendasAct, btnBuscarTiendasMostrar, btnBuscarTiendasAlta, btnAgregarTiendas, btnEliminarTiendas, btnActTiendas, btnFiltrarTiendas;
     private RoundButton btnBuscarEmpleadosElim, btnBuscarEmpleadosAct, btnBuscarEmpleadosMostrar, btnBuscarEmpleadosAlta, btnAgregarEmpleados, btnEliminarEmpleados, btnActEmpleados, btnFiltrarEmpleados;
     private RoundButton btnBuscarClientesElim, btnBuscarClientesAct, btnBuscarClientesMostrar, btnBuscarClientesAlta, btnAgregarClientes, btnEliminarClientes, btnActClientes, btnFiltrarClientes;
     private RoundButton btnBuscarProveedoresElim, btnBuscarProveedoresAct, btnBuscarProveedoresMostrar, btnBuscarProveedoresAlta, btnAgregarProveedores, btnEliminarProveedores, btnActProveedores, btnFiltrarProveedores;
-    private RoundButton btnBuscarInventarioElim, btnBuscarInventarioAct, btnBuscarInventarioMostrar, btnBuscarInventarioAlta, btnAgregarInventario, btnEliminarInventario, btnActInventario, btnFiltrarInventario;
+    private RoundButton btnBuscarInventarioElim, btnBuscarInventarioAct, btnBuscarInventarioMostrar, btnBuscarInventarioAlta, btnAgregarInventario, btnEliminarInventario, btnActInventario;
     private ArrayList<RoundButton> crudJuegos, crudTiendas, crudEmpleados, crudClientes, crudProv, crudInv;
     private ConsultasGenerales obCons;
     private LlenadoInformacion obI;
@@ -50,7 +51,8 @@ public class VentanaRegistros extends javax.swing.JFrame {
     private CRUDTiendas sqlTiendas;
     private CRUDInventario sqlInventario;
     private String user;
-    
+    private int idTiendaTrabajo;
+
     public VentanaRegistros() {
         initComponents();
         setLocationRelativeTo(this);
@@ -76,9 +78,11 @@ public class VentanaRegistros extends javax.swing.JFrame {
         initButtonsCRUD();
         actionListenerBtnActions();
         cargarDatosGenerales();
+        actionListenerButtonsHeader();
     }
 
-    public void setUser(String user) {
+    public void setUser(String user, int idTiendaTrabajo) {
+        this.idTiendaTrabajo = idTiendaTrabajo;
         this.user = user;
     }
 
@@ -91,6 +95,8 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         panelRound1 = new CustomComponents.PanelRound();
         jLabel8 = new javax.swing.JLabel();
+        pnlHeaderButtons = new javax.swing.JPanel();
+        pnlHeaderButtons1 = new javax.swing.JPanel();
         pnlMain = new javax.swing.JPanel();
         pnlPrincipal = new javax.swing.JPanel();
         jPanel52 = new javax.swing.JPanel();
@@ -374,13 +380,12 @@ public class VentanaRegistros extends javax.swing.JFrame {
         txtBusquedaVideojuegos22 = new javax.swing.JTextField();
         vidMostrar5 = new javax.swing.JPanel();
         pnlButtonsInvMostrar = new javax.swing.JPanel();
-        comboInventario = new javax.swing.JComboBox<>();
         txtBusquedaVideojuegos23 = new javax.swing.JTextField();
         pnlAside = new javax.swing.JPanel();
         pnlMenuContainer = new CustomComponents.PanelRound();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(950, 700));
+        setPreferredSize(new java.awt.Dimension(950, 710));
 
         jPanel1.setBackground(new java.awt.Color(20, 20, 20));
         jPanel1.setLayout(new java.awt.BorderLayout());
@@ -408,6 +413,16 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel2.add(panelRound1);
 
         pnlHeader.add(jPanel2, java.awt.BorderLayout.CENTER);
+
+        pnlHeaderButtons.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        pnlHeaderButtons.setOpaque(false);
+        pnlHeaderButtons.setLayout(new java.awt.GridLayout(1, 2, 5, 5));
+        pnlHeader.add(pnlHeaderButtons, java.awt.BorderLayout.EAST);
+
+        pnlHeaderButtons1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        pnlHeaderButtons1.setOpaque(false);
+        pnlHeaderButtons1.setLayout(new java.awt.GridLayout(1, 2, 5, 5));
+        pnlHeader.add(pnlHeaderButtons1, java.awt.BorderLayout.WEST);
 
         jPanel1.add(pnlHeader, java.awt.BorderLayout.NORTH);
 
@@ -1108,7 +1123,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         comboVideojuegos.setBackground(new java.awt.Color(30, 30, 30));
         comboVideojuegos.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         comboVideojuegos.setForeground(new java.awt.Color(200, 200, 200));
-        comboVideojuegos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboVideojuegos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Nombre", "Categoria", "Precio", "Cont. Categoria" }));
         comboVideojuegos.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
         pnlButtonsVideojuegosMostrar.add(comboVideojuegos, java.awt.BorderLayout.CENTER);
 
@@ -1214,7 +1229,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jLabel11.setBackground(new java.awt.Color(100, 100, 100));
         jLabel11.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(120, 120, 120));
-        jLabel11.setText("Tienda con + ventas");
+        jLabel11.setText("Tienda con + ganancias");
         jLabel11.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 0, 0));
         jPanel14.add(jLabel11, java.awt.BorderLayout.NORTH);
 
@@ -1247,7 +1262,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jLabel17.setBackground(new java.awt.Color(100, 100, 100));
         jLabel17.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(120, 120, 120));
-        jLabel17.setText("Tienda con - ventas");
+        jLabel17.setText("Tienda con - ganancias");
         jLabel17.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 0, 0));
         jPanel16.add(jLabel17, java.awt.BorderLayout.NORTH);
 
@@ -1365,7 +1380,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         comboTiendas.setBackground(new java.awt.Color(30, 30, 30));
         comboTiendas.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         comboTiendas.setForeground(new java.awt.Color(200, 200, 200));
-        comboTiendas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboTiendas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Nombre", "Domicilio", "Cont. Empleados", "Cont. Ventas" }));
         comboTiendas.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
         pnlButtonsTiendasMostrar.add(comboTiendas, java.awt.BorderLayout.CENTER);
 
@@ -1603,7 +1618,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         comboEmpleados.setBackground(new java.awt.Color(30, 30, 30));
         comboEmpleados.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         comboEmpleados.setForeground(new java.awt.Color(200, 200, 200));
-        comboEmpleados.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboEmpleados.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Clientes Atendidos" }));
         comboEmpleados.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
         pnlButtonsEmpleadosMostrar.add(comboEmpleados, java.awt.BorderLayout.CENTER);
 
@@ -1801,7 +1816,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         comboClientes.setBackground(new java.awt.Color(30, 30, 30));
         comboClientes.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         comboClientes.setForeground(new java.awt.Color(200, 200, 200));
-        comboClientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboClientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Nombre", "Ap. Paterno", "Ap. Materno", "Fecha Nac.", "Telefono", "Domicilio", "Correo", "Cont. Compras" }));
         comboClientes.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
         pnlButtonsClientesMostrar.add(comboClientes, java.awt.BorderLayout.CENTER);
 
@@ -1999,7 +2014,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         comboProveedores.setBackground(new java.awt.Color(30, 30, 30));
         comboProveedores.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         comboProveedores.setForeground(new java.awt.Color(200, 200, 200));
-        comboProveedores.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboProveedores.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Nombre", "Telefono", "Domicilio", "Correo", "Cant. Surtida" }));
         comboProveedores.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
         pnlButtonsProvMostrar.add(comboProveedores, java.awt.BorderLayout.CENTER);
 
@@ -2212,14 +2227,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
         pnlButtonsInvMostrar.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 0));
         pnlButtonsInvMostrar.setOpaque(false);
         pnlButtonsInvMostrar.setLayout(new java.awt.BorderLayout(5, 5));
-
-        comboInventario.setBackground(new java.awt.Color(30, 30, 30));
-        comboInventario.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        comboInventario.setForeground(new java.awt.Color(200, 200, 200));
-        comboInventario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        comboInventario.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
-        pnlButtonsInvMostrar.add(comboInventario, java.awt.BorderLayout.CENTER);
-
         vidMostrar5.add(pnlButtonsInvMostrar, java.awt.BorderLayout.EAST);
 
         txtBusquedaVideojuegos23.setBackground(new java.awt.Color(10, 10, 10));
@@ -2269,7 +2276,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE)
         );
 
         pack();
@@ -2305,10 +2312,53 @@ public class VentanaRegistros extends javax.swing.JFrame {
         obI.llenarTablaEmpleados(tbEmp);
     }
 
+    public void actionListenerButtonsHeader() {
+        btnPuntoVenta.addActionListener((e) -> {
+            VentanaVentas obV = new VentanaVentas();
+            obV.setUser(user, idTiendaTrabajo);
+            obV.setVisible(true);
+        });
+
+        btnVentas.addActionListener((e) -> {
+            btnVentas.setForeground(select);
+            btnPrincipal.setForeground(unselect);
+            btnVideojuegos.setForeground(unselect);
+            btnTiendas.setForeground(unselect);
+            btnProveedores.setForeground(unselect);
+            btnClientes.setForeground(unselect);
+            btnEmpleados.setForeground(unselect);
+            btnInventario.setForeground(unselect);
+            btnVentas.setIcon(new ImageIcon("./src/main/java/Resources/ventasGenSel.png"));
+            btnPrincipal.setIcon(new ImageIcon("./src/main/java/Resources/unselectedMain.png"));
+            btnVideojuegos.setIcon(new ImageIcon("./src/main/java/Resources/unselectedGames.png"));
+            btnTiendas.setIcon(new ImageIcon("./src/main/java/Resources/unselectedTienda.png"));
+            btnClientes.setIcon(new ImageIcon("./src/main/java/Resources/unselectedCliente.png"));
+            btnEmpleados.setIcon(new ImageIcon("./src/main/java/Resources/unselectedEmp.png"));
+            btnInventario.setIcon(new ImageIcon("./src/main/java/Resources/unselectedInv.png"));
+            btnProveedores.setIcon(new ImageIcon("./src/main/java/Resources/unselectedProv.png"));
+        });
+    }
+
     public void initComponentesCustom() {
         pnlAside.setPreferredSize(new Dimension(5, pnlAside.getHeight()));
         SwingUtilities.updateComponentTreeUI(pnlAside);
+
+        btnPuntoVenta = obE.getStyleButtonUpdate(btnPuntoVenta);
+        btnPuntoVenta.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnPuntoVenta.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnPuntoVenta.setText("Punto de venta");
+        btnPuntoVenta.setFont(new Font("Roboto", Font.PLAIN, 16));
+        btnPuntoVenta.setIcon(new ImageIcon("./src/main/java/Resources/puntoVenta.png"));
+        btnPuntoVenta.setBorderColor(new Color(20, 20, 20));
+        btnPuntoVenta.setIconTextGap(0);
+        pnlHeaderButtons.add(btnPuntoVenta);
+
+        btnSalir = obE.getStyleButtonExit(btnSalir);
+        btnSalir.setText("");
+        pnlHeaderButtons.add(btnSalir);
+
         btnPrincipal = obE.getStyleMenuBtn(btnPrincipal, pnlMenuContainer);
+
         btnPrincipal.setText("Principal");
         btnPrincipal.setIcon(new ImageIcon("./src/main/java/Resources/selectedMain.png"));
         btnPrincipal.setForeground(select);
@@ -2328,6 +2378,8 @@ public class VentanaRegistros extends javax.swing.JFrame {
             btnEmpleados.setIcon(new ImageIcon("./src/main/java/Resources/unselectedEmp.png"));
             btnInventario.setIcon(new ImageIcon("./src/main/java/Resources/unselectedInv.png"));
             btnProveedores.setIcon(new ImageIcon("./src/main/java/Resources/unselectedProv.png"));
+            btnVentas.setIcon(new ImageIcon("./src/main/java/Resources/ventasGen.png"));
+            btnVentas.setForeground(unselect);
         });
 
         btnVideojuegos = obE.getStyleMenuBtn(btnVideojuegos, pnlMenuContainer);
@@ -2349,6 +2401,8 @@ public class VentanaRegistros extends javax.swing.JFrame {
             btnEmpleados.setIcon(new ImageIcon("./src/main/java/Resources/unselectedEmp.png"));
             btnInventario.setIcon(new ImageIcon("./src/main/java/Resources/unselectedInv.png"));
             btnProveedores.setIcon(new ImageIcon("./src/main/java/Resources/unselectedProv.png"));
+            btnVentas.setIcon(new ImageIcon("./src/main/java/Resources/ventasGen.png"));
+            btnVentas.setForeground(unselect);
         });
 
         btnTiendas = obE.getStyleMenuBtn(btnTiendas, pnlMenuContainer);
@@ -2370,6 +2424,8 @@ public class VentanaRegistros extends javax.swing.JFrame {
             btnEmpleados.setIcon(new ImageIcon("./src/main/java/Resources/unselectedEmp.png"));
             btnInventario.setIcon(new ImageIcon("./src/main/java/Resources/unselectedInv.png"));
             btnProveedores.setIcon(new ImageIcon("./src/main/java/Resources/unselectedProv.png"));
+            btnVentas.setIcon(new ImageIcon("./src/main/java/Resources/ventasGen.png"));
+            btnVentas.setForeground(unselect);
         });
 
         btnEmpleados = obE.getStyleMenuBtn(btnEmpleados, pnlMenuContainer);
@@ -2391,6 +2447,8 @@ public class VentanaRegistros extends javax.swing.JFrame {
             btnClientes.setIcon(new ImageIcon("./src/main/java/Resources/unselectedCliente.png"));
             btnInventario.setIcon(new ImageIcon("./src/main/java/Resources/unselectedInv.png"));
             btnProveedores.setIcon(new ImageIcon("./src/main/java/Resources/unselectedProv.png"));
+            btnVentas.setIcon(new ImageIcon("./src/main/java/Resources/ventasGen.png"));
+            btnVentas.setForeground(unselect);
         });
 
         btnClientes = obE.getStyleMenuBtn(btnClientes, pnlMenuContainer);
@@ -2412,6 +2470,8 @@ public class VentanaRegistros extends javax.swing.JFrame {
             btnEmpleados.setIcon(new ImageIcon("./src/main/java/Resources/unselectedEmp.png"));
             btnInventario.setIcon(new ImageIcon("./src/main/java/Resources/unselectedInv.png"));
             btnProveedores.setIcon(new ImageIcon("./src/main/java/Resources/unselectedProv.png"));
+            btnVentas.setIcon(new ImageIcon("./src/main/java/Resources/ventasGen.png"));
+            btnVentas.setForeground(unselect);
         });
 
         btnProveedores = obE.getStyleMenuBtn(btnProveedores, pnlMenuContainer);
@@ -2433,6 +2493,8 @@ public class VentanaRegistros extends javax.swing.JFrame {
             btnClientes.setIcon(new ImageIcon("./src/main/java/Resources/unselectedCliente.png"));
             btnEmpleados.setIcon(new ImageIcon("./src/main/java/Resources/unselectedEmp.png"));
             btnInventario.setIcon(new ImageIcon("./src/main/java/Resources/unselectedInv.png"));
+            btnVentas.setIcon(new ImageIcon("./src/main/java/Resources/ventasGen.png"));
+            btnVentas.setForeground(unselect);
         });
 
         btnInventario = obE.getStyleMenuBtn(btnInventario, pnlMenuContainer);
@@ -2454,6 +2516,8 @@ public class VentanaRegistros extends javax.swing.JFrame {
             btnClientes.setIcon(new ImageIcon("./src/main/java/Resources/unselectedCliente.png"));
             btnEmpleados.setIcon(new ImageIcon("./src/main/java/Resources/unselectedEmp.png"));
             btnProveedores.setIcon(new ImageIcon("./src/main/java/Resources/unselectedProv.png"));
+            btnVentas.setIcon(new ImageIcon("./src/main/java/Resources/ventasGen.png"));
+            btnVentas.setForeground(unselect);
         });
 
         btnMenu = new RoundButton(new Color(10, 10, 10), new Color(22, 49, 39), new Color(43, 61, 49), new Color(20, 20, 20), 20);
@@ -2461,7 +2525,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         btnMenu.setBorder(new EmptyBorder(10, 15, 10, 15));
         btnMenu.setVerticalTextPosition(SwingConstants.BOTTOM);
         btnMenu.setHorizontalTextPosition(SwingConstants.CENTER);
-        pnlHeader.add(btnMenu, BorderLayout.WEST);
+        pnlHeaderButtons1.add(btnMenu);
         btnMenu.setIcon(new ImageIcon("./src/main/java/Resources/menu.png"));
         btnMenu.addActionListener((e) -> {
             if (estado) {
@@ -2475,8 +2539,16 @@ public class VentanaRegistros extends javax.swing.JFrame {
             }
         });
 
-        btnSalir = obE.getStyleButtonExit(btnSalir);
-        pnlHeader.add(btnSalir, BorderLayout.EAST);
+        btnVentas = new RoundButton(new Color(10, 10, 10), new Color(22, 49, 39), new Color(43, 61, 49), new Color(20, 20, 20), 20);
+        btnVentas.setFocusable(false);
+        btnVentas.setBorder(new EmptyBorder(10, 15, 10, 15));
+        btnVentas.setText("Ventas");
+        btnVentas.setForeground(new Color(100, 100, 100));
+        btnVentas.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnVentas.setFont(new Font("Roboto", Font.PLAIN, 16));
+        btnVentas.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnVentas.setIcon(new ImageIcon("./src/main/java/Resources/ventasGen.png"));
+        pnlHeaderButtons1.add(btnVentas);
 
         obE.setStylePanel(panelGradient1);
         obE.setStylePanel(panelGradient2);
@@ -2669,9 +2741,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
         btnAgregarInventario = obE.getStyleButtonAdd(btnAgregarInventario);
         btnEliminarInventario = obE.getStyleButtonEliminar(btnEliminarInventario);
         btnActInventario = obE.getStyleButtonUpdate(btnActInventario);
-        btnFiltrarInventario = obE.getStyleBtnClear(btnFiltrarInventario);
-        btnFiltrarInventario.setIcon(new ImageIcon("./src/main/java/Resources/filtrar.png"));
-        btnFiltrarInventario.setText("Filtrar");
 
         pnlButtonsInvElim.add(btnBuscarInventarioElim, BorderLayout.WEST);
         pnlButtonsInvAct.add(btnBuscarInventarioAct, BorderLayout.WEST);
@@ -2680,13 +2749,8 @@ public class VentanaRegistros extends javax.swing.JFrame {
         pnlButtonsInvAlta.add(btnAgregarInventario, BorderLayout.CENTER);
         pnlButtonsInvElim.add(btnEliminarInventario, BorderLayout.CENTER);
         pnlButtonsInvAct.add(btnActInventario, BorderLayout.CENTER);
-        pnlButtonsInvMostrar.add(btnFiltrarInventario, BorderLayout.EAST);
 
         // Combo Box
-        comboInventario.setRenderer(new CustomComboBoxRenderer());
-        comboInventario.setFocusable(false);
-        comboInventario.getComponent(0).setBackground(new Color(66, 189, 159));
-        comboInventario.setBorder(new LineBorder(new Color(10, 10, 10)));
         comboProveedores.setRenderer(new CustomComboBoxRenderer());
         comboProveedores.setFocusable(false);
         comboProveedores.getComponent(0).setBackground(new Color(66, 189, 159));
@@ -3318,6 +3382,111 @@ public class VentanaRegistros extends javax.swing.JFrame {
             txtBusquedaVideojuegos22.setText(txtBusquedaVideojuegos23.getText().trim());
             txtBusquedaVideojuegos20.setText(txtBusquedaVideojuegos23.getText().trim());
         });
+
+        // Filtros de busqueda
+        btnFiltrarVideojuegos.addActionListener((e) -> {
+            String aux = String.valueOf(comboVideojuegos.getSelectedItem());
+            switch (aux) {
+                case "ID":
+                    obI.llenarTablaVideojuegosCampo(tbVideojuegos, "id_videojuego");
+                    break;
+                case "Nombre":
+                    obI.llenarTablaVideojuegosCampo(tbVideojuegos, "Nombre");
+                    break;
+                case "Categoria":
+                    obI.llenarTablaVideojuegosCampo(tbVideojuegos, "Categoria");
+                    break;
+                case "Precio":
+                    obI.llenarTablaVideojuegosCampo(tbVideojuegos, "Precio");
+                    break;
+                case "Cont. Categoria":
+                    obI.llenarTablaVideojuegosCategoria(tbVideojuegos);
+                    break;
+            }
+        });
+
+        btnFiltrarTiendas.addActionListener((e) -> {
+            String aux = String.valueOf(comboTiendas.getSelectedItem());
+            switch (aux) {
+                case "ID":
+                    obI.llenarTablaTiendasCampo(tbTiendas, "id_tienda");
+                    break;
+                case "Nombre":
+                    obI.llenarTablaTiendasCampo(tbTiendas, "Nombre");
+                    break;
+                case "Domicilio":
+                    obI.llenarTablaTiendasCampo(tbTiendas, "Domicilio");
+                    break;
+                case "Cont. Ventas":
+                    obI.llenarTablaTiendasVentas(tbTiendas);
+                    break;
+                case "Cont. Empleados":
+                    obI.llenarTablaTiendasEmpleados(tbTiendas);
+                    break;
+            }
+        });
+        btnFiltrarProveedores.addActionListener((e) -> {
+            String aux = String.valueOf(comboProveedores.getSelectedItem());
+            switch (aux) {
+                case "ID":
+                    obI.llenarTablaProveedoresCampo(tbProv, "id_proveedor");
+                    break;
+                case "Nombre":
+                    obI.llenarTablaProveedoresCampo(tbProv, "Nombre");
+                    break;
+                case "Domicilio":
+                    obI.llenarTablaProveedoresCampo(tbProv, "Domicilio");
+                    break;
+                case "Telefono":
+                    obI.llenarTablaProveedoresCampo(tbProv, "Telefono");
+                    break;
+                case "Correo":
+                    obI.llenarTablaProveedoresCampo(tbProv, "Correo");
+                    break;
+                case "Cant. Surtida":
+                    obI.llenarTablaProveedoresCantSurtida(tbProv);
+                    break;
+            }
+        });
+        btnFiltrarEmpleados.addActionListener((e) -> {
+            String aux = String.valueOf(comboEmpleados.getSelectedItem());
+            if (aux.equals("Clientes Atendidos")) {
+                obI.llenarTablaEmpleadosAtenciones(tbEmp);
+            }
+        });
+
+        btnFiltrarClientes.addActionListener((e) -> {
+            String aux = String.valueOf(comboClientes.getSelectedItem());
+            switch (aux) {
+                case "ID":
+                    obI.llenarTablaClientesCampo(tbClientes, "id_cliente");
+                    break;
+                case "Nombre":
+                    obI.llenarTablaClientesCampo(tbClientes, "Nombre");
+                    break;
+                case "Ap. Paterno":
+                    obI.llenarTablaClientesCampo(tbClientes, "ApellidoP");
+                    break;
+                case "Ap. Materno":
+                    obI.llenarTablaClientesCampo(tbClientes, "ApellidoM");
+                    break;
+                case "Fecha Nac.":
+                    obI.llenarTablaClientesCampo(tbClientes, "Fecha_Nacimiento");
+                    break;
+                case "Domicilio":
+                    obI.llenarTablaClientesCampo(tbClientes, "Domicilio");
+                    break;
+                case "Telefono":
+                    obI.llenarTablaClientesCampo(tbClientes, "Telefono");
+                    break;
+                case "Correo":
+                    obI.llenarTablaClientesCampo(tbClientes, "Correo");
+                    break;
+                case "Cont. Compras":
+                    obI.llenarTablaClientesCompra(tbClientes);
+                    break;
+            }
+        });
     }
 
     public void actionListenerButtonsCRUD() {
@@ -3530,7 +3699,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboClientes;
     private javax.swing.JComboBox<String> comboEmpleados;
-    private javax.swing.JComboBox<String> comboInventario;
     private javax.swing.JComboBox<String> comboProveedores;
     private javax.swing.JComboBox<String> comboTiendas;
     private javax.swing.JComboBox<String> comboVideojuegos;
@@ -3741,6 +3909,8 @@ public class VentanaRegistros extends javax.swing.JFrame {
     private javax.swing.JPanel pnlClientes;
     private javax.swing.JPanel pnlEmpleados;
     private javax.swing.JPanel pnlHeader;
+    private javax.swing.JPanel pnlHeaderButtons;
+    private javax.swing.JPanel pnlHeaderButtons1;
     private javax.swing.JPanel pnlInventario;
     private javax.swing.JPanel pnlMain;
     private CustomComponents.PanelRound pnlMenuContainer;

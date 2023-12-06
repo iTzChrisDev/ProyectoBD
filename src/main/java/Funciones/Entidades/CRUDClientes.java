@@ -1,4 +1,5 @@
 package Funciones.Entidades;
+
 import ConexionBD.Conexion;
 import TDA.Entidades.Cliente;
 import java.sql.Date;
@@ -127,5 +128,64 @@ public class CRUDClientes {
             obC.closeConnection();
         }
     }
-}
 
+    public void selectClientesCampo(String campo) {
+        try {
+            query = "SELECT * FROM clientesall ORDER BY " + campo + " ASC;";
+            pstm = obC.setConnection().prepareStatement(query);
+            output = pstm.executeQuery();
+
+            while (output.next()) {
+                int id = output.getInt("id_cliente");
+                String nombre = output.getString("Nombre");
+                String apellidoP = output.getString("ApellidoP");
+                String apellidoM = output.getString("ApellidoM");
+                Date fechaNacimiento = output.getDate("Fecha_Nacimiento");
+                int telefono = output.getInt("Telefono");
+                String domicilio = output.getString("Domicilio");
+                String correo = output.getString("Correo");
+
+                data.add(new Cliente(id, nombre, apellidoP, apellidoM, fechaNacimiento, telefono, domicilio, correo));
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pstm != null) {
+                try {
+                    pstm.close();
+                } catch (SQLException ex) {
+                }
+            }
+            obC.closeConnection();
+        }
+    }
+
+    public void selectClienteCompra() {
+        try {
+            query = "SELECT * FROM ccompra;";
+            pstm = obC.setConnection().prepareStatement(query);
+            output = pstm.executeQuery();
+
+            while (output.next()) {
+                String nombre = output.getString("Nombre");
+                String apP = output.getString("Apellido_Paterno");
+                int comprado = output.getInt("Comprado");
+                
+                data.add(new Cliente(nombre, apP, comprado));
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pstm != null) {
+                try {
+                    pstm.close();
+                } catch (SQLException ex) {
+                }
+            }
+            obC.closeConnection();
+        }
+    }
+    
+}

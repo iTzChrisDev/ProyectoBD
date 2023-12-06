@@ -11,6 +11,7 @@ public class Cliente {
     private int telefono;
     private String domicilio;
     private String correo;
+    private int cantComprada;
 
     public Cliente(int id, String nombre, String ApellidoP, String ApellidoM, Date fechaNacimiento, int telefono, String domicilio, String correo) {
         this.id = id;
@@ -31,6 +32,20 @@ public class Cliente {
         this.telefono = telefono;
         this.domicilio = domicilio;
         this.correo = correo;
+    }
+
+    public Cliente(String nombre, String ApellidoP, int cantComprada) {
+        this.nombre = nombre;
+        this.ApellidoP = ApellidoP;
+        this.cantComprada = cantComprada;
+    }
+
+    public int getCantComprada() {
+        return cantComprada;
+    }
+
+    public void setCantComprada(int cantComprada) {
+        this.cantComprada = cantComprada;
     }
     
     public int getId() {

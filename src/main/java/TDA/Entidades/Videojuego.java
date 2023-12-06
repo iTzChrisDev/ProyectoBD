@@ -7,6 +7,7 @@ public class Videojuego {
     private String categoria;
     private double precio;
     private int stock;
+    private int cantidad;
 
     public Videojuego(int id, String nombre, String categoria, double precio) {
         this.id = id;
@@ -28,6 +29,19 @@ public class Videojuego {
         this.categoria = categoria;
         this.precio = precio;
         this.stock = stock;
+    }
+
+    public Videojuego(String categoria, int cantidad) {
+        this.categoria = categoria;
+        this.cantidad = cantidad;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 
     public int getIdTienda() {

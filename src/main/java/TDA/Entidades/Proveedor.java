@@ -7,6 +7,7 @@ public class Proveedor {
     private int telefono;
     private String domicilio;
     private String correo;
+    private int cantSurtida;
 
     public Proveedor(int id, String nombre, int telefono, String domicilio, String correo) {
         this.id = id;
@@ -22,8 +23,19 @@ public class Proveedor {
         this.domicilio = domicilio;
         this.correo = correo;
     }
-    
-    
+
+    public Proveedor(String nombre, int cantSurtida) {
+        this.nombre = nombre;
+        this.cantSurtida = cantSurtida;
+    }
+
+    public int getCantSurtida() {
+        return cantSurtida;
+    }
+
+    public void setCantSurtida(int cantSurtida) {
+        this.cantSurtida = cantSurtida;
+    }
 
     public int getId() {
         return id;
