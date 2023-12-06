@@ -27,13 +27,18 @@ public class CRUDVideojuegos {
         return dataVenta;
     }
 
-    public void selectVideojuegoVentas() {
+    public void selectVideojuegoVentas(int idT) {
         try {
-            query = "SELECT v.*, i.Stock, i.id_tienda FROM inventario AS i\n"
-                    + "INNER JOIN proveen AS p \n"
-                    + "ON i.id_tienda = p.id_tienda AND i.id_videojuego = p.id_videojuego\n"
-                    + "INNER JOIN videojuegos AS v ON v.id_videojuego = p.id_videojuego;";
+            query = "SELECT v.*, i.Stock, i.id_tienda FROM  videojuegos AS v\n"
+                    + "INNER JOIN inventario AS i \n"
+                    + "ON v.id_videojuego = i.id_videojuego\n"
+                    + "WHERE i.id_tienda = ?;";
+//            query = "SELECT v.*, i.Stock, i.id_tienda FROM inventario AS i\n"
+//                    + "INNER JOIN proveen AS p \n"
+//                    + "ON i.id_tienda = p.id_tienda AND i.id_videojuego = p.id_videojuego\n"
+//                    + "INNER JOIN videojuegos AS v ON v.id_videojuego = p.id_videojuego;";
             pstm = obC.setConnection().prepareStatement(query);
+            pstm.setInt(1, idT);
             output = pstm.executeQuery();
 
             while (output.next()) {

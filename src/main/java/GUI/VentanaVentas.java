@@ -117,6 +117,7 @@ public class VentanaVentas extends javax.swing.JFrame {
             int cant = Integer.parseInt(txtCant.getText().trim());
             sqlProveen.insertProveen(new Provee(idV, idTiendaTrabajo, idP, cant, new Date(System.currentTimeMillis())));
             obI.llenarTablaProveen(tbProv, idTiendaTrabajo);
+            cargarDatosGenerales();
             actualizarVideojuegos();
             JOptionPane.showMessageDialog(null, "Ingreso registrado exitosamente!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
         });
@@ -244,7 +245,7 @@ public class VentanaVentas extends javax.swing.JFrame {
         pnlVideojuegos.removeAll();
 
         CRUDVideojuegos obV2 = new CRUDVideojuegos();
-        obV2.selectVideojuegoVentas();
+        obV2.selectVideojuegoVentas(idTiendaTrabajo);
         for (Videojuego v : obV2.getDataVenta()) {
             if (v.getIdTienda() == idTiendaTrabajo) {
                 RoundButton btnAux = new RoundButton(new Color(187, 142, 61), new Color(231, 179, 125), new Color(239, 204, 168), new Color(40, 40, 40), 20);
@@ -378,7 +379,7 @@ public class VentanaVentas extends javax.swing.JFrame {
 
     public void initButtonsVideojuegos() {
         CRUDVideojuegos obV = new CRUDVideojuegos();
-        obV.selectVideojuegoVentas();
+        obV.selectVideojuegoVentas(idTiendaTrabajo);
 
         for (Videojuego v : obV.getDataVenta()) {
             if (v.getIdTienda() == idTiendaTrabajo) {

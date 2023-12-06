@@ -2311,6 +2311,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
             VentanaVentas obV = new VentanaVentas();
             obV.setUser(user, idTiendaTrabajo);
             obV.setVisible(true);
+            obV.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
         });
 
         btnVentas.addActionListener((e) -> {

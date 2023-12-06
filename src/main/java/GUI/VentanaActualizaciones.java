@@ -21,16 +21,12 @@ import TDA.Relaciones.Trabajo;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Calendar;
-import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -82,11 +78,11 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         sqlTiendas = new CRUDTiendas();
         sqlInventario = new CRUDInventario();
         sqlProveen = new CRUDProveen();
-        actionListenerButtons();
     }
 
     public void setUser(String user) {
         this.user = user;
+        actionListenerButtons();
     }
 
     public void verificar() {
@@ -581,7 +577,7 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         pnlVideojuegos.removeAll();
 
         CRUDVideojuegos obV2 = new CRUDVideojuegos();
-        obV2.selectVideojuegoVentas();
+        obV2.selectVideojuegoVentas(idTiendaTrabajo);
         for (Videojuego v : obV2.getDataVenta()) {
             if (v.getIdTienda() == idTiendaTrabajo) {
                 RoundButton btnAux = new RoundButton(new Color(187, 142, 61), new Color(231, 179, 125), new Color(239, 204, 168), new Color(40, 40, 40), 20);
