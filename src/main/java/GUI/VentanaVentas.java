@@ -354,7 +354,7 @@ public class VentanaVentas extends javax.swing.JFrame {
         pnlOpcClientes.add(btnEliminarClientes);
         pnlOpcClientes.add(btnActClientes);
 
-        btnConfirmar = obE.getStyleButtonAdd(btnAgregarClientes);
+        btnConfirmar = obE.getStyleButtonAdd(btnConfirmar);
         btnConfirmar.setBorderColor(new Color(40, 40, 40));
         btnConfirmar.setText("Finalizar");
         btnConfirmar.setIcon(new ImageIcon("./src/main/java/Resources/confirmar.png"));

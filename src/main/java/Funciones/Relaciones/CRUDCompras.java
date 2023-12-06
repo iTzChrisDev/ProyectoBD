@@ -23,6 +23,43 @@ public class CRUDCompras {
         data = new ArrayList<>();
     }
 
+    public void selectCompraTb() {
+        try {
+            query = "SELECT p.*, v.Nombre AS Videojuego, t.Nombre AS Tienda, c.Nombre AS Cliente FROM compra AS p\n"
+                    + "INNER JOIN videojuegos AS v ON p.id_videojuego = v.id_videojuego\n"
+                    + "INNER JOIN clientes AS C ON C.id_cliente = p.id_cliente\n"
+                    + "INNER JOIN tiendas AS t ON p.id_tienda = t.id_tienda \n"
+                    + "ORDER BY p.id_videojuego ASC;";
+            pstm = obC.setConnection().prepareStatement(query);
+            output = pstm.executeQuery();
+
+            while (output.next()) {
+                int idVideojuego = output.getInt("id_videojuego");
+                int idTienda = output.getInt("id_tienda");
+                int idCliente = output.getInt("id_cliente");
+                int cantidad = output.getInt("Cantidad");
+                double total = output.getDouble("Total");
+                Date fecha = output.getDate("Fecha");
+                String videojuego = output.getString("Videojuego");
+                String tienda = output.getString("Tienda");
+                String cliente = output.getString("Cliente");
+
+                data.add(new Compra(idTienda, idCliente, idVideojuego, cantidad, total, fecha, videojuego, tienda, cliente));
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pstm != null) {
+                try {
+                    pstm.close();
+                } catch (SQLException ex) {
+                }
+            }
+            obC.closeConnection();
+        }
+    }
+
     public void selectCompra() {
         try {
             query = "SELECT * FROM compra;";
@@ -120,5 +157,9 @@ public class CRUDCompras {
             }
             obC.closeConnection();
         }
+    }
+
+    public ArrayList<Compra> getData() {
+        return data;
     }
 }

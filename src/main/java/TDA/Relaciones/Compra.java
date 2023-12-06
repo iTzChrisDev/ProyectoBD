@@ -10,6 +10,7 @@ public class Compra {
     private int cantidad;
     private double total;
     private Date fechaCompra;
+    private String videojuego, tienda, cliente;
 
     public Compra(int idTienda, int idCliente, int idVideojuego, int cantidad, double total, Date fechaCompra) {
         this.idTienda = idTienda;
@@ -25,7 +26,43 @@ public class Compra {
         this.total = total;
         this.fechaCompra = fechaCompra;
     }
-    
+
+    public Compra(int idTienda, int idCliente, int idVideojuego, int cantidad, double total, Date fechaCompra, String videojuego, String tienda, String cliente) {
+        this.idTienda = idTienda;
+        this.idCliente = idCliente;
+        this.idVideojuego = idVideojuego;
+        this.cantidad = cantidad;
+        this.total = total;
+        this.fechaCompra = fechaCompra;
+        this.videojuego = videojuego;
+        this.tienda = tienda;
+        this.cliente = cliente;
+    }
+
+    public String getVideojuego() {
+        return videojuego;
+    }
+
+    public void setVideojuego(String videojuego) {
+        this.videojuego = videojuego;
+    }
+
+    public String getTienda() {
+        return tienda;
+    }
+
+    public void setTienda(String tienda) {
+        this.tienda = tienda;
+    }
+
+    public String getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
+    }
+
     public int getIdTienda() {
         return idTienda;
     }

@@ -5,12 +5,13 @@ import Funciones.Entidades.CRUDEmpleados;
 import Funciones.Entidades.CRUDProveedores;
 import Funciones.Entidades.CRUDTiendas;
 import Funciones.Entidades.CRUDVideojuegos;
+import Funciones.Relaciones.CRUDCompras;
 import Funciones.Relaciones.CRUDInventario;
 import Funciones.Relaciones.CRUDProveen;
 import TDA.Entidades.*;
+import TDA.Relaciones.Compra;
 import TDA.Relaciones.Provee;
 import java.awt.Color;
-import java.util.ArrayList;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -631,4 +632,46 @@ public class LlenadoInformacion {
         tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     }
 
+    public void llenarTablaVentas(JTable tabla) {
+        DefaultTableModel tbModelProv = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tbModelProv.setRowCount(0);
+        CRUDCompras obC = new CRUDCompras();
+        obC.selectCompraTb();
+
+        tbModelProv.addColumn("ID_Videojuego");
+        tbModelProv.addColumn("Videojuego");
+        tbModelProv.addColumn("ID_Cliente");
+        tbModelProv.addColumn("Cliente");
+        tbModelProv.addColumn("ID_Tienda");
+        tbModelProv.addColumn("Tienda");
+        tbModelProv.addColumn("Cantidad");
+        tbModelProv.addColumn("Total");
+        tbModelProv.addColumn("Fecha");
+
+        Object[] row = new Object[9];
+        for (Compra p : obC.getData()) {
+            row[0] = p.getIdVideojuego();
+            row[1] = p.getVideojuego();
+            row[2] = p.getIdCliente();
+            row[3] = p.getCliente();
+            row[4] = p.getIdTienda();
+            row[5] = p.getTienda();
+            row[6] = p.getCantidad();
+            row[7] = p.getTotal();
+            row[8] = p.getFechaCompra();
+
+            tbModelProv.addRow(row);
+        }
+        tabla.setModel(tbModelProv);
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
+        }
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    }
+    
 }
