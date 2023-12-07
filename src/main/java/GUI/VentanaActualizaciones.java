@@ -11,6 +11,7 @@ import Funciones.Relaciones.CRUDCompras;
 import Funciones.Relaciones.CRUDInventario;
 import Funciones.Relaciones.CRUDProveen;
 import Funciones.TablasListas.LlenadoInformacion;
+import TDA.Entidades.AuxiliarButtons.ButtonsVenta;
 import TDA.Entidades.Cliente;
 import TDA.Entidades.Empleado;
 import TDA.Entidades.Proveedor;
@@ -65,14 +66,14 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
     private int idVideojuego, idTienda, idProveedor, idEmpleado, idCliente, idVidP, idProP, idTienP;
     private String user;
     private int idTiendaTrabajo;
-    private ArrayList<RoundButton> buttonsVideojuegos;
-    private ArrayList<JTextField> txtsVideojuegos;
+    private ArrayList<ButtonsVenta> buttonsVideojuegos;
     private JPanel pnlVideojuegos;
 
     public VentanaActualizaciones() {
         initComponents();
         initComponentsCustom();
         setLocationRelativeTo(this);
+        buttonsVideojuegos = new ArrayList<>();
         obCons = new ConsultasGenerales();
         obC = (CardLayout) pnlMain.getLayout();
         sqlVentas = new CRUDCompras();
@@ -569,6 +570,7 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                 obI.llenarTablaProveen(tbProveen, idTiendaTrabajo);
                 cargarDatosGenerales();
                 actualizarVideojuegos();
+                setActionButtonsVideojuegos();
                 JOptionPane.showMessageDialog(null, "Actualizacion exitosa", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
             } catch (NumberFormatException ex) {
@@ -633,15 +635,23 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         });
     }
 
-    public void setInfoVideojuegos(ArrayList<RoundButton> btns, ArrayList<JTextField> txts, JPanel pnl) {
+    public void setInfoVideojuegos(ArrayList<ButtonsVenta> btns, JPanel pnl) {
         buttonsVideojuegos = btns;
-        txtsVideojuegos = txts;
         pnlVideojuegos = pnl;
     }
 
-    public void actualizarVideojuegos() {
+    public void setActionButtonsVideojuegos() {
+        for(ButtonsVenta bv : buttonsVideojuegos)
+        {
+            bv.getButton().addActionListener((e) -> {
+                bv.getVideojuego().setStock(Integer.parseInt(bv.getTxt().getText().trim()));
+                System.out.println(bv.getVideojuego().getNombre() + " | Cant:" + bv.getVideojuego().getStock());
+            });
+        }
+    }
+
+     public void actualizarVideojuegos() {
         buttonsVideojuegos.clear();
-        txtsVideojuegos.clear();
         pnlVideojuegos.removeAll();
 
         CRUDVideojuegos obV2 = new CRUDVideojuegos();
@@ -649,9 +659,8 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         for (Videojuego v : obV2.getDataVenta()) {
             if (v.getIdTienda() == idTiendaTrabajo) {
                 RoundButton btnAux = new RoundButton(new Color(187, 142, 61), new Color(231, 179, 125), new Color(239, 204, 168), new Color(40, 40, 40), 20);
-                buttonsVideojuegos.add(btnAux);
                 JTextField txt = new JTextField();
-                txtsVideojuegos.add(txt);
+                buttonsVideojuegos.add(new ButtonsVenta(txt, btnAux, new Videojuego(v.getId(), v.getIdTienda(), v.getNombre(), v.getCategoria(), v.getPrecio(), 0)));
                 pnlVideojuegos.add(new PanelVideojuego(v.getId(), v.getNombre(), v.getCategoria(), v.getStock(), v.getPrecio(), btnAux, txt));
             }
         }
@@ -664,7 +673,7 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
             pnlVideojuegos.setLayout(new GridLayout(buttonsVideojuegos.size(), 1, 10, 10));
         }
     }
-
+    
     public void setTbVentas(JTable tbVentas) {
         this.tbVentas = tbVentas;
     }

@@ -1634,130 +1634,11 @@
                           </Constraints>
 
                           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
-                            <Property name="columns" type="int" value="3"/>
+                            <Property name="columns" type="int" value="2"/>
                             <Property name="horizontalGap" type="int" value="10"/>
                             <Property name="rows" type="int" value="1"/>
                           </Layout>
                           <SubComponents>
-                            <Container class="CustomComponents.PanelRound" name="panelRound5">
-                              <Properties>
-                                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                  <Color blue="28" green="28" red="28" type="rgb"/>
-                                </Property>
-                                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                                  <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                                    <EmptyBorder bottom="5" left="0" right="0" top="0"/>
-                                  </Border>
-                                </Property>
-                                <Property name="roundBottomLeft" type="int" value="10"/>
-                                <Property name="roundBottomRight" type="int" value="10"/>
-                                <Property name="roundTopLeft" type="int" value="10"/>
-                                <Property name="roundTopRight" type="int" value="10"/>
-                              </Properties>
-
-                              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
-                              <SubComponents>
-                                <Container class="CustomComponents.PanelGradient" name="panelGradient1">
-                                  <Constraints>
-                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                                      <BorderConstraints direction="North"/>
-                                    </Constraint>
-                                  </Constraints>
-
-                                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
-                                </Container>
-                                <Container class="javax.swing.JPanel" name="jPanel5">
-                                  <Properties>
-                                    <Property name="opaque" type="boolean" value="false"/>
-                                  </Properties>
-                                  <Constraints>
-                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                                      <BorderConstraints direction="Center"/>
-                                    </Constraint>
-                                  </Constraints>
-
-                                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
-                                  <SubComponents>
-                                    <Component class="javax.swing.JLabel" name="lblCategoria">
-                                      <Properties>
-                                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                                          <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                                            <EmptyBorder bottom="5" left="10" right="10" top="5"/>
-                                          </Border>
-                                        </Property>
-                                      </Properties>
-                                      <Constraints>
-                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                                          <BorderConstraints direction="After"/>
-                                        </Constraint>
-                                      </Constraints>
-                                    </Component>
-                                    <Container class="javax.swing.JPanel" name="jPanel9">
-                                      <Properties>
-                                        <Property name="opaque" type="boolean" value="false"/>
-                                      </Properties>
-                                      <Constraints>
-                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                                          <BorderConstraints direction="Center"/>
-                                        </Constraint>
-                                      </Constraints>
-
-                                      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
-                                      <SubComponents>
-                                        <Component class="javax.swing.JLabel" name="jLabel10">
-                                          <Properties>
-                                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                              <Color blue="64" green="64" red="64" type="rgb"/>
-                                            </Property>
-                                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                                              <Font name="Roboto" size="14" style="0"/>
-                                            </Property>
-                                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                              <Color blue="78" green="78" red="78" type="rgb"/>
-                                            </Property>
-                                            <Property name="text" type="java.lang.String" value="Categoria mas popular"/>
-                                            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                                              <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                                                <EmptyBorder bottom="0" left="5" right="0" top="5"/>
-                                              </Border>
-                                            </Property>
-                                          </Properties>
-                                          <Constraints>
-                                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                                              <BorderConstraints direction="North"/>
-                                            </Constraint>
-                                          </Constraints>
-                                        </Component>
-                                        <Component class="javax.swing.JLabel" name="lblCatPopular">
-                                          <Properties>
-                                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                              <Color blue="62" green="b4" red="19" type="rgb"/>
-                                            </Property>
-                                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                                              <Font name="Segoe UI" size="18" style="1"/>
-                                            </Property>
-                                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                              <Color blue="9f" green="bd" red="42" type="rgb"/>
-                                            </Property>
-                                            <Property name="text" type="java.lang.String" value="Aventura"/>
-                                            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                                              <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                                                <EmptyBorder bottom="5" left="5" right="0" top="0"/>
-                                              </Border>
-                                            </Property>
-                                          </Properties>
-                                          <Constraints>
-                                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                                              <BorderConstraints direction="Center"/>
-                                            </Constraint>
-                                          </Constraints>
-                                        </Component>
-                                      </SubComponents>
-                                    </Container>
-                                  </SubComponents>
-                                </Container>
-                              </SubComponents>
-                            </Container>
                             <Container class="CustomComponents.PanelRound" name="panelRound6">
                               <Properties>
                                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -1858,7 +1739,7 @@
                                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                               <Color blue="9f" green="bd" red="42" type="rgb"/>
                                             </Property>
-                                            <Property name="text" type="java.lang.String" value="GTA V"/>
+                                            <Property name="text" type="java.lang.String" value="null"/>
                                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                                                 <EmptyBorder bottom="5" left="5" right="0" top="0"/>
@@ -1977,7 +1858,7 @@
                                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                               <Color blue="9f" green="bd" red="42" type="rgb"/>
                                             </Property>
-                                            <Property name="text" type="java.lang.String" value="RD2"/>
+                                            <Property name="text" type="java.lang.String" value="null"/>
                                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                                                 <EmptyBorder bottom="5" left="5" right="0" top="0"/>
@@ -2591,7 +2472,7 @@
                                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                               <Color blue="9f" green="bd" red="42" type="rgb"/>
                                             </Property>
-                                            <Property name="text" type="java.lang.String" value="GameStore"/>
+                                            <Property name="text" type="java.lang.String" value="null"/>
                                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                                                 <EmptyBorder bottom="5" left="5" right="0" top="0"/>
@@ -2734,7 +2615,7 @@
                                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                               <Color blue="9f" green="bd" red="42" type="rgb"/>
                                             </Property>
-                                            <Property name="text" type="java.lang.String" value="GamePlanet"/>
+                                            <Property name="text" type="java.lang.String" value="null"/>
                                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                                                 <EmptyBorder bottom="5" left="5" right="0" top="0"/>
@@ -3372,7 +3253,7 @@
                                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                               <Color blue="9f" green="bd" red="42" type="rgb"/>
                                             </Property>
-                                            <Property name="text" type="java.lang.String" value="Arturo"/>
+                                            <Property name="text" type="java.lang.String" value="null"/>
                                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                                                 <EmptyBorder bottom="5" left="5" right="0" top="0"/>
@@ -3491,7 +3372,7 @@
                                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                               <Color blue="9f" green="bd" red="42" type="rgb"/>
                                             </Property>
-                                            <Property name="text" type="java.lang.String" value="Rodrigo"/>
+                                            <Property name="text" type="java.lang.String" value="null"/>
                                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                                                 <EmptyBorder bottom="5" left="5" right="0" top="0"/>
@@ -4125,7 +4006,7 @@
                                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                               <Color blue="9f" green="bd" red="42" type="rgb"/>
                                             </Property>
-                                            <Property name="text" type="java.lang.String" value="Pedro"/>
+                                            <Property name="text" type="java.lang.String" value="null"/>
                                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                                                 <EmptyBorder bottom="5" left="5" right="0" top="0"/>
@@ -4767,7 +4648,7 @@
                                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                               <Color blue="9f" green="bd" red="42" type="rgb"/>
                                             </Property>
-                                            <Property name="text" type="java.lang.String" value="DeliveryCarr"/>
+                                            <Property name="text" type="java.lang.String" value="null"/>
                                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                                                 <EmptyBorder bottom="5" left="5" right="0" top="0"/>

@@ -12,6 +12,8 @@ import TDA.Entidades.*;
 import TDA.Relaciones.Compra;
 import TDA.Relaciones.Provee;
 import java.awt.Color;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -39,6 +41,16 @@ public class LlenadoInformacion {
         }
     }
 
+    public void llenarComboClientes(JComboBox combo) {
+        combo.removeAllItems();
+
+        CRUDClientes obC = new CRUDClientes();
+        obC.selectCliente();
+        for (Cliente c : obC.getData()) {
+            combo.addItem(c.getNombre() + " " + c.getApellidoP());
+        }
+    }
+
     public void llenarComboProv(JComboBox combo) {
         combo.removeAllItems();
 
@@ -57,6 +69,35 @@ public class LlenadoInformacion {
         for (Tienda t : obT.getData()) {
             combo.addItem(t.getNombre());
         }
+    }
+
+    public void llenarCarrito(JTable tabla, ArrayList<Videojuego> carrito) {
+        DecimalFormat df = new DecimalFormat("#.##");
+        DefaultTableModel tbModelVideojuegos = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tbModelVideojuegos.setRowCount(0);
+
+        tbModelVideojuegos.addColumn("Nombre");
+        tbModelVideojuegos.addColumn("Cantidad");
+        tbModelVideojuegos.addColumn("Total");
+
+        Object[] row = new Object[3];
+        for (Videojuego v : carrito) {
+            row[0] = v.getNombre();
+            row[1] = v.getStock();
+            row[2] = df.format(v.getPrecio());
+
+            tbModelVideojuegos.addRow(row);
+        }
+        tabla.setModel(tbModelVideojuegos);
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
+        }
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     }
 
     public void llenarTablaVideojuegos(JTable tabla) {
@@ -238,7 +279,7 @@ public class LlenadoInformacion {
         }
         tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     }
-    
+
     public void llenarTablaTiendasEmpleados(JTable tabla) {
         DefaultTableModel tbModelTiendas = new DefaultTableModel() {
             @Override
@@ -541,7 +582,6 @@ public class LlenadoInformacion {
         tbModelClientes.addColumn("Nombre");
         tbModelClientes.addColumn("Apellido Paterno");
         tbModelClientes.addColumn("Cantidad Comprada");
-        
 
         Object[] row = new Object[3];
         for (Cliente c : obC.getData()) {
@@ -673,5 +713,5 @@ public class LlenadoInformacion {
         }
         tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     }
-    
+
 }

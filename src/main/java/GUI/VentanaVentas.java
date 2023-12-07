@@ -12,6 +12,7 @@ import Funciones.Entidades.CRUDTiendas;
 import Funciones.Entidades.CRUDVideojuegos;
 import Funciones.Relaciones.CRUDProveen;
 import Funciones.TablasListas.LlenadoInformacion;
+import TDA.Entidades.AuxiliarButtons.ButtonsVenta;
 import TDA.Entidades.Cliente;
 import TDA.Entidades.Proveedor;
 import TDA.Entidades.Tienda;
@@ -23,6 +24,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -45,18 +47,21 @@ public class VentanaVentas extends javax.swing.JFrame {
     private EstilosComponentes obE;
     private LlenadoInformacion obI;
     private CardLayout obC;
-    private ArrayList<JTextField> txtsVideojuegos;
-    private ArrayList<RoundButton> buttonsVideojuegos;
-    private ArrayList<Videojuego> dataVideojuegos;
-    private int idTiendaTrabajo; //Esta id se ingresará desde el LOGIN
+    private ArrayList<ButtonsVenta> dataBtnTxtVid;
+    private ArrayList<Videojuego> carrito;
+    private int idTiendaTrabajo, idEmpleadoTrabajo;
     private JLabel lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, stock1, stock2, stock3;
     private String user;
+    private double monto = 0;
+    private double subtotal = 0;
+    private double iva = 0;
+    private DecimalFormat df;
 
     public VentanaVentas() {
         initComponents();
-        buttonsVideojuegos = new ArrayList<>();
-        dataVideojuegos = new ArrayList<>();
-        txtsVideojuegos = new ArrayList<>();
+        df = new DecimalFormat("#.##");
+        dataBtnTxtVid = new ArrayList<>();
+        carrito = new ArrayList<>();
         obCons = new ConsultasGenerales();
         obI = new LlenadoInformacion();
         sqlClientes = new CRUDClientes();
@@ -67,8 +72,9 @@ public class VentanaVentas extends javax.swing.JFrame {
         initComponentsCustom();
     }
 
-    public void setUser(String user, int idTiendaTrabajo) {
+    public void setUser(String user, int idTiendaTrabajo, int idEmpleadoTrabajo) {
         this.idTiendaTrabajo = idTiendaTrabajo;
+        this.idEmpleadoTrabajo = idEmpleadoTrabajo;
         this.user = user;
         obI.llenarTablaProveen(tbProv, this.idTiendaTrabajo);
         CRUDTiendas tienda = new CRUDTiendas();
@@ -80,15 +86,67 @@ public class VentanaVentas extends javax.swing.JFrame {
             }
         }
         initButtonsVideojuegos();
-        System.out.println(buttonsVideojuegos.size());
-        if (buttonsVideojuegos.size() == 1) {
-            pnlVideojuegos.setLayout(new GridLayout(buttonsVideojuegos.size() + 2, 1, 10, 10));
-        } else if (buttonsVideojuegos.size() == 2) {
-            pnlVideojuegos.setLayout(new GridLayout(buttonsVideojuegos.size() + 1, 1, 10, 10));
-        } else if (buttonsVideojuegos.size() >= 3) {
-            pnlVideojuegos.setLayout(new GridLayout(buttonsVideojuegos.size(), 1, 10, 10));
+        if (dataBtnTxtVid.size() == 1) {
+            pnlVideojuegos.setLayout(new GridLayout(dataBtnTxtVid.size() + 2, 1, 10, 10));
+        } else if (dataBtnTxtVid.size() == 2) {
+            pnlVideojuegos.setLayout(new GridLayout(dataBtnTxtVid.size() + 1, 1, 10, 10));
+        } else if (dataBtnTxtVid.size() >= 3) {
+            pnlVideojuegos.setLayout(new GridLayout(dataBtnTxtVid.size(), 1, 10, 10));
         }
         initButtonProv();
+        setActionButtonsVideojuegos();
+
+        btnConfirmar.addActionListener((e) -> {
+            System.out.println(carrito.size());
+            VentanaVentaConfirmacion obV = new VentanaVentaConfirmacion(this, true);
+            obV.setIdTiendaTrabaja(idTiendaTrabajo);
+            obV.setData(carrito, dataBtnTxtVid, pnlVideojuegos, idEmpleadoTrabajo);
+            obV.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, stock1, stock2, stock3);
+            obV.setUser(user);
+            obV.setLabels(lblCosto, lblSubtotal, lblIVA);
+            obV.setTbCarrito(tbCarrito);
+            obV.setVisible(true);
+        });
+    }
+
+    public void setActionButtonsVideojuegos() {
+        for (ButtonsVenta bv : dataBtnTxtVid) {
+            bv.getButton().addActionListener((e) -> {
+                boolean val = false;
+                int cantidad = Integer.parseInt(bv.getTxt().getText().trim());
+                double total = cantidad * bv.getVideojuego().getPrecio();
+                int id = 0;
+
+                for (Videojuego vid : carrito) {
+                    if (vid.getId() == bv.getVideojuego().getId()) {
+                        val = true;
+                        id = vid.getId();
+                        break;
+                    }
+                }
+
+                if (val) {
+                    for (Videojuego v : carrito) {
+                        if (v.getId() == id) {
+                            v.setStock(v.getStock() + cantidad);
+                            v.setPrecio(v.getPrecio() + total);
+                            break;
+                        }
+                    }
+                } else {
+                    carrito.add(new Videojuego(bv.getVideojuego().getId(),
+                            idTiendaTrabajo, bv.getVideojuego().getNombre(),
+                            bv.getVideojuego().getCategoria(), total, cantidad));
+                }
+//
+//                for (Videojuego v : carrito) {
+//                    System.out.println(v.getNombre() + " | Cant:" + v.getStock() + " | Precio " + v.getPrecio());
+//                }
+//                System.out.println("");
+                obI.llenarCarrito(tbCarrito, carrito);
+                mostrarSubtotal();
+            });
+        }
     }
 
     public void initButtonProv() {
@@ -119,6 +177,7 @@ public class VentanaVentas extends javax.swing.JFrame {
             obI.llenarTablaProveen(tbProv, idTiendaTrabajo);
             cargarDatosGenerales();
             actualizarVideojuegos();
+            setActionButtonsVideojuegos();
             JOptionPane.showMessageDialog(null, "Ingreso registrado exitosamente!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
         });
 
@@ -137,6 +196,7 @@ public class VentanaVentas extends javax.swing.JFrame {
                 obI.llenarTablaProveen(tbProv, idTiendaTrabajo);
                 cargarDatosGenerales();
                 actualizarVideojuegos();
+                setActionButtonsVideojuegos();
                 JOptionPane.showMessageDialog(null, "Se ha eliminado el registro", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -157,7 +217,7 @@ public class VentanaVentas extends javax.swing.JFrame {
                 actualizar2.setTitle("Actualizar entrada mercancia");
                 actualizar2.setTbProveen(tbProv);
                 actualizar2.setIdTiendaTrabajo(idTiendaTrabajo);
-                actualizar2.setInfoVideojuegos(buttonsVideojuegos, txtsVideojuegos, pnlVideojuegos);
+                actualizar2.setInfoVideojuegos(dataBtnTxtVid, pnlVideojuegos);
 
                 sqlProveen.selectProveenTb(idTiendaTrabajo);
                 for (Provee p : sqlProveen.getData()) {
@@ -240,8 +300,8 @@ public class VentanaVentas extends javax.swing.JFrame {
     }
 
     public void actualizarVideojuegos() {
-        buttonsVideojuegos.clear();
-        txtsVideojuegos.clear();
+        dataBtnTxtVid.clear();
+        carrito.clear();
         pnlVideojuegos.removeAll();
 
         CRUDVideojuegos obV2 = new CRUDVideojuegos();
@@ -249,20 +309,20 @@ public class VentanaVentas extends javax.swing.JFrame {
         for (Videojuego v : obV2.getDataVenta()) {
             if (v.getIdTienda() == idTiendaTrabajo) {
                 RoundButton btnAux = new RoundButton(new Color(187, 142, 61), new Color(231, 179, 125), new Color(239, 204, 168), new Color(40, 40, 40), 20);
-                buttonsVideojuegos.add(btnAux);
                 JTextField txt = new JTextField();
-                txtsVideojuegos.add(txt);
+                dataBtnTxtVid.add(new ButtonsVenta(txt, btnAux, new Videojuego(v.getId(), v.getIdTienda(), v.getNombre(), v.getCategoria(), v.getPrecio(), 0)));
                 pnlVideojuegos.add(new PanelVideojuego(v.getId(), v.getNombre(), v.getCategoria(), v.getStock(), v.getPrecio(), btnAux, txt));
             }
         }
-        System.out.println(buttonsVideojuegos.size());
-        if (buttonsVideojuegos.size() == 1) {
-            pnlVideojuegos.setLayout(new GridLayout(buttonsVideojuegos.size() + 2, 1, 10, 10));
-        } else if (buttonsVideojuegos.size() == 2) {
-            pnlVideojuegos.setLayout(new GridLayout(buttonsVideojuegos.size() + 1, 1, 10, 10));
-        } else if (buttonsVideojuegos.size() >= 3) {
-            pnlVideojuegos.setLayout(new GridLayout(buttonsVideojuegos.size(), 1, 10, 10));
+        if (dataBtnTxtVid.size() == 1) {
+            pnlVideojuegos.setLayout(new GridLayout(dataBtnTxtVid.size() + 2, 1, 10, 10));
+        } else if (dataBtnTxtVid.size() == 2) {
+            pnlVideojuegos.setLayout(new GridLayout(dataBtnTxtVid.size() + 1, 1, 10, 10));
+        } else if (dataBtnTxtVid.size() >= 3) {
+            pnlVideojuegos.setLayout(new GridLayout(dataBtnTxtVid.size(), 1, 10, 10));
         }
+
+        obI.llenarCarrito(tbCarrito, carrito);
     }
 
     public void initComponentsCustom() {
@@ -359,9 +419,29 @@ public class VentanaVentas extends javax.swing.JFrame {
         btnConfirmar.setText("Finalizar");
         btnConfirmar.setIcon(new ImageIcon("./src/main/java/Resources/confirmar.png"));
 
-        btnEliminar = obE.getStyleButtonEliminar(btnEliminarClientes);
+        btnEliminar = obE.getStyleButtonEliminar(btnEliminar);
         btnEliminar.setBorderColor(new Color(40, 40, 40));
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener((e) -> {
+            int selectedRowIndex = tbCarrito.getSelectedRow();
+            if (selectedRowIndex != -1) {
+                Object aux = tbCarrito.getModel().getValueAt(selectedRowIndex, 0);
+                String nombre = String.valueOf(aux);
+
+                for (Videojuego v : carrito) {
+                    if (v.getNombre().equals(nombre)) {
+                        carrito.remove(v);
+                        break;
+                    }
+                }
+
+                obI.llenarCarrito(tbCarrito, carrito);
+                mostrarSubtotal();
+                JOptionPane.showMessageDialog(null, "Eliminado del carrito", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Ningun elemento seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        });
 
         obE.setStyleTableDefault(tbProv, scrollProv, new Color(40, 40, 40), new Color(30, 30, 30), new Color(100, 100, 100), new Color(30, 30, 30), new Color(66, 189, 159));
 
@@ -384,9 +464,8 @@ public class VentanaVentas extends javax.swing.JFrame {
         for (Videojuego v : obV.getDataVenta()) {
             if (v.getIdTienda() == idTiendaTrabajo) {
                 RoundButton btnAux = new RoundButton(new Color(187, 142, 61), new Color(231, 179, 125), new Color(239, 204, 168), new Color(40, 40, 40), 20);
-                buttonsVideojuegos.add(btnAux);
                 JTextField txt = new JTextField();
-                txtsVideojuegos.add(txt);
+                dataBtnTxtVid.add(new ButtonsVenta(txt, btnAux, new Videojuego(v.getId(), v.getIdTienda(), v.getNombre(), v.getCategoria(), v.getPrecio(), 0)));
                 pnlVideojuegos.add(new PanelVideojuego(v.getId(), v.getNombre(), v.getCategoria(), v.getStock(), v.getPrecio(), btnAux, txt));
             }
         }
@@ -443,12 +522,15 @@ public class VentanaVentas extends javax.swing.JFrame {
         }
     }
 
-    public ArrayList<Videojuego> getDataVideojuegos() {
-        return dataVideojuegos;
-    }
-
-    public void setDataVideojuegos(ArrayList<Videojuego> dataVideojuegos) {
-        this.dataVideojuegos = dataVideojuegos;
+    public void mostrarSubtotal() {
+        for (Videojuego v : carrito) {
+            subtotal += v.getPrecio();
+            monto += v.getPrecio() * 1.16;
+            iva += (monto - subtotal);
+        }
+        lblCosto.setText("$" + df.format(monto));
+        lblSubtotal.setText("$" + df.format(subtotal));
+        lblIVA.setText("$" + df.format(iva));
     }
 
     @SuppressWarnings("unchecked")
@@ -468,12 +550,12 @@ public class VentanaVentas extends javax.swing.JFrame {
         panelRound1 = new CustomComponents.PanelRound();
         jPanel5 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
+        lblSubtotal = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
+        lblIVA = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
+        lblCosto = new javax.swing.JLabel();
         pnlButtonsCompra = new javax.swing.JPanel();
         pnlSelectorVideojuegos = new javax.swing.JPanel();
         panelRound2 = new CustomComponents.PanelRound();
@@ -558,7 +640,7 @@ public class VentanaVentas extends javax.swing.JFrame {
         jLabel14.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 0, 5));
         pnlMenuContainer.add(jLabel14, java.awt.BorderLayout.PAGE_START);
 
-        scrollCarrito.setPreferredSize(new java.awt.Dimension(250, 402));
+        scrollCarrito.setPreferredSize(new java.awt.Dimension(300, 402));
 
         tbCarrito.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -592,13 +674,13 @@ public class VentanaVentas extends javax.swing.JFrame {
         jLabel15.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         jPanel5.add(jLabel15);
 
-        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(130, 130, 130));
-        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel16.setText("$0.00");
-        jLabel16.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jLabel16.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        jPanel5.add(jLabel16);
+        lblSubtotal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblSubtotal.setForeground(new java.awt.Color(130, 130, 130));
+        lblSubtotal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSubtotal.setText("$0");
+        lblSubtotal.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        lblSubtotal.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        jPanel5.add(lblSubtotal);
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
@@ -608,13 +690,13 @@ public class VentanaVentas extends javax.swing.JFrame {
         jLabel17.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         jPanel5.add(jLabel17);
 
-        jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(130, 130, 130));
-        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel18.setText("$0.00");
-        jLabel18.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jLabel18.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        jPanel5.add(jLabel18);
+        lblIVA.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblIVA.setForeground(new java.awt.Color(130, 130, 130));
+        lblIVA.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblIVA.setText("$0");
+        lblIVA.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        lblIVA.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        jPanel5.add(lblIVA);
 
         panelRound1.add(jPanel5, java.awt.BorderLayout.WEST);
 
@@ -629,13 +711,13 @@ public class VentanaVentas extends javax.swing.JFrame {
         jLabel19.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel6.add(jLabel19, java.awt.BorderLayout.PAGE_START);
 
-        jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
-        jLabel20.setForeground(new java.awt.Color(25, 200, 178));
-        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel20.setText("$0.00");
-        jLabel20.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        jLabel20.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel6.add(jLabel20, java.awt.BorderLayout.CENTER);
+        lblCosto.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
+        lblCosto.setForeground(new java.awt.Color(25, 200, 178));
+        lblCosto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCosto.setText("$0");
+        lblCosto.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        lblCosto.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel6.add(lblCosto, java.awt.BorderLayout.CENTER);
 
         panelRound1.add(jPanel6, java.awt.BorderLayout.CENTER);
 
@@ -967,11 +1049,8 @@ public class VentanaVentas extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboVideojuegos;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
@@ -987,6 +1066,9 @@ public class VentanaVentas extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JLabel lblCosto;
+    private javax.swing.JLabel lblIVA;
+    private javax.swing.JLabel lblSubtotal;
     private CustomComponents.PanelRound panelRound1;
     private CustomComponents.PanelRound panelRound2;
     private CustomComponents.PanelRound panelRound23;

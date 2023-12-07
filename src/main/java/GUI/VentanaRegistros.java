@@ -19,8 +19,10 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
@@ -54,7 +56,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
     private CRUDInventario sqlInventario;
     private CRUDCompras sqlVentas;
     private String user;
-    private int idTiendaTrabajo;
 
     public VentanaRegistros() {
         initComponents();
@@ -85,8 +86,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         actionListenerButtonsHeader();
     }
 
-    public void setUser(String user, int idTiendaTrabajo) {
-        this.idTiendaTrabajo = idTiendaTrabajo;
+    public void setUser(String user) {
         this.user = user;
     }
 
@@ -185,13 +185,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         panelRound2 = new CustomComponents.PanelRound();
         panelRound3 = new CustomComponents.PanelRound();
-        panelRound5 = new CustomComponents.PanelRound();
-        panelGradient1 = new CustomComponents.PanelGradient();
-        jPanel5 = new javax.swing.JPanel();
-        lblCategoria = new javax.swing.JLabel();
-        jPanel9 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
-        lblCatPopular = new javax.swing.JLabel();
         panelRound6 = new CustomComponents.PanelRound();
         panelGradient2 = new CustomComponents.PanelGradient();
         jPanel10 = new javax.swing.JPanel();
@@ -924,47 +917,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         panelRound3.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         panelRound3.setRoundTopLeft(15);
         panelRound3.setRoundTopRight(15);
-        panelRound3.setLayout(new java.awt.GridLayout(1, 3, 10, 0));
-
-        panelRound5.setBackground(new java.awt.Color(40, 40, 40));
-        panelRound5.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 5, 0));
-        panelRound5.setRoundBottomLeft(10);
-        panelRound5.setRoundBottomRight(10);
-        panelRound5.setRoundTopLeft(10);
-        panelRound5.setRoundTopRight(10);
-        panelRound5.setLayout(new java.awt.BorderLayout());
-
-        panelGradient1.setLayout(new java.awt.FlowLayout());
-        panelRound5.add(panelGradient1, java.awt.BorderLayout.NORTH);
-
-        jPanel5.setOpaque(false);
-        jPanel5.setLayout(new java.awt.BorderLayout());
-
-        lblCategoria.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
-        jPanel5.add(lblCategoria, java.awt.BorderLayout.LINE_END);
-
-        jPanel9.setOpaque(false);
-        jPanel9.setLayout(new java.awt.BorderLayout());
-
-        jLabel10.setBackground(new java.awt.Color(100, 100, 100));
-        jLabel10.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(120, 120, 120));
-        jLabel10.setText("Categoria mas popular");
-        jLabel10.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 0, 0));
-        jPanel9.add(jLabel10, java.awt.BorderLayout.NORTH);
-
-        lblCatPopular.setBackground(new java.awt.Color(25, 180, 98));
-        lblCatPopular.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblCatPopular.setForeground(new java.awt.Color(66, 189, 159));
-        lblCatPopular.setText("Aventura");
-        lblCatPopular.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
-        jPanel9.add(lblCatPopular, java.awt.BorderLayout.CENTER);
-
-        jPanel5.add(jPanel9, java.awt.BorderLayout.CENTER);
-
-        panelRound5.add(jPanel5, java.awt.BorderLayout.CENTER);
-
-        panelRound3.add(panelRound5);
+        panelRound3.setLayout(new java.awt.GridLayout(1, 2, 10, 0));
 
         panelRound6.setBackground(new java.awt.Color(40, 40, 40));
         panelRound6.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 5, 0));
@@ -996,7 +949,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         lblJuegoMasVend.setBackground(new java.awt.Color(25, 180, 98));
         lblJuegoMasVend.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblJuegoMasVend.setForeground(new java.awt.Color(66, 189, 159));
-        lblJuegoMasVend.setText("GTA V");
+        lblJuegoMasVend.setText("null");
         lblJuegoMasVend.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
         jPanel11.add(lblJuegoMasVend, java.awt.BorderLayout.CENTER);
 
@@ -1036,7 +989,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         lblJuegoMenosVend.setBackground(new java.awt.Color(25, 180, 98));
         lblJuegoMenosVend.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblJuegoMenosVend.setForeground(new java.awt.Color(66, 189, 159));
-        lblJuegoMenosVend.setText("RD2");
+        lblJuegoMenosVend.setText("null");
         lblJuegoMenosVend.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
         jPanel13.add(lblJuegoMenosVend, java.awt.BorderLayout.CENTER);
 
@@ -1227,7 +1180,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         lblTiendaMasVentas.setBackground(new java.awt.Color(25, 180, 98));
         lblTiendaMasVentas.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblTiendaMasVentas.setForeground(new java.awt.Color(66, 189, 159));
-        lblTiendaMasVentas.setText("GameStore");
+        lblTiendaMasVentas.setText("null");
         lblTiendaMasVentas.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
         jPanel14.add(lblTiendaMasVentas, java.awt.BorderLayout.CENTER);
 
@@ -1274,7 +1227,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         lblTiendaMenosVentas.setBackground(new java.awt.Color(25, 180, 98));
         lblTiendaMenosVentas.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblTiendaMenosVentas.setForeground(new java.awt.Color(66, 189, 159));
-        lblTiendaMenosVentas.setText("GamePlanet");
+        lblTiendaMenosVentas.setText("null");
         lblTiendaMenosVentas.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
         jPanel16.add(lblTiendaMenosVentas, java.awt.BorderLayout.CENTER);
 
@@ -1472,7 +1425,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         lblEmpMejorSueldo.setBackground(new java.awt.Color(25, 180, 98));
         lblEmpMejorSueldo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblEmpMejorSueldo.setForeground(new java.awt.Color(66, 189, 159));
-        lblEmpMejorSueldo.setText("Arturo");
+        lblEmpMejorSueldo.setText("null");
         lblEmpMejorSueldo.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
         jPanel21.add(lblEmpMejorSueldo, java.awt.BorderLayout.CENTER);
 
@@ -1512,7 +1465,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         lblEmpMasAtenciones.setBackground(new java.awt.Color(25, 180, 98));
         lblEmpMasAtenciones.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblEmpMasAtenciones.setForeground(new java.awt.Color(66, 189, 159));
-        lblEmpMasAtenciones.setText("Rodrigo");
+        lblEmpMasAtenciones.setText("null");
         lblEmpMasAtenciones.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
         jPanel23.add(lblEmpMasAtenciones, java.awt.BorderLayout.CENTER);
 
@@ -1710,7 +1663,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         lblMejorCliente.setBackground(new java.awt.Color(25, 180, 98));
         lblMejorCliente.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblMejorCliente.setForeground(new java.awt.Color(66, 189, 159));
-        lblMejorCliente.setText("Pedro");
+        lblMejorCliente.setText("null");
         lblMejorCliente.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
         jPanel28.add(lblMejorCliente, java.awt.BorderLayout.CENTER);
 
@@ -1908,7 +1861,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         lblProvMasActivo.setBackground(new java.awt.Color(25, 180, 98));
         lblProvMasActivo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblProvMasActivo.setForeground(new java.awt.Color(66, 189, 159));
-        lblProvMasActivo.setText("DeliveryCarr");
+        lblProvMasActivo.setText("null");
         lblProvMasActivo.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 0));
         jPanel35.add(lblProvMasActivo, java.awt.BorderLayout.CENTER);
 
@@ -2359,7 +2312,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         obCons.consultarDatoGeneral("mas vendido1", lblJuegoMasVend);
         obCons.consultarDatoGeneral("menos vendido1", lblJuegoMenosVend);
         obCons.consultarDatoGeneral("mas ventas", lblTiendaMasVentas);
-        obCons.consultarDatoGeneral("menosg ventas", lblTiendaMenosVentas);
+        obCons.consultarDatoGeneral("menos ventas", lblTiendaMenosVentas);
         obCons.consultarDatoGeneral("mas atento", lblEmpMasAtenciones);
         obCons.consultarDatoGeneral("mejor sueldo", lblEmpMejorSueldo);
         obCons.consultarDatoGeneral("mejor cliente", lblMejorCliente);
@@ -2378,10 +2331,48 @@ public class VentanaRegistros extends javax.swing.JFrame {
 
     public void actionListenerButtonsHeader() {
         btnPuntoVenta.addActionListener((e) -> {
-            VentanaVentas obV = new VentanaVentas();
-            obV.setUser(user, idTiendaTrabajo);
-            obV.setVisible(true);
-            obV.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
+            sqlEmpleados.selectEmpleado();
+            String empleados[] = new String[sqlEmpleados.getDataEmpleado().size()];
+            for (int i = 0; i < empleados.length; i++) {
+                empleados[i] = sqlEmpleados.getDataEmpleado().get(i).getId() + " - " + sqlEmpleados.getDataEmpleado().get(i).getNombre();
+            }
+
+            JComboBox<String> comboBox = new JComboBox<>(empleados);
+            comboBox.setRenderer(new CustomComboBoxRenderer());
+            comboBox.setFocusable(false);
+            comboBox.getComponent(0).setBackground(new Color(66, 189, 159));
+            comboBox.setBorder(new LineBorder(new Color(10, 10, 10)));
+
+            JPanel panel = new JPanel();
+            panel.add(comboBox);
+
+            int opcionElegida = JOptionPane.showOptionDialog(null, panel, "Selecciona una opción", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            int idTienda = 0, idEmpleado = 0;
+            String aux = null;
+            if (opcionElegida == JOptionPane.OK_OPTION) {
+                String opcionSeleccionada = String.valueOf(comboBox.getSelectedItem());
+                sqlEmpleados.selectEmpleado();
+                for (Empleado emp : sqlEmpleados.getDataEmpleado()) {
+                    if (opcionSeleccionada.equals(emp.getId() + " - " + emp.getNombre())) {
+                        idEmpleado = emp.getId();
+                        aux = emp.getNombreTienda();
+                        break;
+                    }
+                }
+
+                sqlTiendas.selectTienda();
+                for (Tienda t : sqlTiendas.getData()) {
+                    if (t.getNombre().equals(aux)) {
+                        idTienda = t.getId();
+                    }
+                }
+
+                VentanaVentas obV = new VentanaVentas();
+                obV.setUser("admin", idTienda, idEmpleado);
+                obV.setVisible(true);
+                obV.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
+            }
+
         });
 
         btnVentas.addActionListener((e) -> {
@@ -2609,7 +2600,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
         btnVentas.setText("Ventas");
         btnVentas.setIcon(new ImageIcon("./src/main/java/Resources/ventasGen.png"));
 
-        obE.setStylePanel(panelGradient1);
         obE.setStylePanel(panelGradient2);
         obE.setStylePanel(panelGradient3);
         obE.setStylePanel(panelGradient4);
@@ -2638,7 +2628,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
         obE.setStyleTableDefault(tbClientes, scrollClientes, new Color(40, 40, 40), new Color(30, 30, 30), new Color(100, 100, 100), new Color(30, 30, 30), new Color(66, 189, 159));
         obE.setStyleTableDefault(tbVentas, scrollVentas, new Color(40, 40, 40), new Color(30, 30, 30), new Color(100, 100, 100), new Color(30, 30, 30), new Color(66, 189, 159));
 
-        lblCategoria.setIcon(new ImageIcon("./src/main/java/Resources/like.png"));
         lblMasVend.setIcon(new ImageIcon("./src/main/java/Resources/mas.png"));
         lblMenosVend.setIcon(new ImageIcon("./src/main/java/Resources/menos.png"));
         lblTiendaMas.setIcon(new ImageIcon("./src/main/java/Resources/masVenta.png"));
@@ -2981,7 +2970,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
                 for (String s[] : sqlInventario.getDataTable()) {
                     if (idVideojuego == Integer.parseInt(s[3])) {
                         idTienda = Integer.parseInt(s[4]);
-                        System.out.println(idVideojuego + " | " + idTienda);
                         break;
                     }
                 }
@@ -3474,11 +3462,11 @@ public class VentanaRegistros extends javax.swing.JFrame {
                 int idT = Integer.parseInt(String.valueOf(aux2));
                 Object aux3 = tbVentas.getModel().getValueAt(selectedRowIndex, 2);
                 int idC = Integer.parseInt(String.valueOf(aux3));
-                
+
                 actu7 = new VentanaActualizaciones();
                 actu7.setTitle("Actualizar ventas");
                 actu7.setTbVentas(tbVentas);
-                
+
                 sqlVentas.selectCompraTb();
                 for (Compra c : sqlVentas.getData()) {
                     if (c.getIdVideojuego() == idV && c.getIdTienda() == idT && c.getIdCliente() == idC) {
@@ -3486,7 +3474,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
                         break;
                     }
                 }
-                
+
                 actu7.setStr("altaVenta", "Ventas", "./src/main/java/Resources/ventaGenSel.png");
                 actu7.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, jLabel40, jLabel41, jLabel42);
                 actu7.setVisible(true);
@@ -3707,24 +3695,28 @@ public class VentanaRegistros extends javax.swing.JFrame {
         RoundButton btnAlta = null, btnBaja = null, btnActualizar = null, btnMostrar = null;
 
         btnAlta = obE.getStyleMenuBtn(btnAlta, pnl);
+        btnAlta.setRadius(20);
         btnAlta.setText("Añadir");
         btnAlta.setIcon(new ImageIcon("./src/main/java/Resources/alta.png"));
         btnAlta.setFont(new Font("Segoe UI", Font.BOLD, 16));
         btnAlta.setBorderColor(new Color(20, 20, 20));
 
         btnBaja = obE.getStyleMenuBtn(btnBaja, pnl);
+        btnBaja.setRadius(20);
         btnBaja.setText("Eliminar");
         btnBaja.setIcon(new ImageIcon("./src/main/java/Resources/baja.png"));
         btnBaja.setFont(new Font("Segoe UI", Font.BOLD, 16));
         btnBaja.setBorderColor(new Color(20, 20, 20));
 
         btnActualizar = obE.getStyleMenuBtn(btnActualizar, pnl);
+        btnActualizar.setRadius(20);
         btnActualizar.setText("Actualizar");
         btnActualizar.setFont(new Font("Segoe UI", Font.BOLD, 16));
         btnActualizar.setIcon(new ImageIcon("./src/main/java/Resources/actualizar.png"));
         btnActualizar.setBorderColor(new Color(20, 20, 20));
 
         btnMostrar = obE.getStyleMenuBtn(btnMostrar, pnl);
+        btnMostrar.setRadius(20);
         btnMostrar.setText("Mostrar");
         btnMostrar.setFont(new Font("Segoe UI", Font.BOLD, 16));
         btnMostrar.setIcon(new ImageIcon("./src/main/java/Resources/consulta.png"));
@@ -3815,7 +3807,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboProveedores;
     private javax.swing.JComboBox<String> comboTiendas;
     private javax.swing.JComboBox<String> comboVideojuegos;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel15;
@@ -3884,7 +3875,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel47;
     private javax.swing.JPanel jPanel48;
     private javax.swing.JPanel jPanel49;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel50;
     private javax.swing.JPanel jPanel51;
     private javax.swing.JPanel jPanel52;
@@ -3892,10 +3882,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel54;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lblCantVendida;
-    private javax.swing.JLabel lblCatPopular;
-    private javax.swing.JLabel lblCategoria;
     private javax.swing.JLabel lblCliCont;
     private javax.swing.JLabel lblClienteMejor;
     private javax.swing.JLabel lblClientes;
@@ -3934,7 +3921,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
     private javax.swing.JLabel lblVentas;
     private javax.swing.JLabel lblVidCont;
     private javax.swing.JLabel lblVideo;
-    private CustomComponents.PanelGradient panelGradient1;
     private CustomComponents.PanelGradient panelGradient10;
     private CustomComponents.PanelGradient panelGradient11;
     private CustomComponents.PanelGradient panelGradient12;
@@ -3992,7 +3978,6 @@ public class VentanaRegistros extends javax.swing.JFrame {
     private CustomComponents.PanelRound panelRound41;
     private CustomComponents.PanelRound panelRound42;
     private CustomComponents.PanelRound panelRound43;
-    private CustomComponents.PanelRound panelRound5;
     private CustomComponents.PanelRound panelRound6;
     private CustomComponents.PanelRound panelRound7;
     private CustomComponents.PanelRound panelRound8;

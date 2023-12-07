@@ -3,6 +3,7 @@ package CustomComponents;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -92,6 +93,21 @@ public class EstilosComponentes {
         return btn;
     }
 
+    public RoundButton getStyleButtonBack2(RoundButton btn, JDialog frame) {
+        btn = new RoundButton(new Color(247, 81, 101), new Color(255, 125, 141), new Color(255, 168, 179), new Color(20, 20, 20), 20);
+        btn.setForeground(Color.white);
+        btn.setText("Volver");
+        btn.setIcon(new ImageIcon("./src/main/java/Resources/salir2.png"));
+        btn.setFocusable(false);
+        btn.setBorder(new EmptyBorder(10, 15, 10, 15));
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        btn.setIconTextGap(10);
+        btn.addActionListener((e) -> {
+            frame.dispose();
+        });
+        return btn;
+    }
+    
     public RoundButton getStyleBtnSave(RoundButton btn) {
         btn = new RoundButton(new Color(16, 120, 65), new Color(25, 140, 98), new Color(65, 181, 125), new Color(20, 20, 20), 20);
         btn.setForeground(Color.white);

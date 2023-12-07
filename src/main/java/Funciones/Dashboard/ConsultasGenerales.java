@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Types;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
@@ -361,6 +362,7 @@ public class ConsultasGenerales {
             break;
             case "ventas":
                 CallableStatement stat = null;
+                DecimalFormat df = new DecimalFormat("#.##");
                 try {
                     sql = "CALL get_ingresos_lapso(?, ?, ?);";
                     stat = (CallableStatement) obC.setConnection().prepareCall(sql);
@@ -369,7 +371,7 @@ public class ConsultasGenerales {
                     stat.registerOutParameter(3, Types.DOUBLE);
                     stat.execute();
 
-                    lblResult.setText("$" + String.valueOf(stat.getDouble(3)));
+                    lblResult.setText("$" + df.format(stat.getDouble(3) * 1.16));
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } finally {

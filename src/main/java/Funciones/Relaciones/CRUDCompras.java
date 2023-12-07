@@ -2,11 +2,14 @@ package Funciones.Relaciones;
 
 import ConexionBD.Conexion;
 import TDA.Relaciones.Compra;
+import java.sql.CallableStatement;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class CRUDCompras {
 
@@ -92,15 +95,23 @@ public class CRUDCompras {
 
     public void insertCompra(Compra compra) {
         try {
-            query = "INSERT INTO compra (id_videojuego, id_tienda, id_cliente, Cantidad, Total, Fecha) VALUES (?, ?, ?, ?, ?, ?);";
-            pstm = obC.setConnection().prepareStatement(query);
-            pstm.setInt(1, compra.getIdVideojuego());
-            pstm.setInt(2, compra.getIdTienda());
-            pstm.setInt(3, compra.getIdCliente());
-            pstm.setInt(4, compra.getCantidad());
-            pstm.setDouble(5, compra.getTotal());
-            pstm.setDate(6, compra.getFechaCompra());
-            pstm.executeUpdate();
+            query = "CALL insertar_compra(?, ?, ?, ?, ?, ?, ?);";
+            CallableStatement cstm = obC.setConnection().prepareCall(query);
+            cstm.setInt(1, compra.getIdVideojuego());
+            cstm.setInt(2, compra.getIdTienda());
+            cstm.setInt(3, compra.getIdCliente());
+            cstm.setInt(4, compra.getCantidad());
+            cstm.setDouble(5, compra.getTotal());
+            cstm.setDate(6, compra.getFechaCompra());
+            cstm.registerOutParameter(7, Types.VARCHAR);
+            cstm.executeUpdate();
+
+            String mensaje = cstm.getString(7);
+            if (!mensaje.equals("Venta realizada correctamente")) {
+                JOptionPane.showMessageDialog(null, mensaje + "\nID_Videojuego: " + compra.getIdVideojuego() + "\nStock: " + compra.getCantidad(), "ERROR!", JOptionPane.ERROR_MESSAGE);
+            } 
+            
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
