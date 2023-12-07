@@ -8,11 +8,13 @@ import CustomComponents.TextPrompt;
 import Funciones.Dashboard.ConsultasGenerales;
 import Funciones.Entidades.CRUDClientes;
 import Funciones.Entidades.CRUDVideojuegos;
+import Funciones.Relaciones.CRUDAtiende;
 import Funciones.Relaciones.CRUDCompras;
 import Funciones.TablasListas.LlenadoInformacion;
 import TDA.Entidades.AuxiliarButtons.ButtonsVenta;
 import TDA.Entidades.Cliente;
 import TDA.Entidades.Videojuego;
+import TDA.Relaciones.Atencion;
 import TDA.Relaciones.Compra;
 import java.awt.Color;
 import java.awt.Font;
@@ -110,6 +112,9 @@ public class VentanaVentaConfirmacion extends javax.swing.JDialog {
 
     public void mostrarSubtotal() {
         DecimalFormat df = new DecimalFormat("#.##");
+        monto = 0;
+        subtotal = 0;
+        iva = 0;
         for (Videojuego v : carrito) {
             subtotal += v.getPrecio();
             monto += v.getPrecio() * 1.16;
@@ -149,10 +154,8 @@ public class VentanaVentaConfirmacion extends javax.swing.JDialog {
                 monto = 0;
                 iva = 0;
                 mostrarSubtotal();
-                double aux = total - Double.parseDouble(jTextField2.getText().trim());
-                if (aux >= 0) {
-                    JOptionPane.showMessageDialog(null, "Venta exitosa!\nSu cambio es de: $" + String.valueOf(aux), "Confirmación", JOptionPane.INFORMATION_MESSAGE);
-                }
+                CRUDAtiende sqlAtiende = new CRUDAtiende();
+                sqlAtiende.insertAtiende(new Atencion(idTiendaTrabaja, idCliente, idEmpleadoTrabajo, new Date(System.currentTimeMillis())));
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(null, "Fondos insuficientes", "ERROR", JOptionPane.ERROR_MESSAGE);

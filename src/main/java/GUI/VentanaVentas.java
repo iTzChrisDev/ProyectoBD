@@ -138,11 +138,6 @@ public class VentanaVentas extends javax.swing.JFrame {
                             idTiendaTrabajo, bv.getVideojuego().getNombre(),
                             bv.getVideojuego().getCategoria(), total, cantidad));
                 }
-//
-//                for (Videojuego v : carrito) {
-//                    System.out.println(v.getNombre() + " | Cant:" + v.getStock() + " | Precio " + v.getPrecio());
-//                }
-//                System.out.println("");
                 obI.llenarCarrito(tbCarrito, carrito);
                 mostrarSubtotal();
             });
@@ -301,8 +296,8 @@ public class VentanaVentas extends javax.swing.JFrame {
 
     public void actualizarVideojuegos() {
         dataBtnTxtVid.clear();
-        carrito.clear();
         pnlVideojuegos.removeAll();
+        carrito.clear();
 
         CRUDVideojuegos obV2 = new CRUDVideojuegos();
         obV2.selectVideojuegoVentas(idTiendaTrabajo);
@@ -523,6 +518,9 @@ public class VentanaVentas extends javax.swing.JFrame {
     }
 
     public void mostrarSubtotal() {
+        monto = 0;
+        subtotal = 0;
+        iva = 0;
         for (Videojuego v : carrito) {
             subtotal += v.getPrecio();
             monto += v.getPrecio() * 1.16;

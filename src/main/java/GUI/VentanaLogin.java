@@ -44,6 +44,7 @@ public class VentanaLogin extends javax.swing.JFrame {
                 VentanaRegistros obV = new VentanaRegistros();
                 obV.setVisible(true);
                 obV.setUser("admin");
+                this.dispose();
             } else if (jTextField2.getText().trim().equals("user") && password.equals("pass")) {
                 sqlEmpleados.selectEmpleado();
                 String empleados[] = new String[sqlEmpleados.getDataEmpleado().size()];

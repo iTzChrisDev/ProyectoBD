@@ -108,8 +108,12 @@ public class CRUDCompras {
 
             String mensaje = cstm.getString(7);
             if (!mensaje.equals("Venta realizada correctamente")) {
-                JOptionPane.showMessageDialog(null, mensaje + "\nID_Videojuego: " + compra.getIdVideojuego() + "\nStock: " + compra.getCantidad(), "ERROR!", JOptionPane.ERROR_MESSAGE);
-            } 
+                JOptionPane.showMessageDialog(null, mensaje + "\nVideojuego no vendido:\nID_Videojuego = " + compra.getIdVideojuego() + "\nStock = " + compra.getCantidad(), "ERROR!", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, mensaje + "\nID_Videojuego = " + compra.getIdVideojuego() + "\nStock = " + compra.getCantidad(), "COMPLETADO!", JOptionPane.INFORMATION_MESSAGE);
+            }
             
 
         } catch (SQLException ex) {

@@ -29,8 +29,8 @@ public class CRUDAtiende {
             output = pstm.executeQuery();
 
             while (output.next()) {
-                int idTienda = output.getInt("id_tiendas");
-                int idCliente = output.getInt("id_clientes");
+                int idTienda = output.getInt("id_tienda");
+                int idCliente = output.getInt("id_cliente");
                 int idEmpleado = output.getInt("id_empleado");
                 Date fechaAtencion = output.getDate("Fecha_Atencion");
 
@@ -52,7 +52,7 @@ public class CRUDAtiende {
 
     public void insertAtiende(Atencion atiende) {
         try {
-            query = "INSERT INTO atiende (id_tiendas, id_clientes, id_empleado, Fecha_Atencion) VALUES (?, ?, ?, ?);";
+            query = "INSERT INTO atiende (id_tienda, id_cliente, id_empleado, Fecha_Atencion) VALUES (?, ?, ?, ?);";
             pstm = obC.setConnection().prepareStatement(query);
             pstm.setInt(1, atiende.getIdTienda());
             pstm.setInt(2, atiende.getIdCliente());
@@ -74,7 +74,7 @@ public class CRUDAtiende {
 
     public void updateAtiende(int idTienda, int idCliente, int idEmpleado, Atencion atiende) {
         try {
-            query = "UPDATE atiende SET Fecha_Atencion = ? WHERE id_tiendas = ? AND id_clientes = ? AND id_empleado = ?";
+            query = "UPDATE atiende SET Fecha_Atencion = ? WHERE id_tienda = ? AND id_cliente = ? AND id_empleado = ?";
             pstm = obC.setConnection().prepareStatement(query);
             pstm.setDate(1, atiende.getFechaAtencion());
             pstm.setInt(2, idTienda);
@@ -96,7 +96,7 @@ public class CRUDAtiende {
 
     public void deleteAtiende(int idTienda, int idCliente, int idEmpleado) {
         try {
-            query = "DELETE FROM atiende WHERE id_tiendas = ? AND id_clientes = ? AND id_empleado = ?";
+            query = "DELETE FROM atiende WHERE id_tienda = ? AND id_cliente = ? AND id_empleado = ?";
             pstm = obC.setConnection().prepareStatement(query);
             pstm.setInt(1, idTienda);
             pstm.setInt(2, idCliente);
