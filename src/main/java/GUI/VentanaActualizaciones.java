@@ -95,53 +95,70 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
     public void verificar() {
         switch (str) {
             case "altaVideojuegos":
-                jTextField2.setText(videojuego.getNombre());
-                jTextField3.setText(videojuego.getCategoria());
-                jTextField4.setText(String.valueOf(videojuego.getPrecio()));
+                sqlVideojuegos.selectVideojuego();
+                for (Videojuego v : sqlVideojuegos.getData()) {
+                    jTextField2.setText(v.getNombre());
+                    jTextField3.setText(v.getCategoria());
+                    jTextField4.setText(String.valueOf(v.getPrecio()));
+                    break;
+                }
                 break;
             case "altaTiendas":
-                jTextField13.setText(tienda.getNombre());
-                jTextField14.setText(tienda.getDomicilio());
+                sqlTiendas.selectTienda();
+                for (Tienda t : sqlTiendas.getData()) {
+                    jTextField13.setText(t.getNombre());
+                    jTextField14.setText(t.getDomicilio());
+                    break;
+                }
                 break;
             case "altaEmpleados":
-                jTextField22.setText(empleado.getApellidoM());
-                jTextField21.setText(empleado.getCURP());
-                jTextField24.setText(String.valueOf(empleado.getTelefono()));
-                jTextField43.setText(String.valueOf(empleado.getHrSalida().getHours()));
-                dateSelector.setDate(empleado.getFechaNacimiento());
-                jTextField40.setText(String.valueOf(empleado.getHrEntrada().getHours()));
-                jTextField16.setText(empleado.getApellidoP());
-                jTextField15.setText(empleado.getNSS());
-                jTextField41.setText(String.valueOf(empleado.getHrEntrada().getMinutes()));
-                jTextField7.setText(empleado.getNombre());
-                jTextField44.setText(String.valueOf(empleado.getHrSalida().getMinutes()));
-                jTextField6.setText(empleado.getDomicilio());
-                jTextField39.setText(String.valueOf(empleado.getSueldo()));
-
                 sqlEmpleados.selectEmpleado();
                 for (Empleado emp : sqlEmpleados.getDataEmpleado()) {
-                    if (emp.getNombreTienda().equals(empleado.getNombreTienda())) {
+                    if (idEmpleado == emp.getId()) {
+                        jTextField22.setText(emp.getApellidoM());
+                        jTextField21.setText(emp.getCURP());
+                        jTextField24.setText(String.valueOf(emp.getTelefono()));
+                        jTextField43.setText(String.valueOf(emp.getHrSalida().getHours()));
+                        dateSelector.setDate(emp.getFechaNacimiento());
+                        jTextField40.setText(String.valueOf(emp.getHrEntrada().getHours()));
+                        jTextField16.setText(emp.getApellidoP());
+                        jTextField15.setText(emp.getNSS());
+                        jTextField41.setText(String.valueOf(emp.getHrEntrada().getMinutes()));
+                        jTextField7.setText(emp.getNombre());
+                        jTextField44.setText(String.valueOf(emp.getHrSalida().getMinutes()));
+                        jTextField6.setText(emp.getDomicilio());
+                        jTextField39.setText(String.valueOf(emp.getSueldo()));
                         jComboBox3.setSelectedItem(emp.getNombreTienda());
-                    }
-                    if (emp.getTurno().equals(empleado.getTurno())) {
                         jComboBox4.setSelectedItem(emp.getTurno());
                     }
                 }
                 break;
             case "altaClientes":
-                jTextField11.setText(cliente.getDomicilio());
-                dateSelector1.setDate(cliente.getFechaNacimiento());
-                jTextField12.setText(cliente.getApellidoP());
-                jTextField27.setText(cliente.getTelefono());
-                jTextField25.setText(cliente.getApellidoM());
-                jTextField9.setText(cliente.getNombre());
-                jTextField29.setText(cliente.getCorreo());
+                sqlClientes.selectCliente();
+                for (Cliente c : sqlClientes.getData()) {
+                    if (idCliente == c.getId()) {
+                        jTextField11.setText(c.getDomicilio());
+                        dateSelector1.setDate(c.getFechaNacimiento());
+                        jTextField12.setText(c.getApellidoP());
+                        jTextField27.setText(c.getTelefono());
+                        jTextField25.setText(c.getApellidoM());
+                        jTextField9.setText(c.getNombre());
+                        jTextField29.setText(c.getCorreo());
+                        break;
+                    }
+                }
                 break;
             case "altaProveedores":
-                jTextField30.setText(proveedor.getNombre());
-                jTextField31.setText(proveedor.getDomicilio());
-                jTextField32.setText(String.valueOf(proveedor.getTelefono()));
-                jTextField33.setText(proveedor.getCorreo());
+                sqlProveedores.selectProveedor();
+                for (Proveedor p : sqlProveedores.getData()) {
+                    if (p.getId() == idProveedor) {
+                        jTextField30.setText(p.getNombre());
+                        jTextField31.setText(p.getDomicilio());
+                        jTextField32.setText(String.valueOf(p.getTelefono()));
+                        jTextField33.setText(p.getCorreo());
+                        break;
+                    }
+                }
                 break;
             case "altaInventario":
                 sqlInventario.selectInventarioTable();
@@ -156,11 +173,17 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                 jTextField17.setText(String.valueOf(inventario.getStock()));
                 break;
             case "altaProveen":
-                jTextField28.setText(String.valueOf(proveer.getProveedor()));
-                jTextField23.setText(String.valueOf(proveer.getTienda()));
-                jTextField26.setText(String.valueOf(proveer.getVideojuego()));
-                jTextField19.setText(String.valueOf(proveer.getFechaSurtido()));
-                jTextField20.setText(String.valueOf(proveer.getCantidad()));
+                sqlProveen.selectProveen();
+                for (Provee p : sqlProveen.getData()) {
+                    if (p.getId_proveedor() == idProP && p.getId_tienda() == idTienP && p.getId_videojuego() == idVidP) {
+                        jTextField28.setText(String.valueOf(p.getProveedor()));
+                        jTextField23.setText(String.valueOf(p.getTienda()));
+                        jTextField26.setText(String.valueOf(p.getVideojuego()));
+                        jTextField19.setText(String.valueOf(p.getFechaSurtido()));
+                        jTextField20.setText(String.valueOf(p.getCantidad()));
+                        break;
+                    }
+                }
                 break;
             case "altaVenta":
                 jTextField34.setText(String.valueOf(venta.getVideojuego()));

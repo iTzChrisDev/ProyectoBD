@@ -69,40 +69,40 @@ public class CRUDProveen {
         }
     }
 
-//    public void selectProveen() {
-//        try {
-//            query = "SELECT p.*, v.Nombre AS Videojuego, t.Nombre AS Tienda, pr.Nombre AS Proveedor FROM proveen AS p\n"
-//                    + "INNER JOIN videojuegos AS v ON p.id_videojuego = v.id_videojuego\n"
-//                    + "INNER JOIN proveedores AS pr ON p.id_proveedor = pr.id_proveedor\n"
-//                    + "INNER JOIN tiendas AS t ON p.id_tienda = t.id_tienda;";
-//            pstm = obC.setConnection().prepareStatement(query);
-//            output = pstm.executeQuery();
-//
-//            while (output.next()) {
-//                int idVideojuego = output.getInt("id_videojuego");
-//                int idProveedor = output.getInt("id_proveedor");
-//                int idTienda = output.getInt("id_tienda");
-//                int cantidad = output.getInt("Cantidad");
-//                Date fecha = output.getDate("Fecha");
-//                String videojuego = output.getString("Videojuego");
-//                String tienda = output.getString("Tienda");
-//                String proveedor = output.getString("Proveedor");
-//
-//                data.add(new Provee(idVideojuego, idTienda, idProveedor, cantidad, fecha, videojuego, tienda, proveedor));
-//            }
-//
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//        } finally {
-//            if (pstm != null) {
-//                try {
-//                    pstm.close();
-//                } catch (SQLException ex) {
-//                }
-//            }
-//            obC.closeConnection();
-//        }
-//    }
+    public void selectProveen() {
+        try {
+            query = "SELECT p.*, v.Nombre AS Videojuego, t.Nombre AS Tienda, pr.Nombre AS Proveedor FROM proveen AS p\n"
+                    + "INNER JOIN videojuegos AS v ON p.id_videojuego = v.id_videojuego\n"
+                    + "INNER JOIN proveedores AS pr ON p.id_proveedor = pr.id_proveedor\n"
+                    + "INNER JOIN tiendas AS t ON p.id_tienda = t.id_tienda;";
+            pstm = obC.setConnection().prepareStatement(query);
+            output = pstm.executeQuery();
+
+            while (output.next()) {
+                int idVideojuego = output.getInt("id_videojuego");
+                int idProveedor = output.getInt("id_proveedor");
+                int idTienda = output.getInt("id_tienda");
+                int cantidad = output.getInt("Cantidad");
+                Date fecha = output.getDate("Fecha");
+                String videojuego = output.getString("Videojuego");
+                String tienda = output.getString("Tienda");
+                String proveedor = output.getString("Proveedor");
+
+                data.add(new Provee(idVideojuego, idTienda, idProveedor, cantidad, fecha, videojuego, tienda, proveedor));
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pstm != null) {
+                try {
+                    pstm.close();
+                } catch (SQLException ex) {
+                }
+            }
+            obC.closeConnection();
+        }
+    }
 
     public void insertProveen(Provee proveen) {
         try {
