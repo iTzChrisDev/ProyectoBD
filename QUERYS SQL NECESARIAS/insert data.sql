@@ -1,6 +1,6 @@
 
 INSERT INTO videojuegos (Nombre, Precio, Categoria) VALUES
-('The Legend of Zelda: Breath of the Wild', 1499.99, 'Aventura'),
+('The Legend of Zelda', 1499.99, 'Aventura'),
 ('Cyberpunk 2077', 1299.99, 'Ciencia Ficción'),
 ('Red Dead Redemption 2', 1399.99, 'Acción'),
 ('FIFA 23', 899.99, 'Deportes'),
@@ -8,8 +8,8 @@ INSERT INTO videojuegos (Nombre, Precio, Categoria) VALUES
 ('Among Us', 149.99, 'Multijugador'),
 ('Minecraft', 499.99, 'Sandbox'),
 ('Super Mario Odyssey', 1299.99, 'Plataformas'),
-('Assassin\'s Creed Valhalla', 1399.99, 'Aventura'),
-('Fortnite', 150.00, 'Battle Royale');
+('Assassins Creed Valhalla', 1399.99, 'Aventura'),
+('Fortnite', 150.90, 'Battle Royale');
 
 INSERT INTO proveedores (Nombre, Telefono, Domicilio, Correo) VALUES
 ('GamingTech', 123456789, 'Gaming Avenue #42', 'info@gamingtech.com'),

@@ -175,11 +175,11 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
             case "altaInventario":
                 sqlInventario.selectInventarioTable();
                 for (String s[] : sqlInventario.getDataTable()) {
-                    if (Integer.parseInt(s[3]) == inventario.getId_videojuego()) {
-                        jComboBox1.setSelectedItem(s[0]);
+                    if (Integer.parseInt(s[3]) == inventario.getId_videojuego()) {                      
+                        jTextField42vid.setText(s[0]);
                     }
                     if (Integer.parseInt(s[4]) == inventario.getId_tienda()) {
-                        jComboBox2.setSelectedItem(s[1]);
+                        jTextField45ti.setText(s[1]);
                     }
                 }
                 jTextField17.setText(String.valueOf(inventario.getStock()));
@@ -260,14 +260,6 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         pnlBtnInventario1.add(btnGuardarProveen);
         pnlBtnInventario2.add(btnGuardarVenta);
 
-        jComboBox1.setRenderer(new CustomComboBoxRenderer());
-        jComboBox1.setFocusable(false);
-        jComboBox1.getComponent(0).setBackground(new Color(140, 255, 241));
-
-        jComboBox2.setRenderer(new CustomComboBoxRenderer());
-        jComboBox2.setFocusable(false);
-        jComboBox2.getComponent(0).setBackground(new Color(140, 255, 241));
-
         jComboBox3.setRenderer(new CustomComboBoxRenderer());
         jComboBox3.setFocusable(false);
         jComboBox3.getComponent(0).setBackground(new Color(140, 255, 241));
@@ -277,8 +269,6 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         jComboBox4.getComponent(0).setBackground(new Color(140, 255, 241));
 
         obI = new LlenadoInformacion();
-        obI.llenarComboTiendas(jComboBox2);
-        obI.llenarComboVideojuegos(jComboBox1);
         obI.llenarComboTiendas(jComboBox3);
 
         dateSelector.getDateEditor().getUiComponent().setBackground(new Color(30, 30, 30));
@@ -506,13 +496,13 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                 obT.selectTienda();
 
                 for (Videojuego v : obV.getData()) {
-                    if (String.valueOf(jComboBox1.getSelectedItem()).equals(v.getNombre())) {
+                    if (jTextField42vid.getText().equals(v.getNombre())) {
                         idVideojuego = v.getId();
                     }
                 }
 
                 for (Tienda t : obT.getData()) {
-                    if (String.valueOf(jComboBox2.getSelectedItem()).equals(t.getNombre())) {
+                    if (jTextField45ti.getText().equals(t.getNombre())) {
                         idTienda = t.getId();
                     }
                 }
@@ -1033,10 +1023,10 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         jPanel19 = new javax.swing.JPanel();
         jPanel30 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jTextField42vid = new javax.swing.JTextField();
         jPanel29 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        jTextField45ti = new javax.swing.JTextField();
         jPanel31 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
         jTextField17 = new javax.swing.JTextField();
@@ -1927,12 +1917,16 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         jLabel23.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jPanel30.add(jLabel23);
 
-        jComboBox1.setBackground(new java.awt.Color(30, 30, 30));
-        jComboBox1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        jComboBox1.setForeground(new java.awt.Color(200, 200, 200));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
-        jPanel30.add(jComboBox1);
+        jTextField42vid.setBackground(new java.awt.Color(20, 20, 20));
+        jTextField42vid.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jTextField42vid.setForeground(new java.awt.Color(200, 200, 200));
+        jTextField42vid.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
+        jTextField42vid.setCaretColor(new java.awt.Color(25, 200, 178));
+        jTextField42vid.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jTextField42vid.setEnabled(false);
+        jTextField42vid.setSelectedTextColor(new java.awt.Color(10, 10, 10));
+        jTextField42vid.setSelectionColor(new java.awt.Color(25, 200, 178));
+        jPanel30.add(jTextField42vid);
 
         jPanel19.add(jPanel30);
 
@@ -1945,12 +1939,16 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         jLabel22.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jPanel29.add(jLabel22);
 
-        jComboBox2.setBackground(new java.awt.Color(30, 30, 30));
-        jComboBox2.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        jComboBox2.setForeground(new java.awt.Color(200, 200, 200));
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
-        jPanel29.add(jComboBox2);
+        jTextField45ti.setBackground(new java.awt.Color(20, 20, 20));
+        jTextField45ti.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jTextField45ti.setForeground(new java.awt.Color(200, 200, 200));
+        jTextField45ti.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(40, 40, 40), 2, true));
+        jTextField45ti.setCaretColor(new java.awt.Color(25, 200, 178));
+        jTextField45ti.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jTextField45ti.setEnabled(false);
+        jTextField45ti.setSelectedTextColor(new java.awt.Color(10, 10, 10));
+        jTextField45ti.setSelectionColor(new java.awt.Color(25, 200, 178));
+        jPanel29.add(jTextField45ti);
 
         jPanel19.add(jPanel29);
 
@@ -2495,8 +2493,6 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser dateSelector;
     private com.toedter.calendar.JDateChooser dateSelector1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JLabel jLabel11;
@@ -2638,8 +2634,10 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField40;
     private javax.swing.JTextField jTextField41;
+    private javax.swing.JTextField jTextField42vid;
     private javax.swing.JTextField jTextField43;
     private javax.swing.JTextField jTextField44;
+    private javax.swing.JTextField jTextField45ti;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField9;
