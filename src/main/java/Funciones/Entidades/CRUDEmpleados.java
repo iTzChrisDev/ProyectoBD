@@ -47,7 +47,7 @@ public class CRUDEmpleados {
                 String nss = output.getString("NSS");
                 Date fechaNacimiento = output.getDate("Fecha_Nacimiento");
                 String curp = output.getString("CURP");
-                int telefono = output.getInt("Telefono");
+                long telefono = output.getLong("Telefono");
                 String domicilio = output.getString("Domicilio");
                 int sueldo = output.getInt("Sueldo");
                 String nombreTienda = output.getString("Tienda");
@@ -81,7 +81,7 @@ public class CRUDEmpleados {
             stat.setString(4, obE.getNSS());
             stat.setDate(5, obE.getFechaNacimiento());
             stat.setString(6, obE.getCURP());
-            stat.setInt(7, obE.getTelefono());
+            stat.setLong(7, obE.getTelefono());
             stat.setString(8, obE.getDomicilio());
             stat.setDouble(9, obE.getSueldo());
             stat.setInt(10, obT.getId_tienda());
@@ -114,7 +114,7 @@ public class CRUDEmpleados {
             stat.setString(5, obE.getNSS());
             stat.setDate(6, obE.getFechaNacimiento());
             stat.setString(7, obE.getCURP());
-            stat.setInt(8, obE.getTelefono());
+            stat.setLong(8, obE.getTelefono());
             stat.setString(9, obE.getDomicilio());
             stat.setDouble(10, obE.getSueldo());
             stat.setInt(11, obT.getId_tienda());

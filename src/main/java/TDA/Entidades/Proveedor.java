@@ -4,12 +4,12 @@ public class Proveedor {
 
     private int id;
     private String nombre;
-    private int telefono;
+    private long telefono;
     private String domicilio;
     private String correo;
     private int cantSurtida;
 
-    public Proveedor(int id, String nombre, int telefono, String domicilio, String correo) {
+    public Proveedor(int id, String nombre, long telefono, String domicilio, String correo) {
         this.id = id;
         this.nombre = nombre;
         this.telefono = telefono;
@@ -17,7 +17,7 @@ public class Proveedor {
         this.correo = correo;
     }
 
-    public Proveedor(String nombre, int telefono, String domicilio, String correo) {
+    public Proveedor(String nombre, long telefono, String domicilio, String correo) {
         this.nombre = nombre;
         this.telefono = telefono;
         this.domicilio = domicilio;
@@ -53,11 +53,11 @@ public class Proveedor {
         this.nombre = nombre;
     }
 
-    public int getTelefono() {
+    public long getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(long telefono) {
         this.telefono = telefono;
     }
 

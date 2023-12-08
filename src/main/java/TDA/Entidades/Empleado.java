@@ -12,7 +12,7 @@ public class Empleado {
     private String NSS;
     private String CURP;
     private Date fechaNacimiento;
-    private int telefono;
+    private long telefono;
     private String domicilio;
     private double sueldo;
     private String nombreTienda;
@@ -20,7 +20,7 @@ public class Empleado {
     private String turno;
     private int clientes;
     
-    public Empleado(int id, String nombre, String ApellidoP, String ApellidoM, String NSS, String CURP, Date fechaNacimiento, int telefono, String domicilio, double sueldo) {
+    public Empleado(int id, String nombre, String ApellidoP, String ApellidoM, String NSS, String CURP, Date fechaNacimiento, long telefono, String domicilio, double sueldo) {
         this.id = id;
         this.nombre = nombre;
         this.ApellidoP = ApellidoP;
@@ -33,7 +33,7 @@ public class Empleado {
         this.sueldo = sueldo;
     }
 
-    public Empleado(String nombre, String ApellidoP, String ApellidoM, String NSS, String CURP, Date fechaNacimiento, int telefono, String domicilio, double sueldo) {
+    public Empleado(String nombre, String ApellidoP, String ApellidoM, String NSS, String CURP, Date fechaNacimiento, long telefono, String domicilio, double sueldo) {
         this.nombre = nombre;
         this.ApellidoP = ApellidoP;
         this.ApellidoM = ApellidoM;
@@ -52,7 +52,7 @@ public class Empleado {
         this.clientes = clientes;
     }
     
-    public Empleado(int id, String nombre, String ApellidoP, String ApellidoM, String NSS, String CURP, Date fechaNacimiento, int telefono, String domicilio, double sueldo, String nombreTienda, Time hrEntrada, Time hrSalida, String turno) {
+    public Empleado(int id, String nombre, String ApellidoP, String ApellidoM, String NSS, String CURP, Date fechaNacimiento, long telefono, String domicilio, double sueldo, String nombreTienda, Time hrEntrada, Time hrSalida, String turno) {
         this.id = id;
         this.nombre = nombre;
         this.ApellidoP = ApellidoP;
@@ -165,11 +165,11 @@ public class Empleado {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public int getTelefono() {
+    public long getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(long telefono) {
         this.telefono = telefono;
     }
 

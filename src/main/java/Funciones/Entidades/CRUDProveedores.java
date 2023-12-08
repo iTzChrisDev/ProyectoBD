@@ -59,7 +59,7 @@ public class CRUDProveedores {
             query = "INSERT INTO proveedores (Nombre, Telefono, Domicilio, Correo) VALUES (?, ?, ?, ?);";
             pstm = obC.setConnection().prepareStatement(query);
             pstm.setString(1, obP.getNombre());
-            pstm.setInt(2, obP.getTelefono());
+            pstm.setLong(2, obP.getTelefono());
             pstm.setString(3, obP.getDomicilio());
             pstm.setString(4, obP.getCorreo());
             pstm.executeUpdate();
@@ -81,7 +81,7 @@ public class CRUDProveedores {
             query = "UPDATE proveedores SET Nombre = ?, Telefono = ?, Domicilio = ?, Correo = ? WHERE id_proveedor = ?";
             pstm = obC.setConnection().prepareStatement(query);
             pstm.setString(1, obP.getNombre());
-            pstm.setInt(2, obP.getTelefono());
+            pstm.setLong(2, obP.getTelefono());
             pstm.setString(3, obP.getDomicilio());
             pstm.setString(4, obP.getCorreo());
             pstm.setInt(5, id);
@@ -127,7 +127,7 @@ public class CRUDProveedores {
             while (output.next()) {
                 int id = output.getInt("id_proveedor");
                 String nombre = output.getString("Nombre");
-                int telefono = output.getInt("Telefono");
+                long telefono = output.getInt("Telefono");
                 String domicilio = output.getString("Domicilio");
                 String correo = output.getString("Correo");
 

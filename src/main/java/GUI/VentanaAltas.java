@@ -336,7 +336,7 @@ public class VentanaAltas extends javax.swing.JFrame {
                 String nombre = jTextField30.getText(),
                         domicilio = jTextField31.getText(),
                         correo = jTextField33.getText();
-                int telefono = Integer.parseInt(jTextField32.getText());
+                long telefono = Long.parseLong(jTextField32.getText());
                 sqlProveedores.insertProveedor(new Proveedor(nombre, telefono, domicilio, correo));
 
                 if (correo.contains("@") && correo.contains(".")) {
@@ -396,7 +396,7 @@ public class VentanaAltas extends javax.swing.JFrame {
                 String ApellidoM = jTextField22.getText();
                 String NSS = jTextField15.getText();
                 String CURP = jTextField21.getText();
-                int telefono = Integer.parseInt(jTextField24.getText());
+                long telefono = Long.parseLong(jTextField24.getText());
                 String domicilio = jTextField6.getText();
                 Date fechaNacimiento;
                 double sueldo = Double.parseDouble(jTextField39.getText());
@@ -468,7 +468,7 @@ public class VentanaAltas extends javax.swing.JFrame {
                         apm = jTextField25.getText().trim(),
                         domicilio = jTextField11.getText().trim(),
                         correo = jTextField29.getText().trim();
-                int telefono = Integer.parseInt(jTextField27.getText().trim());
+                long telefono = Long.parseLong(jTextField27.getText().trim());
                 Date fechaNac;
 
                 try {

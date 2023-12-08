@@ -8,12 +8,12 @@ public class Cliente {
     private String ApellidoP;
     private String ApellidoM;
     private Date fechaNacimiento;
-    private int telefono;
+    private long telefono;
     private String domicilio;
     private String correo;
     private int cantComprada;
 
-    public Cliente(int id, String nombre, String ApellidoP, String ApellidoM, Date fechaNacimiento, int telefono, String domicilio, String correo) {
+    public Cliente(int id, String nombre, String ApellidoP, String ApellidoM, Date fechaNacimiento, long telefono, String domicilio, String correo) {
         this.id = id;
         this.nombre = nombre;
         this.ApellidoP = ApellidoP;
@@ -24,7 +24,7 @@ public class Cliente {
         this.correo = correo;
     }
 
-    public Cliente(String nombre, String ApellidoP, String ApellidoM, Date fechaNacimiento, int telefono, String domicilio, String correo) {
+    public Cliente(String nombre, String ApellidoP, String ApellidoM, Date fechaNacimiento, long telefono, String domicilio, String correo) {
         this.nombre = nombre;
         this.ApellidoP = ApellidoP;
         this.ApellidoM = ApellidoM;
@@ -92,7 +92,7 @@ public class Cliente {
         return String.valueOf(telefono);
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(long telefono) {
         this.telefono = telefono;
     }
 
