@@ -23,6 +23,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Date;
 import java.text.DecimalFormat;
@@ -69,8 +70,11 @@ public class VentanaVentas extends javax.swing.JFrame {
         sqlProveen = new CRUDProveen();
         obC = (CardLayout) pnlMain.getLayout();
         obE = new EstilosComponentes();
+        setIconImage(Toolkit.getDefaultToolkit().getImage("./src/main/java/Resources/logo2.png"));
+        setTitle("Punto de venta");
         setLocationRelativeTo(this);
         initComponentsCustom();
+        setActionButtonsVideojuegos();
     }
 
     public void setUser(String user, int idTiendaTrabajo, int idEmpleadoTrabajo) {
@@ -98,15 +102,22 @@ public class VentanaVentas extends javax.swing.JFrame {
         setActionButtonsVideojuegos();
 
         btnConfirmar.addActionListener((e) -> {
+            setActionButtonsVideojuegos();
             System.out.println(carrito.size());
-            VentanaVentaConfirmacion obV = new VentanaVentaConfirmacion(this, true);
-            obV.setIdTiendaTrabaja(idTiendaTrabajo);
-            obV.setData(carrito, dataBtnTxtVid, pnlVideojuegos, idEmpleadoTrabajo);
-            obV.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, stock1, stock2, stock3);
-            obV.setUser(user);
-            obV.setLabels(lblCosto, lblSubtotal, lblIVA);
-            obV.setTbCarrito(tbCarrito);
-            obV.setVisible(true);
+            if (!carrito.isEmpty()) {
+                VentanaVentaConfirmacion obV = new VentanaVentaConfirmacion(this, true);
+                obV.setIdTiendaTrabaja(idTiendaTrabajo);
+                obV.setData(carrito, dataBtnTxtVid, pnlVideojuegos, idEmpleadoTrabajo);
+                obV.setValuesGen(lblJuegoMasVenCant, lblJuegoMenosVenCant, lblVidCont, lblTienCont, lblProvCont, lblCliCont, lblEmpCont, lblInvCont, lblCompraCont, lblCantVendida, lblJuegoMasVen, lblJuegoMenosVen, lblJuegoMasVend, lblJuegoMenosVend, lblTiendaMasVentas, lblTiendaMenosVentas, lblEmpMasAtenciones, lblEmpMejorSueldo, lblMejorCliente, lblProvMasActivo, stock1, stock2, stock3);
+                obV.setUser(user);
+                obV.setLabels(lblCosto, lblSubtotal, lblIVA);
+                obV.setTbCarrito(tbCarrito);
+                obV.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "Carrito vacio!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                setActionButtonsVideojuegos();
+            }
+
         });
     }
 

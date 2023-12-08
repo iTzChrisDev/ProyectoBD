@@ -35,7 +35,7 @@ public class CRUDProveedores {
             while (output.next()) {
                 int id = output.getInt("id_proveedor");
                 String nombre = output.getString("Nombre");
-                int telefono = output.getInt("Telefono");
+                long telefono = output.getLong("Telefono");
                 String domicilio = output.getString("Domicilio");
                 String correo = output.getString("Correo");
 

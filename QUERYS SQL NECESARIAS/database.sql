@@ -14,7 +14,7 @@ CREATE TABLE videojuegos (
 CREATE TABLE proveedores (
     id_proveedor INT PRIMARY KEY AUTO_INCREMENT,
     Nombre VARCHAR(50) NOT NULL,
-    Telefono INT NOT NULL,
+    Telefono BIGINT NOT NULL,
     Domicilio VARCHAR(50) NOT NULL,
     Correo VARCHAR(60) NOT NULL
 );
@@ -31,7 +31,7 @@ CREATE TABLE clientes (
     ApellidoP VARCHAR(50) NOT NULL,
     ApellidoM VARCHAR(50),
     Fecha_Nacimiento DATE NOT NULL,
-    Telefono INT NOT NULL,
+    Telefono BIGINT NOT NULL,
     Domicilio VARCHAR(50) NOT NULL,
     Correo VARCHAR(60) NOT NULL
 );
@@ -44,7 +44,7 @@ CREATE TABLE empleados (
     NSS VARCHAR(20) NOT NULL,
     Fecha_Nacimiento DATE NOT NULL,
     CURP VARCHAR(20) NOT NULL,
-    Telefono INT NOT NULL,
+    Telefono BIGINT NOT NULL,
     Domicilio VARCHAR(50) NOT NULL,
     Sueldo DOUBLE NOT NULL
 );

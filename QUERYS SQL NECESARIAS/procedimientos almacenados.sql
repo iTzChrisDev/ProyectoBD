@@ -6,7 +6,7 @@ CREATE PROCEDURE insertar_empleado(
     IN p_NSS VARCHAR(20),
     IN p_Fecha_Nacimiento DATE,
     IN p_CURP VARCHAR(20),
-    IN p_Telefono INT,
+    IN p_Telefono BIGINT,
     IN p_Domicilio VARCHAR(50),
     IN p_Sueldo DOUBLE,
     IN P_id_Tienda INT,
@@ -31,7 +31,7 @@ CREATE PROCEDURE actualizar_empleado(
     IN p_NSS VARCHAR(20),
     IN p_Fecha_Nacimiento DATE,
     IN p_CURP VARCHAR(20),
-    IN p_Telefono INT,
+    IN p_Telefono BIGINT,
     IN p_Domicilio VARCHAR(50),
     IN p_Sueldo DOUBLE,
     IN p_id_tienda INT,
@@ -202,5 +202,19 @@ BEGIN
         SET p_mensaje = 'No hay suficiente stock para realizar la venta';
     END IF;
 END $
+
+CREATE PROCEDURE insertar_inventario(
+	IN idVideojuego INT,
+    IN idTienda INT,
+    IN stock INT)
+BEGIN
+	DECLARE stockNew INT;
+	SELECT i.stock INTO stockNew FROM inventario AS i
+    WHERE idVideojuego = i.id_videojuego AND idTienda = i.id_tienda;
+    
+    INSERT INTO inventario (id_videojuego, id_tienda, Stock)
+	VALUES (idVideojuego, idTienda, stock)
+    ON DUPLICATE KEY UPDATE Stock = stock + stockNew;
+END$
 
 DELIMITER ;

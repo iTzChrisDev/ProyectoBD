@@ -2,6 +2,7 @@ package Funciones.Relaciones;
 
 import ConexionBD.Conexion;
 import TDA.Relaciones.Inventario;
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -92,7 +93,7 @@ public class CRUDInventario {
         }
         return aux;
     }
-    
+
     public void selectInventarioTableBus() {
         String aux[] = null;
         dataTable.clear();
@@ -128,14 +129,12 @@ public class CRUDInventario {
 
     public void insertInventario(Inventario inventario) {
         try {
-            query = "INSERT INTO inventario (id_videojuego, id_tienda, Stock) \n"
-                    + "VALUES (?, ?, ?)\n"
-                    + "ON DUPLICATE KEY UPDATE Stock = VALUES(Stock);";
-            pstm = obC.setConnection().prepareStatement(query);
-            pstm.setInt(1, inventario.getId_videojuego());
-            pstm.setInt(2, inventario.getId_tienda());
-            pstm.setInt(3, inventario.getStock());
-            pstm.executeUpdate();
+            query = "CALL insertar_inventario(?, ?, ?);";
+            CallableStatement cstm = obC.setConnection().prepareCall(query);
+            cstm.setInt(1, inventario.getId_videojuego());
+            cstm.setInt(2, inventario.getId_tienda());
+            cstm.setInt(3, inventario.getStock());
+            cstm.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {

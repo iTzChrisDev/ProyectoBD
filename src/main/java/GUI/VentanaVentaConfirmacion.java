@@ -19,6 +19,7 @@ import TDA.Relaciones.Compra;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Date;
 import java.text.DecimalFormat;
@@ -51,6 +52,8 @@ public class VentanaVentaConfirmacion extends javax.swing.JDialog {
     public VentanaVentaConfirmacion(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setIconImage(Toolkit.getDefaultToolkit().getImage("./src/main/java/Resources/logo2.png"));
+        setTitle("Confirmar venta");
         sqlVentas = new CRUDCompras();
         obE = new EstilosComponentes();
         obCons = new ConsultasGenerales();
@@ -158,12 +161,48 @@ public class VentanaVentaConfirmacion extends javax.swing.JDialog {
                 CRUDAtiende sqlAtiende = new CRUDAtiende();
                 sqlAtiende.insertAtiende(new Atencion(idTiendaTrabaja, idCliente, idEmpleadoTrabajo, new Date(System.currentTimeMillis())));
                 this.dispose();
+                setActionButtonsVideojuegos();
             } else {
                 JOptionPane.showMessageDialog(null, "Fondos insuficientes", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         });
     }
 
+    public void setActionButtonsVideojuegos() {
+        for (ButtonsVenta bv : dataBtnTxtVid) {
+            bv.getButton().addActionListener((e) -> {
+                boolean val = false;
+                int cantidad = Integer.parseInt(bv.getTxt().getText().trim());
+                double total = cantidad * bv.getVideojuego().getPrecio();
+                int id = 0;
+
+                for (Videojuego vid : carrito) {
+                    if (vid.getId() == bv.getVideojuego().getId()) {
+                        val = true;
+                        id = vid.getId();
+                        break;
+                    }
+                }
+
+                if (val) {
+                    for (Videojuego v : carrito) {
+                        if (v.getId() == id) {
+                            v.setStock(v.getStock() + cantidad);
+                            v.setPrecio(v.getPrecio() + total);
+                            break;
+                        }
+                    }
+                } else {
+                    carrito.add(new Videojuego(bv.getVideojuego().getId(),
+                            idTiendaTrabaja, bv.getVideojuego().getNombre(),
+                            bv.getVideojuego().getCategoria(), total, cantidad));
+                }
+                obI.llenarCarrito(tbCarrito, carrito);
+                mostrarSubtotal();
+            });
+        }
+    }
+    
     public void actualizarVideojuegos() {
         dataBtnTxtVid.clear();
         pnlVideojuegos.removeAll();

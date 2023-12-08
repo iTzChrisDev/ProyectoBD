@@ -9,6 +9,7 @@ import TDA.Entidades.Empleado;
 import TDA.Entidades.Tienda;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -27,9 +28,10 @@ public class VentanaLogin extends javax.swing.JFrame {
         sqlTiendas = new CRUDTiendas();
         sqlEmpleados = new CRUDEmpleados();
         initComponentsCustom();
+        setTitle("Inicio de sesión - GameShop");
         setLocationRelativeTo(this);
+        setIconImage(Toolkit.getDefaultToolkit().getImage("./src/main/java/Resources/logo2.png"));
     }
-
     public void initComponentsCustom() {
         btnLogin = new RoundButton(new Color(25, 200, 178), new Color(16, 133, 118), new Color(101, 218, 203), new Color(20, 20, 20), 10);
         btnLogin.setBorder(new EmptyBorder(10, 15, 10, 15));
@@ -46,7 +48,9 @@ public class VentanaLogin extends javax.swing.JFrame {
                 obV.setUser("admin");
                 this.dispose();
             } else if (jTextField2.getText().trim().equals("user") && password.equals("pass")) {
+                CRUDEmpleados sqlEmpleados = new CRUDEmpleados();
                 sqlEmpleados.selectEmpleado();
+
                 String empleados[] = new String[sqlEmpleados.getDataEmpleado().size()];
                 for (int i = 0; i < empleados.length; i++) {
                     empleados[i] = sqlEmpleados.getDataEmpleado().get(i).getId() + " - " + sqlEmpleados.getDataEmpleado().get(i).getNombre();
@@ -81,7 +85,7 @@ public class VentanaLogin extends javax.swing.JFrame {
                             idTienda = t.getId();
                         }
                     }
-
+                    comboBox.removeAllItems();
                     VentanaVentas obV = new VentanaVentas();
                     obV.setUser("user", idTienda, idEmpleado);
                     obV.setVisible(true);
@@ -167,7 +171,7 @@ public class VentanaLogin extends javax.swing.JFrame {
 
         jPanel8.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(30, 30, 30)));
         jPanel8.setOpaque(false);
-        jPanel8.setLayout(new java.awt.GridLayout());
+        jPanel8.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 2, 10));
         jPanel8.add(jLabel2);
@@ -190,7 +194,7 @@ public class VentanaLogin extends javax.swing.JFrame {
 
         jPanel7.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(30, 30, 30)));
         jPanel7.setOpaque(false);
-        jPanel7.setLayout(new java.awt.GridLayout());
+        jPanel7.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 2, 10));
         jPanel7.add(jLabel3);

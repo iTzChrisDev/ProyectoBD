@@ -17,6 +17,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
@@ -38,7 +39,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
     private CardLayout obCMenu, obCVid, obCTien, obCEmp, obCCli, obCProv, obCInv;
     private VentanaAltas alta, alta2, alta3, alta4, alta5, alta6;
     private VentanaActualizaciones actu, actu2, actu3, actu4, actu5, actu6, actu7;
-    private RoundButton btnPrincipal, btnVideojuegos, btnProveedores, btnEmpleados, btnClientes, btnTiendas, btnInventario, btnSalir, btnMenu, btnPuntoVenta, btnVentas, btnEliminarVenta, btnActVenta;
+    private RoundButton btnPrincipal, btnVideojuegos, btnProveedores, btnEmpleados, btnClientes, btnTiendas, btnInventario, btnSalir, btnMenu, btnPuntoVenta, btnVentas, btnEliminarVenta, btnActVenta, btnRefresh;
     private RoundButton btnBuscarVideojuegosElim, btnBuscarVideojuegosAct, btnBuscarVideojuegosMostrar, btnBuscarVideojuegosAlta, btnAgregarVideojuegos, btnEliminarVideojuegos, btnActVideojuegos, btnFiltrarVideojuegos;
     private RoundButton btnBuscarTiendasElim, btnBuscarTiendasAct, btnBuscarTiendasMostrar, btnBuscarTiendasAlta, btnAgregarTiendas, btnEliminarTiendas, btnActTiendas, btnFiltrarTiendas;
     private RoundButton btnBuscarEmpleadosElim, btnBuscarEmpleadosAct, btnBuscarEmpleadosMostrar, btnBuscarEmpleadosAlta, btnAgregarEmpleados, btnEliminarEmpleados, btnActEmpleados, btnFiltrarEmpleados;
@@ -55,11 +56,13 @@ public class VentanaRegistros extends javax.swing.JFrame {
     private CRUDTiendas sqlTiendas;
     private CRUDInventario sqlInventario;
     private CRUDCompras sqlVentas;
-    private String user;
+    private String user, auxPnl;
 
     public VentanaRegistros() {
         initComponents();
         setLocationRelativeTo(this);
+        setIconImage(Toolkit.getDefaultToolkit().getImage("./src/main/java/Resources/logo2.png"));
+        setTitle("Dashboard Admin");
         obE = new EstilosComponentes();
         obI = new LlenadoInformacion();
         obCons = new ConsultasGenerales();
@@ -388,7 +391,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         pnlMenuContainer = new CustomComponents.PanelRound();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(950, 715));
+        setPreferredSize(new java.awt.Dimension(1080, 720));
 
         jPanel1.setBackground(new java.awt.Color(20, 20, 20));
         jPanel1.setLayout(new java.awt.BorderLayout());
@@ -2331,6 +2334,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
 
     public void actionListenerButtonsHeader() {
         btnPuntoVenta.addActionListener((e) -> {
+            CRUDEmpleados sqlEmpleados = new CRUDEmpleados();
             sqlEmpleados.selectEmpleado();
             String empleados[] = new String[sqlEmpleados.getDataEmpleado().size()];
             for (int i = 0; i < empleados.length; i++) {
@@ -2366,7 +2370,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
                         idTienda = t.getId();
                     }
                 }
-
+                comboBox.removeAllItems();
                 VentanaVentas obV = new VentanaVentas();
                 obV.setUser("admin", idTienda, idEmpleado);
                 obV.setVisible(true);
@@ -2375,8 +2379,35 @@ public class VentanaRegistros extends javax.swing.JFrame {
 
         });
 
+        btnRefresh.addActionListener((e) -> {
+            switch (auxPnl) {
+                case "videojuegos":
+                    obI.llenarTablaVideojuegos(tbVideojuegos);
+                    break;
+                case "tiendas":
+                    obI.llenarTablaTiendas(tbTiendas);
+                    break;
+                case "empleados":
+                    obI.llenarTablaEmpleados(tbEmp);
+                    break;
+                case "clientes":
+                    obI.llenarTablaClientes(tbClientes);
+                    break;
+                case "proveedores":
+                    obI.llenarTablaProveedores(tbProv);
+                    break;
+                case "inventario":
+                    obI.llenarTablaInventario(tbInv);
+                    break;
+                case "ventas":
+                    obI.llenarTablaVentas(tbVentas);
+                    break;
+            }
+        });
+
         btnVentas.addActionListener((e) -> {
             obCMenu.show(pnlMain, "cardVenta");
+            auxPnl = "ventas";
             btnVentas.setForeground(select);
             btnPrincipal.setForeground(unselect);
             btnVideojuegos.setForeground(unselect);
@@ -2400,18 +2431,34 @@ public class VentanaRegistros extends javax.swing.JFrame {
         pnlAside.setPreferredSize(new Dimension(5, pnlAside.getHeight()));
         SwingUtilities.updateComponentTreeUI(pnlAside);
 
+        btnRefresh = obE.getStyleBtnClear(btnRefresh);
+        btnRefresh.setIcon(new ImageIcon("./src/main/java/Resources/actu.png"));
+        btnRefresh.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnRefresh.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnRefresh.setText("Refresh");
+        btnRefresh.setFont(new Font("Roboto", Font.PLAIN, 14));
+        btnRefresh.setBorderColor(new Color(20, 20, 20));
+        btnRefresh.setIconTextGap(2);
+        pnlHeaderButtons.add(btnRefresh);
+
         btnPuntoVenta = obE.getStyleButtonUpdate(btnPuntoVenta);
         btnPuntoVenta.setVerticalTextPosition(SwingConstants.BOTTOM);
         btnPuntoVenta.setHorizontalTextPosition(SwingConstants.CENTER);
         btnPuntoVenta.setText("Vender");
-        btnPuntoVenta.setFont(new Font("Roboto", Font.PLAIN, 16));
+        btnPuntoVenta.setFont(new Font("Roboto", Font.PLAIN, 14));
         btnPuntoVenta.setIcon(new ImageIcon("./src/main/java/Resources/puntoVenta.png"));
         btnPuntoVenta.setBorderColor(new Color(20, 20, 20));
-        btnPuntoVenta.setIconTextGap(0);
+        btnPuntoVenta.setIconTextGap(2);
         pnlHeaderButtons.add(btnPuntoVenta);
 
         btnSalir = obE.getStyleButtonExit(btnSalir);
-        btnSalir.setText("");
+        btnSalir.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnSalir.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnSalir.setText("Salir");
+        btnSalir.setIcon(new ImageIcon("./src/main/java/Resources/salir3.png"));
+        btnSalir.setFont(new Font("Roboto", Font.PLAIN, 14));
+        btnSalir.setBorderColor(new Color(20, 20, 20));
+        btnSalir.setIconTextGap(2);
         pnlHeaderButtons.add(btnSalir);
 
         btnPrincipal = obE.getStyleMenuBtn(btnPrincipal, pnlMenuContainer);
@@ -2420,6 +2467,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         btnPrincipal.setIcon(new ImageIcon("./src/main/java/Resources/selectedMain.png"));
         btnPrincipal.setForeground(select);
         btnPrincipal.addActionListener((e) -> {
+            auxPnl = "";
             obCMenu.show(pnlMain, "cardPrincipal");
             btnPrincipal.setForeground(select);
             btnVideojuegos.setForeground(unselect);
@@ -2443,6 +2491,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         btnVideojuegos.setIcon(new ImageIcon("./src/main/java/Resources/unselectedGames.png"));
         btnVideojuegos.setText("Juegos");
         btnVideojuegos.addActionListener((e) -> {
+            auxPnl = "videojuegos";
             obCMenu.show(pnlMain, "cardVideojuegos");
             btnVideojuegos.setForeground(select);
             btnTiendas.setForeground(unselect);
@@ -2466,6 +2515,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         btnTiendas.setIcon(new ImageIcon("./src/main/java/Resources/unselectedTienda.png"));
         btnTiendas.setText("Tiendas");
         btnTiendas.addActionListener((e) -> {
+            auxPnl = "tiendas";
             obCMenu.show(pnlMain, "cardTiendas");
             btnVideojuegos.setForeground(unselect);
             btnTiendas.setForeground(select);
@@ -2489,6 +2539,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         btnEmpleados.setIcon(new ImageIcon("./src/main/java/Resources/unselectedEmp.png"));
         btnEmpleados.setText("Empleados");
         btnEmpleados.addActionListener((e) -> {
+            auxPnl = "empleados";
             obCMenu.show(pnlMain, "cardEmpleados");
             btnVideojuegos.setForeground(unselect);
             btnTiendas.setForeground(unselect);
@@ -2512,6 +2563,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         btnClientes.setIcon(new ImageIcon("./src/main/java/Resources/unselectedCliente.png"));
         btnClientes.setText("Clientes");
         btnClientes.addActionListener((e) -> {
+            auxPnl = "clientes";
             obCMenu.show(pnlMain, "cardClientes");
             btnVideojuegos.setForeground(unselect);
             btnTiendas.setForeground(unselect);
@@ -2535,6 +2587,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         btnProveedores.setIcon(new ImageIcon("./src/main/java/Resources/unselectedProv.png"));
         btnProveedores.setText("Proveedores");
         btnProveedores.addActionListener((e) -> {
+            auxPnl = "proveedores";
             obCMenu.show(pnlMain, "cardProveedores");
             btnVideojuegos.setForeground(unselect);
             btnTiendas.setForeground(unselect);
@@ -2558,6 +2611,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
         btnInventario.setIcon(new ImageIcon("./src/main/java/Resources/unselectedInv.png"));
         btnInventario.setText("Inventario");
         btnInventario.addActionListener((e) -> {
+            auxPnl = "inventario";
             obCMenu.show(pnlMain, "cardInventario");
             btnVideojuegos.setForeground(unselect);
             btnTiendas.setForeground(unselect);
@@ -2987,6 +3041,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
             if (selectedRowIndex != -1) {
                 Object aux = tbVideojuegos.getModel().getValueAt(selectedRowIndex, 0);
                 int id = Integer.parseInt(String.valueOf(aux));
+                System.out.println(id);
                 actu = new VentanaActualizaciones();
                 actu.setTitle("Actualizar videojuego");
                 actu.setTbVideojuegos(tbVideojuegos);
@@ -3012,6 +3067,7 @@ public class VentanaRegistros extends javax.swing.JFrame {
             if (selectedRowIndex != -1) {
                 Object aux = tbTiendas.getModel().getValueAt(selectedRowIndex, 0);
                 int id = Integer.parseInt(String.valueOf(aux));
+                System.out.println(id);
                 actu2 = new VentanaActualizaciones();
                 actu2.setTitle("Actualizar tienda");
                 actu2.setTbTiendas(tbTiendas);
@@ -3470,7 +3526,8 @@ public class VentanaRegistros extends javax.swing.JFrame {
                 sqlVentas.selectCompraTb();
                 for (Compra c : sqlVentas.getData()) {
                     if (c.getIdVideojuego() == idV && c.getIdTienda() == idT && c.getIdCliente() == idC) {
-                        actu7.setVenta(c, idV, idT, idC);
+//                        actu7.setVenta(c, idV, idT, idC);
+                        actu7.setDataVenta(idV, idT, idC);
                         break;
                     }
                 }
@@ -3594,85 +3651,109 @@ public class VentanaRegistros extends javax.swing.JFrame {
         // Videojuegos
         crudJuegos.get(0).addActionListener((e) -> {
             obCVid.show(pnlOpcionesVideojuegos, "card1");
+            obI.llenarTablaVideojuegos(tbVideojuegos);
         });
         crudJuegos.get(1).addActionListener((e) -> {
             obCVid.show(pnlOpcionesVideojuegos, "card2");
+            obI.llenarTablaVideojuegos(tbVideojuegos);
         });
         crudJuegos.get(2).addActionListener((e) -> {
             obCVid.show(pnlOpcionesVideojuegos, "card3");
+            obI.llenarTablaVideojuegos(tbVideojuegos);
         });
         crudJuegos.get(3).addActionListener((e) -> {
             obCVid.show(pnlOpcionesVideojuegos, "card4");
+            obI.llenarTablaVideojuegos(tbVideojuegos);
         });
 
         // Tiendas
         crudTiendas.get(0).addActionListener((e) -> {
             obCTien.show(pnlOpcionesTiendas, "card1");
+            obI.llenarTablaTiendas(tbTiendas);
         });
         crudTiendas.get(1).addActionListener((e) -> {
             obCTien.show(pnlOpcionesTiendas, "card2");
+            obI.llenarTablaTiendas(tbTiendas);
         });
         crudTiendas.get(2).addActionListener((e) -> {
             obCTien.show(pnlOpcionesTiendas, "card3");
+            obI.llenarTablaTiendas(tbTiendas);
         });
         crudTiendas.get(3).addActionListener((e) -> {
             obCTien.show(pnlOpcionesTiendas, "card4");
+            obI.llenarTablaTiendas(tbTiendas);
         });
 
         // Empleados
         crudEmpleados.get(0).addActionListener((e) -> {
             obCEmp.show(pnlOpcionesEmpleados, "card1");
+            obI.llenarTablaEmpleados(tbEmp);
         });
         crudEmpleados.get(1).addActionListener((e) -> {
             obCEmp.show(pnlOpcionesEmpleados, "card2");
+            obI.llenarTablaEmpleados(tbEmp);
         });
         crudEmpleados.get(2).addActionListener((e) -> {
             obCEmp.show(pnlOpcionesEmpleados, "card3");
+            obI.llenarTablaEmpleados(tbEmp);
         });
         crudEmpleados.get(3).addActionListener((e) -> {
             obCEmp.show(pnlOpcionesEmpleados, "card4");
+            obI.llenarTablaEmpleados(tbEmp);
         });
 
         // Clientes
         crudClientes.get(0).addActionListener((e) -> {
             obCCli.show(pnlOpcionesClientes, "card1");
+            obI.llenarTablaClientes(tbClientes);
         });
         crudClientes.get(1).addActionListener((e) -> {
             obCCli.show(pnlOpcionesClientes, "card2");
+            obI.llenarTablaClientes(tbClientes);
         });
         crudClientes.get(2).addActionListener((e) -> {
             obCCli.show(pnlOpcionesClientes, "card3");
+            obI.llenarTablaClientes(tbClientes);
         });
         crudClientes.get(3).addActionListener((e) -> {
             obCCli.show(pnlOpcionesClientes, "card4");
+            obI.llenarTablaClientes(tbClientes);
         });
 
         // Proveedores
         crudProv.get(0).addActionListener((e) -> {
             obCProv.show(pnlOpcionesProveedores, "card1");
+            obI.llenarTablaProveedores(tbProv);
         });
         crudProv.get(1).addActionListener((e) -> {
             obCProv.show(pnlOpcionesProveedores, "card2");
+            obI.llenarTablaProveedores(tbProv);
         });
         crudProv.get(2).addActionListener((e) -> {
             obCProv.show(pnlOpcionesProveedores, "card3");
+            obI.llenarTablaProveedores(tbProv);
         });
         crudProv.get(3).addActionListener((e) -> {
             obCProv.show(pnlOpcionesProveedores, "card4");
+            obI.llenarTablaProveedores(tbProv);
         });
 
         // Inventario
         crudInv.get(0).addActionListener((e) -> {
             obCInv.show(pnlOpcionesInventario, "card1");
+            obI.llenarTablaInventario(tbInv);
         });
         crudInv.get(1).addActionListener((e) -> {
             obCInv.show(pnlOpcionesInventario, "card2");
+            obI.llenarTablaInventario(tbInv);
         });
         crudInv.get(2).addActionListener((e) -> {
             obCInv.show(pnlOpcionesInventario, "card3");
+            obI.llenarTablaInventario(tbInv);
         });
         crudInv.get(3).addActionListener((e) -> {
             obCInv.show(pnlOpcionesInventario, "card4");
+            obI.llenarTablaInventario(tbInv);
         });
     }
 

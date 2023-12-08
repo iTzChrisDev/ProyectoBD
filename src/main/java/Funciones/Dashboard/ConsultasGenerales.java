@@ -72,12 +72,12 @@ public class ConsultasGenerales {
                 }
                 case 3 -> {
                     while (result.next()) {
-                        dataProveedor.add(new Proveedor(result.getInt("id_proveedor"), result.getString("Nombre"), result.getInt("Telefono"), result.getString("Domicilio"), result.getString("Correo")));
+                        dataProveedor.add(new Proveedor(result.getInt("id_proveedor"), result.getString("Nombre"), result.getLong("Telefono"), result.getString("Domicilio"), result.getString("Correo")));
                     }
                 }
                 case 4 -> {
                     while (result.next()) {
-                        dataCliente.add(new Cliente(result.getInt("id_cliente"), result.getString("Nombre"), result.getString("ApellidoP"), result.getString("ApellidoM"), result.getDate("Fecha_Nacimiento"), result.getInt("Telefono"), result.getString("Domicilio"), result.getString("Correo")));
+                        dataCliente.add(new Cliente(result.getInt("id_cliente"), result.getString("Nombre"), result.getString("ApellidoP"), result.getString("ApellidoM"), result.getDate("Fecha_Nacimiento"), result.getLong("Telefono"), result.getString("Domicilio"), result.getString("Correo")));
                     }
                 }
             }
@@ -141,7 +141,7 @@ public class ConsultasGenerales {
                 String nss = result.getString("NSS");
                 Date fechaNacimiento = result.getDate("Fecha_Nacimiento");
                 String curp = result.getString("CURP");
-                int telefono = result.getInt("Telefono");
+                long telefono = result.getLong("Telefono");
                 String domicilio = result.getString("Domicilio");
                 int sueldo = result.getInt("Sueldo");
                 String nombreTienda = result.getString("Tienda");
@@ -508,7 +508,7 @@ public class ConsultasGenerales {
                         + "FROM empleados AS e\n"
                         + "INNER JOIN atiende AS a ON e.id_empleado = a.id_empleado\n"
                         + "GROUP BY e.id_empleado\n"
-                        + "ORDER BY atenciones DESC;";
+                        + "ORDER BY atenciones DESC LIMIT 1;";
                 query = obC.setConnection().prepareStatement(sql);
                 result = query.executeQuery();
                 while (result.next()) {
@@ -552,11 +552,7 @@ public class ConsultasGenerales {
             break;
             case "mas activo":
                 try {
-                sql = "SELECT p.Nombre, COUNT(pr.id_proveedor) AS participacion\n"
-                        + "FROM proveedores AS p\n"
-                        + "INNER JOIN proveen pr ON p.id_proveedor = pr.id_proveedor\n"
-                        + "GROUP BY pr.id_proveedor\n"
-                        + "ORDER BY participacion DESC LIMIT 1;";
+                sql = "SELECT * FROM provsurtido ORDER BY Cantidad_Surtida DESC LIMIT 1;";
                 query = obC.setConnection().prepareStatement(sql);
                 result = query.executeQuery();
                 while (result.next()) {

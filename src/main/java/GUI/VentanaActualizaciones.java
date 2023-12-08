@@ -26,6 +26,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Date;
 import java.sql.Time;
@@ -64,7 +65,7 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
     private Inventario inventario;
     private Provee proveer;
     private Compra venta;
-    private int idVideojuego, idTienda, idProveedor, idEmpleado, idCliente, idVidP, idProP, idTienP;
+    private int idVideojuego, idTienda, idProveedor, idEmpleado, idCliente, idVidP, idProP, idTienP, idVV, idTV, idCV;
     private String user;
     private int idTiendaTrabajo;
     private ArrayList<ButtonsVenta> buttonsVideojuegos;
@@ -74,6 +75,7 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         initComponents();
         initComponentsCustom();
         setLocationRelativeTo(this);
+        setIconImage(Toolkit.getDefaultToolkit().getImage("./src/main/java/Resources/logo2.png"));
         buttonsVideojuegos = new ArrayList<>();
         obCons = new ConsultasGenerales();
         obC = (CardLayout) pnlMain.getLayout();
@@ -87,6 +89,12 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         sqlProveen = new CRUDProveen();
     }
 
+    public void setDataVenta(int idVV, int idTV, int idCV) {
+        this.idVV = idVV;
+        this.idTV = idTV;
+        this.idCV = idCV;
+    }
+
     public void setUser(String user) {
         this.user = user;
         actionListenerButtons();
@@ -97,18 +105,22 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
             case "altaVideojuegos":
                 sqlVideojuegos.selectVideojuego();
                 for (Videojuego v : sqlVideojuegos.getData()) {
-                    jTextField2.setText(v.getNombre());
-                    jTextField3.setText(v.getCategoria());
-                    jTextField4.setText(String.valueOf(v.getPrecio()));
-                    break;
+                    if (idVideojuego == v.getId()) {
+                        jTextField2.setText(v.getNombre());
+                        jTextField3.setText(v.getCategoria());
+                        jTextField4.setText(String.valueOf(v.getPrecio()));
+                        break;
+                    }
                 }
                 break;
             case "altaTiendas":
                 sqlTiendas.selectTienda();
                 for (Tienda t : sqlTiendas.getData()) {
-                    jTextField13.setText(t.getNombre());
-                    jTextField14.setText(t.getDomicilio());
-                    break;
+                    if (idTienda == t.getId()) {
+                        jTextField13.setText(t.getNombre());
+                        jTextField14.setText(t.getDomicilio());
+                        break;
+                    }
                 }
                 break;
             case "altaEmpleados":
@@ -186,11 +198,16 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                 }
                 break;
             case "altaVenta":
-                jTextField34.setText(String.valueOf(venta.getVideojuego()));
-                jTextField35.setText(String.valueOf(venta.getCliente()));
-                jTextField37.setText(String.valueOf(venta.getTienda()));
-                jTextField36.setText(String.valueOf(venta.getFechaCompra()));
-                jTextField38.setText(String.valueOf(venta.getCantidad()));
+                sqlVentas.selectCompraTb();
+                for (Compra c : sqlVentas.getData()) {
+                    if (c.getIdVideojuego() == idVV && c.getIdTienda() == idTV && c.getIdCliente() == idCV) {
+                        jTextField34.setText(String.valueOf(c.getVideojuego()));
+                        jTextField35.setText(String.valueOf(c.getCliente()));
+                        jTextField37.setText(String.valueOf(c.getTienda()));
+                        jTextField36.setText(String.valueOf(c.getFechaCompra()));
+                        jTextField38.setText(String.valueOf(c.getCantidad()));
+                    }
+                }
                 break;
         }
     }
@@ -458,7 +475,7 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                 String nombre = jTextField30.getText(),
                         domicilio = jTextField31.getText(),
                         correo = jTextField33.getText();
-                int telefono = Integer.parseInt(jTextField32.getText());
+                long telefono = Long.parseLong(jTextField32.getText());
 
                 sqlProveedores.updateProveedor(idProveedor, new Proveedor(nombre, telefono, domicilio, correo));
 
@@ -519,7 +536,7 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                 String ApellidoM = jTextField22.getText();
                 String NSS = jTextField15.getText();
                 String CURP = jTextField21.getText();
-                int telefono = Integer.parseInt(jTextField24.getText());
+                long telefono = Long.parseLong(jTextField24.getText());
                 String domicilio = jTextField6.getText();
                 Date fechaNacimiento;
                 double sueldo = Double.parseDouble(jTextField39.getText());
@@ -592,7 +609,7 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                         apm = jTextField25.getText().trim(),
                         domicilio = jTextField11.getText().trim(),
                         correo = jTextField29.getText().trim();
-                int telefono = Integer.parseInt(jTextField27.getText().trim());
+                long telefono = Long.parseLong(jTextField27.getText().trim());
                 Date fechaNac;
 
                 try {
@@ -690,6 +707,7 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                 for (Videojuego v : obV.getData()) {
                     if (jTextField34.getText().trim().equals(v.getNombre())) {
                         idVid = v.getId();
+                        System.out.println(v.getNombre());
                         auxPrecio = v.getPrecio();
                         break;
                     }
@@ -698,21 +716,24 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
                 for (Tienda t : obT.getData()) {
                     if (jTextField37.getText().trim().equals(t.getNombre())) {
                         idTien = t.getId();
+                        System.out.println(t.getNombre());
                         break;
                     }
                 }
 
-                for (Cliente p : obC.getData()) {
-                    if (jTextField35.getText().trim().equals(p.getNombre())) {
-                        idClien = p.getId();
+                for (Cliente c : obC.getData()) {
+                    if (jTextField35.getText().trim().equals(c.getNombre())) {
+                        idClien = c.getId();
+                        System.out.println(c.getNombre());
                         break;
                     }
                 }
 
-                sqlVentas.selectCompra();
+                sqlVentas.selectCompraTb();
                 for (Compra c : sqlVentas.getData()) {
                     if (c.getIdVideojuego() == idVid && c.getIdTienda() == idTien && c.getIdCliente() == idClien) {
                         fechaCompra = c.getFechaCompra();
+                        break;
                     }
                 }
 
@@ -1063,6 +1084,7 @@ public class VentanaActualizaciones extends javax.swing.JFrame {
         pnlBtnInventario2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(650, 650));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(10, 10, 10));

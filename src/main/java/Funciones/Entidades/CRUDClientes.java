@@ -39,7 +39,7 @@ public class CRUDClientes {
                 String apellidoP = output.getString("ApellidoP");
                 String apellidoM = output.getString("ApellidoM");
                 Date fechaNacimiento = output.getDate("Fecha_Nacimiento");
-                int telefono = output.getInt("Telefono");
+                long telefono = output.getLong("Telefono");
                 String domicilio = output.getString("Domicilio");
                 String correo = output.getString("Correo");
 

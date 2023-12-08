@@ -1,6 +1,8 @@
 package Funciones.Relaciones;
 
 import ConexionBD.Conexion;
+import Funciones.Entidades.CRUDVideojuegos;
+import TDA.Entidades.Videojuego;
 import TDA.Relaciones.Compra;
 import java.sql.CallableStatement;
 import java.sql.Date;
@@ -107,14 +109,24 @@ public class CRUDCompras {
             cstm.executeUpdate();
 
             String mensaje = cstm.getString(7);
+
+            CRUDVideojuegos sqlVid = new CRUDVideojuegos();
+            sqlVid.selectVideojuego();
             if (!mensaje.equals("Venta realizada correctamente")) {
-                JOptionPane.showMessageDialog(null, mensaje + "\nVideojuego no vendido:\nID_Videojuego = " + compra.getIdVideojuego() + "\nStock = " + compra.getCantidad(), "ERROR!", JOptionPane.ERROR_MESSAGE);
+                for (Videojuego v : sqlVid.getData()) {
+                    if (compra.getIdVideojuego() == v.getId()) {
+                        JOptionPane.showMessageDialog(null, mensaje + "\nNO VENDIDO:\nVideojuego = " + v.getNombre() + "\nCantidad = " + compra.getCantidad(), "ERROR!", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    }
+                }
+            } else {
+                for (Videojuego v : sqlVid.getData()) {
+                    if (compra.getIdVideojuego() == v.getId()) {
+                        JOptionPane.showMessageDialog(null, mensaje + "\nVideojuego: " + v.getNombre() + "\nCantidad vendida = " + compra.getCantidad(), "COMPLETADO!", JOptionPane.INFORMATION_MESSAGE);
+                        break;
+                    }
+                }
             }
-            else
-            {
-                JOptionPane.showMessageDialog(null, mensaje + "\nID_Videojuego = " + compra.getIdVideojuego() + "\nStock = " + compra.getCantidad(), "COMPLETADO!", JOptionPane.INFORMATION_MESSAGE);
-            }
-            
 
         } catch (SQLException ex) {
             ex.printStackTrace();

@@ -19,6 +19,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Date;
 import java.sql.Time;
@@ -50,6 +51,7 @@ public class VentanaAltas extends javax.swing.JFrame {
         initComponents();
         initComponentsCustom();
         setLocationRelativeTo(this);
+        setIconImage(Toolkit.getDefaultToolkit().getImage("./src/main/java/Resources/logo2.png"));
         obCons = new ConsultasGenerales();
         obC = (CardLayout) pnlMain.getLayout();
         sqlVideojuegos = new CRUDVideojuegos();
@@ -337,7 +339,6 @@ public class VentanaAltas extends javax.swing.JFrame {
                         domicilio = jTextField31.getText(),
                         correo = jTextField33.getText();
                 long telefono = Long.parseLong(jTextField32.getText());
-                sqlProveedores.insertProveedor(new Proveedor(nombre, telefono, domicilio, correo));
 
                 if (correo.contains("@") && correo.contains(".")) {
                     cont++;
@@ -345,6 +346,7 @@ public class VentanaAltas extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "El correo ingresado no es valido", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
                 if (cont != 0) {
+                    sqlProveedores.insertProveedor(new Proveedor(nombre, telefono, domicilio, correo));
                     obI.llenarTablaProveedores(tbProveedores);
                     cargarDatosGenerales();
                     JOptionPane.showMessageDialog(null, "Guardado Correctamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
@@ -429,12 +431,15 @@ public class VentanaAltas extends javax.swing.JFrame {
                     cont++;
                 }
 
-                if (hrEntrada.compareTo(hrSalida) < 0) {
-                    cont++;
-                } else if (hrEntrada.compareTo(hrSalida) > 0) {
-                    JOptionPane.showMessageDialog(null, "Hora de salida menor que la hora de entrada!", "ERROR", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Hora de entrada y salida iguales!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                try {
+                    if (hrEntrada.compareTo(hrSalida) < 0) {
+                        cont++;
+                    } else if (hrEntrada.compareTo(hrSalida) > 0) {
+                        JOptionPane.showMessageDialog(null, "Hora de salida menor que la hora de entrada!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Hora de entrada y salida iguales!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (NullPointerException ex) {
                 }
 
                 CRUDTiendas obT = new CRUDTiendas();
@@ -741,6 +746,7 @@ public class VentanaAltas extends javax.swing.JFrame {
         jTextField28.setSelectionColor(new java.awt.Color(25, 200, 178));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(650, 650));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(10, 10, 10));
