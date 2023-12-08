@@ -23,6 +23,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.KeyEvent;
 import java.sql.Date;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -849,6 +850,11 @@ public class VentanaVentas extends javax.swing.JFrame {
         txtCant.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         txtCant.setSelectedTextColor(new java.awt.Color(10, 10, 10));
         txtCant.setSelectionColor(new java.awt.Color(25, 200, 178));
+        txtCant.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantKeyTyped(evt);
+            }
+        });
         jPanel4.add(txtCant, java.awt.BorderLayout.CENTER);
 
         jLabel25.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -1009,6 +1015,14 @@ public class VentanaVentas extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtCantKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCantKeyTyped
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

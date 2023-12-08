@@ -8,7 +8,7 @@ public class DesignUI {
         new VentanaLogin().setVisible(true);
 //        VentanaRegistros obV = new VentanaRegistros();
 //        obV.setVisible(true);
-//        obV.setUser("admin", 5);
+//        obV.setUser("admin");
 ////        VentanaVentas obV = new VentanaVentas();
 ////        obV.setUser("user", 5);
 ////        obV.setVisible(true);

@@ -19,6 +19,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.sql.Date;
 import java.sql.Time;
 import javax.swing.ImageIcon;
@@ -331,16 +332,27 @@ public class VentanaAltas extends javax.swing.JFrame {
 
         btnGuardarProv.addActionListener((e) -> {
             try {
+                int cont = 0;
                 String nombre = jTextField30.getText(),
                         domicilio = jTextField31.getText(),
                         correo = jTextField33.getText();
                 int telefono = Integer.parseInt(jTextField32.getText());
                 sqlProveedores.insertProveedor(new Proveedor(nombre, telefono, domicilio, correo));
 
-                obI.llenarTablaProveedores(tbProveedores);
-                cargarDatosGenerales();
-                JOptionPane.showMessageDialog(null, "Guardado Correctamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
-                this.dispose();
+                if (correo.contains("@") && correo.contains(".")) {
+                    cont++;
+                } else {
+                    JOptionPane.showMessageDialog(null, "El correo ingresado no es valido", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+                if (cont != 0) {
+                    obI.llenarTablaProveedores(tbProveedores);
+                    cargarDatosGenerales();
+                    JOptionPane.showMessageDialog(null, "Guardado Correctamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Valores ingresados no validos", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Campos no validos", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
@@ -378,20 +390,53 @@ public class VentanaAltas extends javax.swing.JFrame {
 
         btnGuardarEmp.addActionListener((e) -> {
             try {
+                int cont = 0;
                 String nombre = jTextField7.getText();
                 String ApellidoP = jTextField16.getText();
                 String ApellidoM = jTextField22.getText();
                 String NSS = jTextField15.getText();
                 String CURP = jTextField21.getText();
-                Date fechaNacimiento = new Date(dateSelector.getDate().getTime());
                 int telefono = Integer.parseInt(jTextField24.getText());
                 String domicilio = jTextField6.getText();
+                Date fechaNacimiento;
                 double sueldo = Double.parseDouble(jTextField39.getText());
-                Time hrEntrada = new Time(Integer.parseInt(jTextField40.getText()), Integer.parseInt(jTextField41.getText()), 0);
-                Time hrSalida = new Time(Integer.parseInt(jTextField43.getText()), Integer.parseInt(jTextField44.getText()), 0);
+                int id_tienda = 0;
+                Time hrEntrada = null, hrSalida = null;
+                if (Integer.parseInt(jTextField40.getText().trim()) < 24 && Integer.parseInt(jTextField41.getText().trim()) < 60) {
+                    hrEntrada = new Time(Integer.parseInt(jTextField40.getText()), Integer.parseInt(jTextField41.getText()), 0);
+                    cont++;
+                } else {
+                    JOptionPane.showMessageDialog(null, "Hora de entrada no valida", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+                if (Integer.parseInt(jTextField43.getText().trim()) < 24 && Integer.parseInt(jTextField44.getText().trim()) < 60) {
+                    hrSalida = new Time(Integer.parseInt(jTextField43.getText()), Integer.parseInt(jTextField44.getText()), 0);
+                    cont++;
+                } else {
+                    JOptionPane.showMessageDialog(null, "Hora de salida no valida", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+
                 String turno = String.valueOf(jComboBox4.getSelectedItem());
 
-                int id_tienda = 0;
+                try {
+                    fechaNacimiento = new Date(dateSelector.getDate().getTime());
+                } catch (NullPointerException ex) {
+                    fechaNacimiento = null;
+                }
+
+                if (fechaNacimiento == null) {
+                    JOptionPane.showMessageDialog(null, "Fecha no valida", "ERROR", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    cont++;
+                }
+
+                if (hrEntrada.compareTo(hrSalida) < 0) {
+                    cont++;
+                } else if (hrEntrada.compareTo(hrSalida) > 0) {
+                    JOptionPane.showMessageDialog(null, "Hora de salida menor que la hora de entrada!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Hora de entrada y salida iguales!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+
                 CRUDTiendas obT = new CRUDTiendas();
                 obT.selectTienda();
                 for (Tienda t : obT.getData()) {
@@ -400,12 +445,16 @@ public class VentanaAltas extends javax.swing.JFrame {
                     }
                 }
 
-                sqlEmpleados.insertEmpleado(new Empleado(nombre, ApellidoP, ApellidoM, NSS, CURP, fechaNacimiento, telefono, domicilio, sueldo), new Trabajo(id_tienda, hrEntrada, hrSalida, turno));
+                if (cont == 4) {
+                    sqlEmpleados.insertEmpleado(new Empleado(nombre, ApellidoP, ApellidoM, NSS, CURP, fechaNacimiento, telefono, domicilio, sueldo), new Trabajo(id_tienda, hrEntrada, hrSalida, turno));
+                    obI.llenarTablaEmpleados(tbEmpleados);
+                    cargarDatosGenerales();
+                    JOptionPane.showMessageDialog(null, "Guardado Correctamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Valores ingresados no validos", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
 
-                obI.llenarTablaEmpleados(tbEmpleados);
-                cargarDatosGenerales();
-                JOptionPane.showMessageDialog(null, "Guardado Correctamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
-                this.dispose();
             } catch (NumberFormatException xe) {
                 JOptionPane.showMessageDialog(null, "Campos no validos", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
@@ -413,18 +462,43 @@ public class VentanaAltas extends javax.swing.JFrame {
 
         btnGuardarClientes.addActionListener((e) -> {
             try {
+                int cont = 0;
                 String nombre = jTextField9.getText().trim(),
-                        app = jTextField11.getText(), apm = jTextField25.getText().trim(),
+                        app = jTextField12.getText(),
+                        apm = jTextField25.getText().trim(),
                         domicilio = jTextField11.getText().trim(),
                         correo = jTextField29.getText().trim();
                 int telefono = Integer.parseInt(jTextField27.getText().trim());
-                Date fechaNac = new Date(dateSelector1.getDate().getTime());
-                sqlClientes.insertCliente(new Cliente(nombre, app, apm, fechaNac, telefono, domicilio, correo));
+                Date fechaNac;
 
-                obI.llenarTablaClientes(tbClientes);
-                cargarDatosGenerales();
-                JOptionPane.showMessageDialog(null, "Guardado Correctamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
-                this.dispose();
+                try {
+                    fechaNac = new Date(dateSelector1.getDate().getTime());
+                } catch (NullPointerException ex) {
+                    fechaNac = null;
+                }
+
+                if (fechaNac == null) {
+                    JOptionPane.showMessageDialog(null, "Fecha no valida", "ERROR", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    cont++;
+                }
+
+                if (correo.contains("@") && correo.contains(".")) {
+                    cont++;
+                } else {
+                    JOptionPane.showMessageDialog(null, "El correo ingresado no es valido", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+
+                if (cont == 2) {
+                    sqlClientes.insertCliente(new Cliente(nombre, app, apm, fechaNac, telefono, domicilio, correo));
+                    obI.llenarTablaClientes(tbClientes);
+                    cargarDatosGenerales();
+                    JOptionPane.showMessageDialog(null, "Guardado Correctamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Valores ingresados no validos", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+
             } catch (NumberFormatException ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Campos no validos", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -758,6 +832,11 @@ public class VentanaAltas extends javax.swing.JFrame {
         jTextField4.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextField4.setSelectedTextColor(new java.awt.Color(10, 10, 10));
         jTextField4.setSelectionColor(new java.awt.Color(25, 200, 178));
+        jTextField4.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField4KeyTyped(evt);
+            }
+        });
         jPanel7.add(jTextField4);
 
         jPanel3.add(jPanel7);
@@ -892,6 +971,11 @@ public class VentanaAltas extends javax.swing.JFrame {
         jTextField15.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextField15.setSelectedTextColor(new java.awt.Color(10, 10, 10));
         jTextField15.setSelectionColor(new java.awt.Color(25, 200, 178));
+        jTextField15.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField15KeyTyped(evt);
+            }
+        });
         jPanel15.add(jTextField15);
 
         jPanel13.add(jPanel15);
@@ -917,6 +1001,11 @@ public class VentanaAltas extends javax.swing.JFrame {
         jTextField40.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextField40.setSelectedTextColor(new java.awt.Color(10, 10, 10));
         jTextField40.setSelectionColor(new java.awt.Color(25, 200, 178));
+        jTextField40.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField40KeyTyped(evt);
+            }
+        });
         jPanel32.add(jTextField40);
 
         jTextField41.setBackground(new java.awt.Color(30, 30, 30));
@@ -928,6 +1017,11 @@ public class VentanaAltas extends javax.swing.JFrame {
         jTextField41.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextField41.setSelectedTextColor(new java.awt.Color(10, 10, 10));
         jTextField41.setSelectionColor(new java.awt.Color(25, 200, 178));
+        jTextField41.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField41KeyTyped(evt);
+            }
+        });
         jPanel32.add(jTextField41);
 
         jPanel21.add(jPanel32);
@@ -997,6 +1091,11 @@ public class VentanaAltas extends javax.swing.JFrame {
         jTextField43.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextField43.setSelectedTextColor(new java.awt.Color(10, 10, 10));
         jTextField43.setSelectionColor(new java.awt.Color(25, 200, 178));
+        jTextField43.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField43KeyTyped(evt);
+            }
+        });
         jPanel48.add(jTextField43);
 
         jTextField44.setBackground(new java.awt.Color(30, 30, 30));
@@ -1008,6 +1107,11 @@ public class VentanaAltas extends javax.swing.JFrame {
         jTextField44.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextField44.setSelectedTextColor(new java.awt.Color(10, 10, 10));
         jTextField44.setSelectionColor(new java.awt.Color(25, 200, 178));
+        jTextField44.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField44KeyTyped(evt);
+            }
+        });
         jPanel48.add(jTextField44);
 
         jPanel22.add(jPanel48);
@@ -1052,6 +1156,11 @@ public class VentanaAltas extends javax.swing.JFrame {
         jTextField24.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextField24.setSelectedTextColor(new java.awt.Color(10, 10, 10));
         jTextField24.setSelectionColor(new java.awt.Color(25, 200, 178));
+        jTextField24.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField24KeyTyped(evt);
+            }
+        });
         jPanel34.add(jTextField24);
 
         jPanel13.add(jPanel34);
@@ -1091,6 +1200,11 @@ public class VentanaAltas extends javax.swing.JFrame {
         jTextField21.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextField21.setSelectedTextColor(new java.awt.Color(10, 10, 10));
         jTextField21.setSelectionColor(new java.awt.Color(25, 200, 178));
+        jTextField21.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField21KeyTyped(evt);
+            }
+        });
         jPanel17.add(jTextField21);
 
         jPanel13.add(jPanel17);
@@ -1112,6 +1226,11 @@ public class VentanaAltas extends javax.swing.JFrame {
         jTextField39.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextField39.setSelectedTextColor(new java.awt.Color(10, 10, 10));
         jTextField39.setSelectionColor(new java.awt.Color(25, 200, 178));
+        jTextField39.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField39KeyTyped(evt);
+            }
+        });
         jPanel37.add(jTextField39);
 
         jPanel13.add(jPanel37);
@@ -1249,6 +1368,11 @@ public class VentanaAltas extends javax.swing.JFrame {
         jTextField27.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextField27.setSelectedTextColor(new java.awt.Color(10, 10, 10));
         jTextField27.setSelectionColor(new java.awt.Color(25, 200, 178));
+        jTextField27.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField27KeyTyped(evt);
+            }
+        });
         jPanel44.add(jTextField27);
 
         jPanel18.add(jPanel44);
@@ -1394,6 +1518,11 @@ public class VentanaAltas extends javax.swing.JFrame {
         jTextField32.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextField32.setSelectedTextColor(new java.awt.Color(10, 10, 10));
         jTextField32.setSelectionColor(new java.awt.Color(25, 200, 178));
+        jTextField32.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField32KeyTyped(evt);
+            }
+        });
         jPanel27.add(jTextField32);
 
         jPanel23.add(jPanel27);
@@ -1500,6 +1629,11 @@ public class VentanaAltas extends javax.swing.JFrame {
         jTextField17.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextField17.setSelectedTextColor(new java.awt.Color(10, 10, 10));
         jTextField17.setSelectionColor(new java.awt.Color(25, 200, 178));
+        jTextField17.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField17KeyTyped(evt);
+            }
+        });
         jPanel31.add(jTextField17);
 
         jPanel28.add(jPanel31);
@@ -1543,6 +1677,141 @@ public class VentanaAltas extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextField4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField4KeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE || c == '.')) {
+            evt.consume();
+        }
+
+        if (c == '.' && jTextField4.getText().contains(".")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField4KeyTyped
+
+    private void jTextField24KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField24KeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            evt.consume();
+        }
+
+        if (jTextField24.getText().length() >= 10) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField24KeyTyped
+
+    private void jTextField27KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField27KeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            evt.consume();
+        }
+
+        if (jTextField27.getText().length() >= 10) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField27KeyTyped
+
+    private void jTextField32KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField32KeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            evt.consume();
+        }
+
+        if (jTextField32.getText().length() >= 10) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField32KeyTyped
+
+    private void jTextField39KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField39KeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE || c == '.')) {
+            evt.consume();
+        }
+
+        if (c == '.' && jTextField39.getText().contains(".")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField39KeyTyped
+
+    private void jTextField21KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField21KeyTyped
+
+        if (jTextField21.getText().length() >= 18) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField21KeyTyped
+
+    private void jTextField15KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField15KeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            evt.consume();
+        }
+
+        if (jTextField15.getText().length() >= 11) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField15KeyTyped
+
+    private void jTextField40KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField40KeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            evt.consume();
+        }
+
+        if (jTextField40.getText().length() >= 2) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField40KeyTyped
+
+    private void jTextField43KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField43KeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            evt.consume();
+        }
+
+        if (jTextField43.getText().length() >= 2) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField43KeyTyped
+
+    private void jTextField41KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField41KeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            evt.consume();
+        }
+
+        if (jTextField41.getText().length() >= 2) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField41KeyTyped
+
+    private void jTextField44KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField44KeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            evt.consume();
+        }
+
+        if (jTextField44.getText().length() >= 2) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField44KeyTyped
+
+    private void jTextField17KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField17KeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField17KeyTyped
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
