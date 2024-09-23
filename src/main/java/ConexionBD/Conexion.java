@@ -9,7 +9,7 @@ public class Conexion {
 
     Connection conection = null;
     String user = "root";
-    String password = "/Chris200203"; 
+    String password = ""; 
     String database = "gameshop_final";
     String ip = "localhost";
     String puerto = "3306";
